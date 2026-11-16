@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AdminLoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
 
-  const [identifier, setIdentifier] = useState('admin@campusprint.edu');
-  const [password, setPassword] = useState('Admin@CampusPrint2026');
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +24,11 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const res = await login(identifier, password);
+      const res = await login(identifier.trim(), password);
       if (res.success) {
         navigate('/admin/dashboard');
       } else {
-        setError(res.error || 'Invalid credentials.');
+        setError(res.error || 'Invalid administrator credentials.');
       }
     } catch (err) {
       setError(err.message || 'Login failed.');
@@ -58,7 +64,8 @@ export default function AdminLoginPage() {
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="admin@campusprint.edu"
+                placeholder="Enter admin email or mobile"
+                autoComplete="username"
               />
             </div>
           </div>
@@ -76,6 +83,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="••••••••••••"
+                autoComplete="current-password"
               />
             </div>
           </div>
@@ -95,10 +103,6 @@ export default function AdminLoginPage() {
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In to Dashboard</span>}
           </button>
         </form>
-
-        <div className="mt-6 p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 text-center">
-          Default Admin: <strong>admin@campusprint.edu</strong> / <strong>Admin@CampusPrint2026</strong>
-        </div>
       </div>
     </div>
   );

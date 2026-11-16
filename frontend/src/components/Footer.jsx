@@ -52,11 +52,6 @@ export default function Footer() {
                   Shopping Cart
                 </Link>
               </li>
-              <li>
-                <Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">
-                  Shopkeeper Portal
-                </Link>
-              </li>
             </ul>
           </div>
 

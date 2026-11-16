@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Printer, ShoppingBag, Search, ShieldCheck } from 'lucide-react';
+import { Printer, ShoppingBag, Search } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const location = useLocation();
   const { itemCount } = useCart();
-  const { isAuthenticated } = useAuth();
 
   const isActive = (path) => location.pathname === path;
 
@@ -86,15 +84,6 @@ export default function Navbar() {
                 {itemCount}
               </span>
             )}
-          </Link>
-
-          <Link
-            to={isAuthenticated ? '/admin/dashboard' : '/admin/login'}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50/60 border border-transparent hover:border-indigo-100 transition-all"
-            title="Shopkeeper Admin Portal"
-          >
-            <ShieldCheck className="w-4 h-4 text-slate-500" />
-            <span className="hidden md:inline">{isAuthenticated ? 'Admin' : 'Shopkeeper'}</span>
           </Link>
         </div>
       </div>

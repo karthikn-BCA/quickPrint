@@ -30,6 +30,7 @@ function AppLayout() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-success/:orderId" element={<OrderSuccessPage />} />
           <Route path="/track" element={<TrackOrderPage />} />
+          <Route path="/admin" element={<AdminLoginPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         </Routes>
