@@ -1,9 +1,17 @@
 const rateLimit = require('express-rate-limit');
 
-// General API rate limiter: 150 requests per 15 minutes per IP
+// Helper to detect local development or loopback addresses
+const isLocalOrDev = (req) => {
+  if (process.env.NODE_ENV !== 'production') return true;
+  const ip = req.ip || req.connection?.remoteAddress || '';
+  return ip.includes('127.0.0.1') || ip.includes('::1') || ip === 'localhost';
+};
+
+// General API rate limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 200,
+  max: 1000,
+  skip: isLocalOrDev,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -12,22 +20,24 @@ const apiLimiter = rateLimit({
   },
 });
 
-// Strict limiter for authentication: 10 attempts per 15 minutes per IP
+// Authentication limiter
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 100,
+  skip: isLocalOrDev,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     success: false,
-    error: 'Too many login attempts. Please wait 15 minutes before trying again.',
+    error: 'Too many login attempts. Please wait a few minutes before trying again.',
   },
 });
 
-// Upload limiter: 30 uploads per 10 minutes
+// Upload limiter
 const uploadLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 40,
+  max: 200,
+  skip: isLocalOrDev,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -36,10 +46,11 @@ const uploadLimiter = rateLimit({
   },
 });
 
-// Order creation limiter: 20 orders per 10 minutes
+// Order creation limiter
 const orderLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 30,
+  max: 200,
+  skip: isLocalOrDev,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
