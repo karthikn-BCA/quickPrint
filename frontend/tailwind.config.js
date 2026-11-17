@@ -27,13 +27,11 @@ export default {
           dark: '#d97706',
           deep: '#b45309',
         },
-        dark: {
-          bg: '#090d16',
-          surface: '#111726',
-          card: '#161e31',
-          border: '#25324d',
-          muted: '#8b9bb4',
-        }
+        'dark-bg': '#090d16',
+        'dark-surface': '#111726',
+        'dark-card': '#161e31',
+        'dark-border': '#25324d',
+        'dark-muted': '#8b9bb4',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
