@@ -14,11 +14,31 @@ function getSessionToken() {
   return token;
 }
 
+async function handleJsonResponse(res) {
+  try {
+    const text = await res.text();
+    if (!text || text.trim() === '') {
+      return {
+        success: false,
+        error: res.ok
+          ? 'Empty response received from server.'
+          : `Server returned status ${res.status} with empty body. Please verify the backend is running.`,
+      };
+    }
+    return JSON.parse(text);
+  } catch (err) {
+    return {
+      success: false,
+      error: `Could not parse server response (${res.status || 'network error'}). Ensure backend is running on port 5000.`,
+    };
+  }
+}
+
 export const api = {
   // Pricing & Shop info
   async getPricing() {
     const res = await fetch(`${API_BASE}/pricing`);
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async calculateEstimate(items) {
@@ -27,7 +47,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items }),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   // Document Uploads
@@ -39,14 +59,14 @@ export const api = {
       },
       body: formData,
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async deleteDocument(id) {
     const res = await fetch(`${API_BASE}/documents/${id}`, {
       method: 'DELETE',
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   getDocumentPreviewUrl(id) {
@@ -67,7 +87,7 @@ export const api = {
       },
       body: JSON.stringify(orderPayload),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async trackOrder(orderId, mobileNumber) {
@@ -79,12 +99,12 @@ export const api = {
         'x-session-token': getSessionToken(),
       },
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getMyOrders(mobileNumber) {
     const res = await fetch(`${API_BASE}/orders/my-orders?mobileNumber=${encodeURIComponent(mobileNumber)}`);
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   // Payment Verification
@@ -94,7 +114,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(paymentPayload),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   // Admin APIs
@@ -104,21 +124,21 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ identifier, password }),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getAdminMe() {
     const res = await fetch(`${API_BASE}/auth/me`, {
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getAdminStats() {
     const res = await fetch(`${API_BASE}/admin/stats`, {
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getAdminOrders(params = {}) {
@@ -126,14 +146,14 @@ export const api = {
     const res = await fetch(`${API_BASE}/admin/orders?${query}`, {
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getAdminOrderDetails(orderId) {
     const res = await fetch(`${API_BASE}/admin/orders/${orderId}`, {
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async markOrderPrinted(orderId) {
@@ -141,7 +161,7 @@ export const api = {
       method: 'PUT',
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async markOrderCollected(orderId) {
@@ -149,7 +169,7 @@ export const api = {
       method: 'PUT',
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async retryPrintJob(orderId) {
@@ -157,14 +177,14 @@ export const api = {
       method: 'POST',
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async getShopSettings() {
     const res = await fetch(`${API_BASE}/admin/settings`, {
       headers: getAuthHeaders(),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 
   async updateShopSettings(settingsPayload) {
@@ -176,6 +196,6 @@ export const api = {
       },
       body: JSON.stringify(settingsPayload),
     });
-    return res.json();
+    return handleJsonResponse(res);
   },
 };
