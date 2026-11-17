@@ -14,6 +14,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
   };
 
   const isPdf = item.fileExtension === '.pdf';
+  const isWord = item.fileExtension === '.docx' || item.fileExtension === '.doc';
 
   return (
     <div className="bg-cp-surface rounded-2xl border border-cp-border p-5 shadow-soft hover:shadow-card transition-all">
@@ -23,9 +24,11 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
             isPdf
               ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
+              : isWord
+              ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
               : 'bg-cp-surface-alt text-sage dark:text-copper border border-cp-border'
           }`}>
-            {isPdf ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
+            {isPdf || isWord ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
           </div>
           <div className="min-w-0">
             <h4 className="text-sm font-bold text-cp-text truncate" title={item.originalName}>
@@ -246,6 +249,25 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
                   className="w-full h-[65vh] border border-cp-border rounded-lg shadow-inner bg-cp-surface"
                   title="PDF Preview"
                 />
+              ) : isWord ? (
+                <div className="text-center p-8 space-y-4 max-w-sm">
+                  <div className="w-16 h-16 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto border border-blue-500/20">
+                    <FileText className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-cp-text text-base truncate">{item.originalName}</h4>
+                    <p className="text-xs text-cp-text-secondary mt-1 font-medium">
+                      Microsoft Word Document ({item.pageCount} Pages • {formatFileSize(item.sizeBytes)})
+                    </p>
+                  </div>
+                  <a
+                    href={api.getDocumentDownloadUrl(item.id)}
+                    download={item.originalName}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-xs font-bold shadow-md transition-all"
+                  >
+                    <span>Download Word Document</span>
+                  </a>
+                </div>
               ) : (
                 <img
                   src={api.getDocumentPreviewUrl(item.id)}

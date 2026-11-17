@@ -21,7 +21,10 @@ export default function TrackOrderPage() {
   const { joinOrderRoom } = useSocket();
 
   const handleTrack = async (targetId = orderIdInput, targetMobile = mobileInput) => {
-    if (!targetId.trim() && !targetMobile.trim()) {
+    const cleanId = (typeof targetId === 'string' ? targetId : orderIdInput || '').trim().toUpperCase();
+    const cleanMobile = (typeof targetMobile === 'string' ? targetMobile : mobileInput || '').trim();
+
+    if (!cleanId && !cleanMobile) {
       setError('Please enter either an Order ID or your Mobile Number.');
       return;
     }
@@ -30,18 +33,17 @@ export default function TrackOrderPage() {
     setError('');
 
     try {
-      const res = await api.trackOrder({
-        orderId: targetId.trim(),
-        mobileNumber: targetMobile.trim(),
-      });
+      const res = await api.trackOrder(cleanId, cleanMobile);
 
       if (res.success && res.order) {
         setOrder(res.order);
-        joinOrderRoom(res.order.orderId, (update) => {
-          setOrder((prev) => (prev ? { ...prev, ...update } : prev));
-        });
+        if (res.order.orderId) {
+          joinOrderRoom(res.order.orderId, (update) => {
+            setOrder((prev) => (prev ? { ...prev, ...update } : prev));
+          });
+        }
       } else {
-        setError(res.error || 'No matching order found. Please check your credentials.');
+        setError(res.error || 'No matching order found. Please check your Order ID or Mobile Number.');
         setOrder(null);
       }
     } catch (err) {

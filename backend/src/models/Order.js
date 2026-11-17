@@ -12,7 +12,7 @@ const orderItemSchema = new mongoose.Schema({
   },
   fileType: {
     type: String,
-    enum: ['pdf', 'image'],
+    enum: ['pdf', 'image', 'word', 'doc', 'docx'],
     required: true,
   },
   totalPages: {

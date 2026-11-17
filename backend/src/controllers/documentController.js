@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const Document = require('../models/Document');
 const { inspectPdfFile } = require('../services/pdfService');
+const { inspectDocxFile, inspectDocFile } = require('../services/wordService');
 
 /**
  * Handles uploaded files from Multer
@@ -46,6 +47,12 @@ async function uploadDocuments(req, res) {
           });
         }
         pageCount = inspection.pageCount;
+      } else if (ext === '.docx') {
+        const inspection = await inspectDocxFile(file.path);
+        pageCount = inspection.pageCount || 1;
+      } else if (ext === '.doc') {
+        const inspection = await inspectDocFile(file.path);
+        pageCount = inspection.pageCount || 1;
       }
 
       // Check if client browser pre-detected higher valid page count

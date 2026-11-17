@@ -90,9 +90,24 @@ export const api = {
     return handleJsonResponse(res);
   },
 
-  async trackOrder(orderId, mobileNumber) {
-    const params = new URLSearchParams({ orderId });
-    if (mobileNumber) params.append('mobileNumber', mobileNumber);
+  async trackOrder(arg1, arg2) {
+    let orderId = '';
+    let mobileNumber = '';
+    if (typeof arg1 === 'object' && arg1 !== null) {
+      orderId = arg1.orderId || '';
+      mobileNumber = arg1.mobileNumber || '';
+    } else {
+      orderId = arg1 || '';
+      mobileNumber = arg2 || '';
+    }
+
+    const params = new URLSearchParams();
+    if (orderId && typeof orderId === 'string' && orderId.trim()) {
+      params.append('orderId', orderId.trim());
+    }
+    if (mobileNumber && typeof mobileNumber === 'string' && mobileNumber.trim()) {
+      params.append('mobileNumber', mobileNumber.trim());
+    }
 
     const res = await fetch(`${API_BASE}/orders/track?${params.toString()}`, {
       headers: {
@@ -100,6 +115,10 @@ export const api = {
       },
     });
     return handleJsonResponse(res);
+  },
+
+  async getCustomerOrders(mobileNumber) {
+    return this.getMyOrders(mobileNumber);
   },
 
   async getMyOrders(mobileNumber) {

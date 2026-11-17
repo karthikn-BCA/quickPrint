@@ -15,6 +15,11 @@ const ALLOWED_MIME_TYPES = {
   'image/jpeg': '.jpg',
   'image/png': '.png',
   'image/jpg': '.jpg',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+  'application/msword': '.doc',
+  'application/octet-stream': '.docx',
+  'application/zip': '.docx',
+  'application/x-zip-compressed': '.docx',
 };
 
 // Storage configuration with secure random filenames
@@ -35,16 +40,16 @@ const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
   const mime = file.mimetype.toLowerCase();
 
-  const validExts = ['.pdf', '.jpg', '.jpeg', '.png'];
+  const validExts = ['.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx'];
   const isExtValid = validExts.includes(ext);
-  const isMimeValid = Object.keys(ALLOWED_MIME_TYPES).includes(mime);
+  const isMimeValid = Object.keys(ALLOWED_MIME_TYPES).includes(mime) || ext === '.docx' || ext === '.doc';
 
   if (isExtValid && isMimeValid) {
     cb(null, true);
   } else {
     cb(
       new Error(
-        `Invalid file type "${ext}". Only PDF, JPG, JPEG, and PNG files are allowed.`
+        `Invalid file type "${ext}". Allowed types: PDF, Word (.doc, .docx), and Images (JPG, PNG).`
       ),
       false
     );

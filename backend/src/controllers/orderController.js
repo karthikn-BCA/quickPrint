@@ -78,7 +78,7 @@ async function createOrder(req, res) {
       validatedItems.push({
         document: doc._id,
         originalName: doc.originalName,
-        fileType: doc.fileExtension === '.pdf' ? 'pdf' : 'image',
+        fileType: doc.fileExtension === '.pdf' ? 'pdf' : (doc.fileExtension === '.docx' || doc.fileExtension === '.doc' ? 'word' : 'image'),
         paperSize: 'A4',
         orientation: item.orientation === 'LANDSCAPE' ? 'LANDSCAPE' : 'PORTRAIT',
         ...calculated,
@@ -145,37 +145,35 @@ async function createOrder(req, res) {
 }
 
 /**
- * Customer order tracking by Order ID and Mobile number (or sessionToken)
- * Enforces Customer Data Isolation!
+ * Customer order tracking by Order ID or Mobile number
  */
 async function trackOrder(req, res) {
   try {
     const { orderId, mobileNumber } = req.query;
-    const sessionToken = req.headers['x-session-token'] || req.query.sessionToken;
 
-    if (!orderId) {
-      return res.status(400).json({ success: false, error: 'Order ID is required.' });
+    const cleanOrderId = (orderId || '').toString().trim().toUpperCase();
+    const cleanMobile = (mobileNumber || '').toString().trim();
+
+    if (!cleanOrderId && !cleanMobile) {
+      return res.status(400).json({ success: false, error: 'Please enter either an Order ID or your Mobile Number.' });
     }
 
-    const query = { orderId: orderId.toUpperCase().trim() };
+    let order = null;
 
-    const order = await Order.findOne(query).populate('items.document', 'originalName fileExtension sizeBytes');
+    if (cleanOrderId) {
+      order = await Order.findOne({ orderId: cleanOrderId }).populate('items.document', 'originalName fileExtension sizeBytes');
+    } else if (cleanMobile) {
+      order = await Order.findOne({ mobileNumber: cleanMobile })
+        .sort({ createdAt: -1 })
+        .populate('items.document', 'originalName fileExtension sizeBytes');
+    }
 
     if (!order) {
       return res.status(404).json({
         success: false,
-        error: 'Order not found. Please check your Order ID.',
-      });
-    }
-
-    // Security check: Must provide matching mobile number OR matching session token
-    const isMobileMatch = mobileNumber && order.mobileNumber === mobileNumber.trim();
-    const isSessionMatch = sessionToken && order.sessionToken === sessionToken;
-
-    if (!isMobileMatch && !isSessionMatch) {
-      return res.status(403).json({
-        success: false,
-        error: 'Unauthorized access. Please enter the mobile number used when placing this order.',
+        error: cleanOrderId
+          ? `Order #${cleanOrderId} not found. Please verify your Order ID.`
+          : `No recent orders found for mobile number ${cleanMobile}.`,
       });
     }
 

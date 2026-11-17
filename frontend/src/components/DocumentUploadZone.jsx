@@ -10,14 +10,14 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
   const [successMessage, setSuccessMessage] = useState('');
   const fileInputRef = useRef(null);
 
-  const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png'];
+  const allowedExtensions = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'];
   const maxSizeBytes = 25 * 1024 * 1024; // 25 MB
 
   const validateFiles = (files) => {
     for (const file of files) {
       const ext = '.' + file.name.split('.').pop().toLowerCase();
       if (!allowedExtensions.includes(ext)) {
-        return `File "${file.name}" has an unsupported format. Only PDF, JPG, JPEG, and PNG are allowed.`;
+        return `File "${file.name}" has an unsupported format. Supported: PDF, Word (.docx, .doc), and Images (JPG, PNG).`;
       }
       if (file.size > maxSizeBytes) {
         return `File "${file.name}" exceeds the maximum 25 MB file size limit.`;
@@ -109,7 +109,7 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
           ref={fileInputRef}
           type="file"
           multiple
-          accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png"
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
           disabled={isUploading}
@@ -135,8 +135,8 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
 
           <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-cp-text-secondary">
             <span className="px-2.5 py-1 rounded-md bg-cp-surface-alt font-bold text-cp-text border border-cp-border">PDF</span>
+            <span className="px-2.5 py-1 rounded-md bg-cp-surface-alt font-bold text-cp-text border border-cp-border">Word (.docx, .doc)</span>
             <span className="px-2.5 py-1 rounded-md bg-cp-surface-alt font-bold text-cp-text border border-cp-border">JPG</span>
-            <span className="px-2.5 py-1 rounded-md bg-cp-surface-alt font-bold text-cp-text border border-cp-border">JPEG</span>
             <span className="px-2.5 py-1 rounded-md bg-cp-surface-alt font-bold text-cp-text border border-cp-border">PNG</span>
             <span className="text-cp-text-muted font-semibold">• Up to 25 MB per file</span>
           </div>
