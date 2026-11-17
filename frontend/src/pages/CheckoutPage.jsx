@@ -17,11 +17,11 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-md mx-auto px-4 py-20 text-center">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">No items to checkout</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-2">Please upload at least one document first.</p>
+        <h2 className="text-xl font-bold text-brand-800 dark:text-slate-100">No items to checkout</h2>
+        <p className="text-brand-600/70 dark:text-slate-400 text-sm mt-2">Please upload at least one document first.</p>
         <Link
           to="/upload"
-          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm"
+          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm shadow-sm"
         >
           Go to Upload
         </Link>
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
             email: email || '',
           },
           theme: {
-            color: '#F97316',
+            color: '#596B5D',
           },
           handler: async function (response) {
             try {
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <Link
         to="/cart"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 mb-6 transition-colors uppercase tracking-wider"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600/70 dark:text-slate-400 hover:text-brand-500 dark:hover:text-brand-300 mb-6 transition-colors uppercase tracking-wider"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Shopping Cart
@@ -166,15 +166,15 @@ export default function CheckoutPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Left: Customer Information Form */}
-        <div className="bg-white dark:bg-dark-card rounded-2xl border border-slate-200/90 dark:border-dark-border p-6 shadow-sm">
-          <div className="flex items-center gap-2 pb-4 border-b border-slate-100 dark:border-dark-border">
-            <User className="w-5 h-5 text-brand-600 dark:text-brand-400" />
-            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Customer Details</h2>
+        <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 shadow-sm">
+          <div className="flex items-center gap-2 pb-4 border-b border-brand-100 dark:border-dark-border">
+            <User className="w-5 h-5 text-brand-500 dark:text-brand-300" />
+            <h2 className="text-base font-bold text-brand-800 dark:text-slate-100">Customer Details</h2>
           </div>
 
           <form onSubmit={handleCheckout} className="space-y-4 pt-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-brand-800 dark:text-slate-300 mb-1">
                 Your Full Name <span className="text-rose-500">*</span>
               </label>
               <input
@@ -183,16 +183,16 @@ export default function CheckoutPage() {
                 placeholder="e.g. Rahul Sharma"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-brand-100 dark:border-dark-border bg-white dark:bg-dark-surface text-brand-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-brand-800 dark:text-slate-300 mb-1">
                 10-Digit Mobile Number <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
-                <span className="absolute left-3.5 top-2.5 text-sm font-bold text-slate-400">
+                <span className="absolute left-3.5 top-2.5 text-sm font-bold text-brand-400">
                   +91
                 </span>
                 <input
@@ -202,24 +202,24 @@ export default function CheckoutPage() {
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
+                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-brand-100 dark:border-dark-border bg-white dark:bg-dark-surface text-brand-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
                 />
               </div>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+              <p className="text-[11px] text-brand-400 dark:text-slate-500 mt-1">
                 Used to verify pickup & track order status in real time.
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Email Address <span className="text-slate-400 font-normal">(Optional receipt)</span>
+              <label className="block text-xs font-bold text-brand-800 dark:text-slate-300 mb-1">
+                Email Address <span className="text-brand-400 font-normal">(Optional receipt)</span>
               </label>
               <input
                 type="email"
                 placeholder="rahul.student@college.edu"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-brand-100 dark:border-dark-border bg-white dark:bg-dark-surface text-brand-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
 
@@ -236,8 +236,8 @@ export default function CheckoutPage() {
               disabled={isProcessing || loadingEstimate}
               className={`w-full mt-2 flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-white font-black text-sm shadow-md transition-all ${
                 isProcessing || loadingEstimate
-                  ? 'bg-slate-400 dark:bg-dark-surface cursor-wait'
-                  : 'bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 shadow-brand-500/25 hover:shadow-brand-500/40 transform hover:-translate-y-0.5'
+                  ? 'bg-brand-200 dark:bg-dark-surface cursor-wait text-brand-400'
+                  : 'bg-brand-500 hover:bg-brand-600 shadow-brand-500/25 hover:shadow-brand-500/40 transform hover:-translate-y-0.5'
               }`}
             >
               {isProcessing ? (
@@ -256,20 +256,20 @@ export default function CheckoutPage() {
         </div>
 
         {/* Right: Order Review Summary */}
-        <div className="bg-slate-50 dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6 space-y-4">
-          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 pb-3 border-b border-slate-200 dark:border-dark-border">
+        <div className="bg-brand-50/60 dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 space-y-4">
+          <h3 className="text-base font-bold text-brand-800 dark:text-slate-100 pb-3 border-b border-brand-100 dark:border-dark-border">
             Order Review
           </h3>
 
           <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
             {items.map((it, idx) => (
-              <div key={idx} className="bg-white dark:bg-dark-surface p-3 rounded-xl border border-slate-200 dark:border-dark-border text-xs space-y-1">
-                <div className="font-bold text-slate-800 dark:text-slate-100 truncate">{it.originalName}</div>
-                <div className="flex justify-between text-slate-500 dark:text-slate-400">
+              <div key={idx} className="bg-white dark:bg-dark-surface p-3 rounded-xl border border-brand-100 dark:border-dark-border text-xs space-y-1 shadow-sm">
+                <div className="font-bold text-brand-800 dark:text-slate-100 truncate">{it.originalName}</div>
+                <div className="flex justify-between text-brand-600/70 dark:text-slate-400">
                   <span>
                     {it.printType === 'COLOUR' ? 'Colour' : 'B&W'} • {it.printSides === 'DOUBLE' ? 'Double-sided' : 'Single'} • {it.copies} {it.copies === 1 ? 'Copy' : 'Copies'}
                   </span>
-                  <span className="font-bold text-slate-700 dark:text-slate-200">
+                  <span className="font-bold text-brand-800 dark:text-slate-200">
                     {it.pageSelection === 'CUSTOM' ? `Pages: ${it.customPages}` : `${it.pageCount} Pages`}
                   </span>
                 </div>
@@ -277,18 +277,18 @@ export default function CheckoutPage() {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-slate-200 dark:border-dark-border space-y-2 text-sm">
-            <div className="flex justify-between text-slate-600 dark:text-slate-400">
+          <div className="pt-3 border-t border-brand-100 dark:border-dark-border space-y-2 text-sm">
+            <div className="flex justify-between text-brand-600/80 dark:text-slate-400">
               <span>Total Physical Sheets:</span>
-              <span className="font-bold text-slate-800 dark:text-slate-200">{pricingEstimate.totalPhysicalSheets}</span>
+              <span className="font-bold text-brand-800 dark:text-slate-200">{pricingEstimate.totalPhysicalSheets}</span>
             </div>
-            <div className="flex justify-between text-slate-600 dark:text-slate-400">
+            <div className="flex justify-between text-brand-600/80 dark:text-slate-400">
               <span>Pickup Counter:</span>
-              <span className="font-bold text-brand-700 dark:text-brand-400">SAC Xerox Shop</span>
+              <span className="font-bold text-brand-500 dark:text-brand-300">SAC Xerox Shop</span>
             </div>
-            <div className="flex justify-between text-base pt-2 border-t border-slate-200 dark:border-dark-border">
-              <span className="font-bold text-slate-900 dark:text-slate-100">Total Payable:</span>
-              <span className="font-black text-brand-600 dark:text-brand-400 text-xl">
+            <div className="flex justify-between text-base pt-2 border-t border-brand-100 dark:border-dark-border">
+              <span className="font-bold text-brand-800 dark:text-slate-100">Total Payable:</span>
+              <span className="font-black text-brand-500 dark:text-brand-300 text-xl">
                 ₹{pricingEstimate.grandTotal.toFixed(2)}
               </span>
             </div>
