@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, PlusCircle, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import DocumentUploadZone from '../components/DocumentUploadZone';
 import DocumentConfigCard from '../components/DocumentConfigCard';
@@ -17,13 +15,13 @@ export default function UploadPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Header */}
       <div className="mb-8">
-        <span className="text-xs font-black text-brand-500 dark:text-brand-300 tracking-wider uppercase">
+        <span className="text-xs font-black text-cp-primary dark:text-cp-accent tracking-wider uppercase">
           Step 1 of 3: Upload & Configure
         </span>
-        <h1 className="text-2xl sm:text-3xl font-black text-charcoal dark:text-white tracking-tight mt-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-cp-text tracking-tight mt-1">
           Upload Documents for Printing
         </h1>
-        <p className="text-charcoal-muted dark:text-dark-muted text-sm mt-1">
+        <p className="text-cp-text-secondary text-sm mt-1">
           Upload PDF assignments or image files, configure color and duplex preferences, then proceed to checkout.
         </p>
       </div>
@@ -37,13 +35,13 @@ export default function UploadPage() {
           {items.length > 0 && (
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-charcoal dark:text-white flex items-center gap-2">
+                <h2 className="text-base font-bold text-cp-text flex items-center gap-2">
                   <span>Uploaded Documents</span>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 font-bold border border-brand-200 dark:border-brand-800/50">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-cp-surface-alt text-cp-primary-light dark:text-cp-accent font-bold border border-cp-border">
                     {items.length}
                   </span>
                 </h2>
-                <span className="text-xs text-charcoal-light dark:text-dark-subtle font-medium">
+                <span className="text-xs text-cp-text-muted font-medium">
                   Configure preferences for each file below
                 </span>
               </div>

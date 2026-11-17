@@ -4,23 +4,23 @@ import { Printer, MapPin, Phone, Mail, Clock, ShieldCheck, Heart } from 'lucide-
 
 export default function Footer() {
   return (
-    <footer className="bg-[#242b24] dark:bg-[#141a15] text-[#e4ede6] border-t border-[#343f35] dark:border-dark-border mt-20 transition-colors duration-200">
+    <footer className="bg-cp-sidebar-bg text-cp-sidebar-text border-t border-cp-sidebar-border mt-20 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Column */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center text-white shadow-md shadow-brand-500/30">
+              <div className="w-9 h-9 rounded-xl bg-cp-primary flex items-center justify-center text-white shadow-md">
                 <Printer className="w-5 h-5" />
               </div>
               <span className="text-xl font-black tracking-tight text-white uppercase">
-                Campus<span className="text-brand-300">Print</span>
+                Campus<span className="text-cp-accent">Print</span>
               </span>
             </div>
-            <p className="text-sm text-[#d1dcd3] leading-relaxed">
+            <p className="text-sm text-cp-sidebar-muted leading-relaxed">
               Smart College Xerox & Digital Printing Management. Upload your assignments, pay online, and skip the shop queue completely.
             </p>
-            <div className="flex items-center gap-2 text-xs text-white bg-white/10 dark:bg-dark-card border border-white/20 dark:border-dark-border px-3 py-1.5 rounded-lg w-fit">
+            <div className="flex items-center gap-2 text-xs text-white bg-white/10 border border-white/20 px-3 py-1.5 rounded-lg w-fit">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
               Printer Agent Active & Online
             </div>
@@ -33,22 +33,22 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/upload" className="text-[#d1dcd3] hover:text-white transition-colors">
+                <Link to="/upload" className="text-cp-sidebar-muted hover:text-white transition-colors">
                   Upload Documents
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-[#d1dcd3] hover:text-white transition-colors">
+                <Link to="/pricing" className="text-cp-sidebar-muted hover:text-white transition-colors">
                   View Transparent Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/track" className="text-[#d1dcd3] hover:text-white transition-colors">
+                <Link to="/track" className="text-cp-sidebar-muted hover:text-white transition-colors">
                   Track Print Order
                 </Link>
               </li>
               <li>
-                <Link to="/cart" className="text-[#d1dcd3] hover:text-white transition-colors">
+                <Link to="/cart" className="text-cp-sidebar-muted hover:text-white transition-colors">
                   Shopping Cart
                 </Link>
               </li>
@@ -60,20 +60,20 @@ export default function Footer() {
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
               Shop Timings & Services
             </h3>
-            <ul className="space-y-3 text-sm text-[#d1dcd3]">
+            <ul className="space-y-3 text-sm text-cp-sidebar-muted">
               <li className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-brand-300 mt-0.5 shrink-0" />
+                <Clock className="w-4 h-4 text-cp-accent mt-0.5 shrink-0" />
                 <span>
                   <strong className="text-white">Mon - Sat:</strong> 8:30 AM - 7:00 PM<br />
-                  <span className="text-xs text-[#a3b09f]">Sunday Closed</span>
+                  <span className="text-xs text-cp-sidebar-muted opacity-80">Sunday Closed</span>
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-brand-300 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-cp-accent shrink-0" />
                 <span>Single & Double-Sided A4 Printing</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-brand-300 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-cp-accent shrink-0" />
                 <span>Black & White & Vivid Colour</span>
               </li>
             </ul>
@@ -84,17 +84,17 @@ export default function Footer() {
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
               Campus Shop Location
             </h3>
-            <ul className="space-y-3 text-sm text-[#d1dcd3]">
+            <ul className="space-y-3 text-sm text-cp-sidebar-muted">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-brand-300 mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-cp-accent mt-0.5 shrink-0" />
                 <span>Ground Floor, Student Activity Centre (SAC), Near Central Canteen</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-brand-300 shrink-0" />
+                <Phone className="w-4 h-4 text-cp-accent shrink-0" />
                 <span>+91 98765 43210</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-brand-300 shrink-0" />
+                <Mail className="w-4 h-4 text-cp-accent shrink-0" />
                 <span>xerox@campusprint.edu</span>
               </li>
             </ul>
@@ -102,10 +102,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#343f35] dark:border-dark-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#a3b09f] gap-4">
+        <div className="border-t border-cp-sidebar-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-cp-sidebar-muted gap-4">
           <p>© {new Date().getFullYear()} CampusPrint SAC Xerox Center. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
-            Made with <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400 inline" /> for college students & campus printers.
+            Made with <Heart className="w-3.5 h-3.5 text-cp-terracotta fill-cp-terracotta inline" /> for college students & campus printers.
           </p>
         </div>
       </div>

@@ -39,31 +39,31 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-white dark:bg-dark-card rounded-3xl border border-brand-100 dark:border-dark-border p-8 shadow-card transition-colors">
-        <div className="w-14 h-14 rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-500 dark:text-brand-300 flex items-center justify-center mx-auto mb-6 shadow-inner border border-brand-200 dark:border-brand-800/40">
+      <div className="w-full max-w-md bg-cp-surface rounded-3xl border border-cp-border p-8 shadow-card transition-colors">
+        <div className="w-14 h-14 rounded-2xl bg-cp-surface-alt text-cp-primary flex items-center justify-center mx-auto mb-6 shadow-inner border border-cp-border">
           <ShieldCheck className="w-7 h-7" />
         </div>
 
-        <h1 className="text-2xl font-black text-center text-charcoal dark:text-white tracking-tight">
+        <h1 className="text-2xl font-black text-center text-cp-text tracking-tight">
           Shopkeeper Portal
         </h1>
-        <p className="text-xs text-center text-charcoal-muted dark:text-dark-muted mt-1 font-medium">
+        <p className="text-xs text-center text-cp-text-secondary mt-1 font-medium">
           CampusPrint Xerox Administration & Print Spooler Control
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <div>
-            <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+            <label className="block text-xs font-bold text-cp-text mb-1">
               Email or Mobile Number
             </label>
             <div className="relative">
-              <User className="absolute left-3.5 top-3 w-4 h-4 text-brand-500" />
+              <User className="absolute left-3.5 top-3 w-4 h-4 text-cp-primary" />
               <input
                 type="text"
                 required
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
                 placeholder="Enter admin email or mobile"
                 autoComplete="username"
               />
@@ -71,17 +71,17 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+            <label className="block text-xs font-bold text-cp-text mb-1">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-3 w-4 h-4 text-brand-500" />
+              <Lock className="absolute left-3.5 top-3 w-4 h-4 text-cp-primary" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
                 placeholder="••••••••••••"
                 autoComplete="current-password"
               />
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-300 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
               <span>{error}</span>
             </div>
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-sm shadow-md shadow-brand-500/25 transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : 'Sign In as Administrator'}
           </button>

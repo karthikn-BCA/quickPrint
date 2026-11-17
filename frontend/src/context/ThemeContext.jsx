@@ -7,7 +7,8 @@ export function ThemeProvider({ children }) {
     try {
       const saved = localStorage.getItem('cp_theme');
       if (saved === 'dark' || saved === 'light') return saved;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      // Default to light on first visit
+      return 'light';
     } catch {
       return 'light';
     }

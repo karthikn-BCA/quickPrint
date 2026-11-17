@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Trash2, ArrowRight, Plus, FileText } from 'lucide-react';
+import { ShoppingBag, Trash2, Plus } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import DocumentConfigCard from '../components/DocumentConfigCard';
 import PriceSummaryCard from '../components/PriceSummaryCard';
@@ -11,17 +11,17 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div className="w-20 h-20 rounded-3xl bg-brand-50 dark:bg-brand-950/60 text-brand-500 dark:text-brand-300 flex items-center justify-center mx-auto mb-6 border border-brand-200 dark:border-brand-800/50">
+        <div className="w-20 h-20 rounded-3xl bg-cp-surface-alt text-cp-primary flex items-center justify-center mx-auto mb-6 border border-cp-border">
           <ShoppingBag className="w-10 h-10" />
         </div>
-        <h2 className="text-2xl font-black text-charcoal dark:text-white">Your Cart is Empty</h2>
-        <p className="text-charcoal-muted dark:text-dark-muted text-sm mt-2 max-w-sm mx-auto">
+        <h2 className="text-2xl font-black text-cp-text">Your Cart is Empty</h2>
+        <p className="text-cp-text-secondary text-sm mt-2 max-w-sm mx-auto">
           You haven't uploaded any documents to print yet. Upload your PDF assignments or notes to get started.
         </p>
         <div className="mt-6">
           <Link
             to="/upload"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-sm shadow-md shadow-brand-500/20 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-black text-sm shadow-md transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Upload Documents Now</span>
@@ -35,24 +35,24 @@ export default function CartPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-xs font-black text-brand-500 dark:text-brand-300 tracking-wider uppercase">
+          <span className="text-xs font-black text-cp-primary dark:text-cp-accent tracking-wider uppercase">
             Review Order
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-charcoal dark:text-white tracking-tight mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-cp-text tracking-tight mt-1">
             Shopping Cart ({itemCount} {itemCount === 1 ? 'Document' : 'Documents'})
           </h1>
         </div>
         <div className="flex items-center gap-3">
           <Link
             to="/upload"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-dark-card hover:bg-brand-50 dark:hover:bg-dark-surface text-charcoal dark:text-white text-xs font-bold border border-brand-200 dark:border-dark-border transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cp-surface hover:bg-cp-surface-alt text-cp-text text-xs font-bold border border-cp-border transition-colors shadow-soft"
           >
-            <Plus className="w-3.5 h-3.5 text-brand-500" />
+            <Plus className="w-3.5 h-3.5 text-cp-primary" />
             <span>Add More Documents</span>
           </Link>
           <button
             onClick={clearCart}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-xs font-bold transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear Cart</span>

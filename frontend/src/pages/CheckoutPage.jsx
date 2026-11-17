@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Lock, User, Phone, Mail, ArrowLeft, Loader2, AlertCircle, CheckCircle, CreditCard, Zap } from 'lucide-react';
+import { User, ArrowLeft, Loader2, AlertCircle, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { api } from '../services/api';
 
@@ -17,11 +17,11 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-md mx-auto px-4 py-20 text-center">
-        <h2 className="text-xl font-bold text-charcoal dark:text-white">No items to checkout</h2>
-        <p className="text-charcoal-muted dark:text-dark-muted text-sm mt-2">Please upload at least one document first.</p>
+        <h2 className="text-xl font-bold text-cp-text">No items to checkout</h2>
+        <p className="text-cp-text-secondary text-sm mt-2">Please upload at least one document first.</p>
         <Link
           to="/upload"
-          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm shadow-sm"
+          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-bold text-sm shadow-sm"
         >
           Go to Upload
         </Link>
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
             email: email || '',
           },
           theme: {
-            color: '#596B5D',
+            color: '#30525C',
           },
           handler: async function (response) {
             try {
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <Link
         to="/cart"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-charcoal-muted dark:text-dark-muted hover:text-brand-500 dark:hover:text-white mb-6 transition-colors uppercase tracking-wider"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-cp-text-secondary hover:text-cp-primary mb-6 transition-colors uppercase tracking-wider"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Shopping Cart
@@ -166,15 +166,15 @@ export default function CheckoutPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Left: Customer Information Form */}
-        <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 shadow-sm">
-          <div className="flex items-center gap-2 pb-4 border-b border-brand-100 dark:border-dark-border">
-            <User className="w-5 h-5 text-brand-500 dark:text-brand-300" />
-            <h2 className="text-base font-bold text-charcoal dark:text-white">Customer Details</h2>
+        <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 shadow-soft">
+          <div className="flex items-center gap-2 pb-4 border-b border-cp-border">
+            <User className="w-5 h-5 text-cp-primary dark:text-cp-accent" />
+            <h2 className="text-base font-bold text-cp-text">Customer Details</h2>
           </div>
 
           <form onSubmit={handleCheckout} className="space-y-4 pt-4">
             <div>
-              <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+              <label className="block text-xs font-bold text-cp-text mb-1">
                 Your Full Name <span className="text-rose-500">*</span>
               </label>
               <input
@@ -183,16 +183,16 @@ export default function CheckoutPage() {
                 placeholder="e.g. Rahul Sharma"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+              <label className="block text-xs font-bold text-cp-text mb-1">
                 10-Digit Mobile Number <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
-                <span className="absolute left-3.5 top-2.5 text-sm font-bold text-charcoal dark:text-white">
+                <span className="absolute left-3.5 top-2.5 text-sm font-bold text-cp-text">
                   +91
                 </span>
                 <input
@@ -202,30 +202,30 @@ export default function CheckoutPage() {
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
+                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-mono"
                 />
               </div>
-              <p className="text-[11px] text-charcoal-light dark:text-dark-subtle mt-1 font-medium">
+              <p className="text-[11px] text-cp-text-muted mt-1 font-medium">
                 Used to verify pickup & track order status in real time.
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
-                Email Address <span className="text-charcoal-light dark:text-dark-subtle font-normal">(Optional receipt)</span>
+              <label className="block text-xs font-bold text-cp-text mb-1">
+                Email Address <span className="text-cp-text-muted font-normal">(Optional receipt)</span>
               </label>
               <input
                 type="email"
                 placeholder="rahul.student@college.edu"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
               />
             </div>
 
             {/* Error Message */}
             {errorMessage && (
-              <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-300 text-xs flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
@@ -236,8 +236,8 @@ export default function CheckoutPage() {
               disabled={isProcessing || loadingEstimate}
               className={`w-full mt-2 flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-white font-black text-sm shadow-md transition-all ${
                 isProcessing || loadingEstimate
-                  ? 'bg-brand-200 dark:bg-dark-surface cursor-wait text-charcoal-light'
-                  : 'bg-brand-500 hover:bg-brand-600 shadow-brand-500/25 hover:shadow-brand-500/40 transform hover:-translate-y-0.5'
+                  ? 'bg-cp-surface-alt cursor-wait text-cp-text-muted border border-cp-border'
+                  : 'bg-cp-primary hover:bg-cp-primary-hover transform hover:-translate-y-0.5'
               }`}
             >
               {isProcessing ? (
@@ -256,20 +256,20 @@ export default function CheckoutPage() {
         </div>
 
         {/* Right: Order Review Summary */}
-        <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 space-y-4 shadow-sm">
-          <h3 className="text-base font-bold text-charcoal dark:text-white pb-3 border-b border-brand-100 dark:border-dark-border">
+        <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 space-y-4 shadow-soft">
+          <h3 className="text-base font-bold text-cp-text pb-3 border-b border-cp-border">
             Order Review
           </h3>
 
           <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
             {items.map((it, idx) => (
-              <div key={idx} className="bg-brand-50/50 dark:bg-dark-surface p-3 rounded-xl border border-brand-200 dark:border-dark-border text-xs space-y-1 shadow-sm">
-                <div className="font-bold text-charcoal dark:text-white truncate">{it.originalName}</div>
-                <div className="flex justify-between text-charcoal-muted dark:text-dark-muted font-medium">
+              <div key={idx} className="bg-cp-surface-alt p-3 rounded-xl border border-cp-border text-xs space-y-1 shadow-sm">
+                <div className="font-bold text-cp-text truncate">{it.originalName}</div>
+                <div className="flex justify-between text-cp-text-secondary font-medium">
                   <span>
                     {it.printType === 'COLOUR' ? 'Colour' : 'B&W'} • {it.printSides === 'DOUBLE' ? 'Double-sided' : 'Single'} • {it.copies} {it.copies === 1 ? 'Copy' : 'Copies'}
                   </span>
-                  <span className="font-bold text-charcoal dark:text-white">
+                  <span className="font-bold text-cp-text">
                     {it.pageSelection === 'CUSTOM' ? `Pages: ${it.customPages}` : `${it.pageCount} Pages`}
                   </span>
                 </div>
@@ -277,18 +277,18 @@ export default function CheckoutPage() {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-brand-100 dark:border-dark-border space-y-2 text-sm">
-            <div className="flex justify-between text-charcoal-muted dark:text-dark-muted font-medium">
+          <div className="pt-3 border-t border-cp-border space-y-2 text-sm">
+            <div className="flex justify-between text-cp-text-secondary font-medium">
               <span>Total Documents</span>
-              <span className="font-bold text-charcoal dark:text-white">{itemCount}</span>
+              <span className="font-bold text-cp-text">{itemCount}</span>
             </div>
-            <div className="flex justify-between text-charcoal-muted dark:text-dark-muted font-medium">
+            <div className="flex justify-between text-cp-text-secondary font-medium">
               <span>Total Physical Sheets</span>
-              <span className="font-bold text-charcoal dark:text-white">{pricingEstimate.totalPhysicalSheets}</span>
+              <span className="font-bold text-cp-text">{pricingEstimate.totalPhysicalSheets}</span>
             </div>
-            <div className="pt-2 border-t border-brand-100 dark:border-dark-border flex justify-between items-baseline">
-              <span className="text-base font-bold text-charcoal dark:text-white">Total Amount</span>
-              <span className="text-2xl font-black text-brand-600 dark:text-brand-300">
+            <div className="pt-2 border-t border-cp-border flex justify-between items-baseline">
+              <span className="text-base font-bold text-cp-text">Total Amount</span>
+              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent">
                 ₹{pricingEstimate.grandTotal.toFixed(2)}
               </span>
             </div>

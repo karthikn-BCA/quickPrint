@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard,
   Printer,
   ShoppingBag,
-  TrendingUp,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  Search,
-  Filter,
   Eye,
   RotateCcw,
-  PackageCheck,
   Settings,
   LogOut,
   RefreshCw,
-  Sliders,
   DollarSign,
-  Wifi,
-  WifiOff,
   Sun,
   Moon,
+  Search,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -31,10 +21,10 @@ import { useSocket } from '../context/SocketContext';
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
   const { adminUser, logout, isAuthenticated } = useAuth();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
   const { socket } = useSocket();
 
-  const [activeTab, setActiveTab] = useState('orders'); // 'overview' | 'orders' | 'settings'
+  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'settings'
   const [stats, setStats] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -183,27 +173,27 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-bg dark:bg-dark-bg flex flex-col md:flex-row transition-colors">
+    <div className="min-h-screen bg-cp-bg flex flex-col md:flex-row transition-colors">
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-[#242b24] dark:bg-[#141a15] text-[#e4ede6] flex flex-col shrink-0 border-r border-[#343f35] dark:border-dark-border">
-        <div className="p-5 border-b border-[#343f35] dark:border-dark-border flex items-center justify-between">
+      <aside className="w-full md:w-64 bg-cp-sidebar-bg text-cp-sidebar-text flex flex-col shrink-0 border-r border-cp-sidebar-border">
+        <div className="p-5 border-b border-cp-sidebar-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center text-white font-bold shadow-md shadow-brand-500/20">
+            <div className="w-9 h-9 rounded-xl bg-cp-primary flex items-center justify-center text-white font-bold shadow-md">
               <Printer className="w-5 h-5" />
             </div>
             <div>
               <h2 className="font-bold text-white text-sm uppercase">CampusPrint</h2>
-              <p className="text-[11px] text-brand-300 font-semibold">Shopkeeper Admin</p>
+              <p className="text-[11px] text-cp-accent font-semibold">Shopkeeper Admin</p>
             </div>
           </div>
 
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 rounded-lg bg-white/10 dark:bg-dark-card hover:bg-white/20 text-brand-300 border border-white/20 dark:border-dark-border transition-colors"
+            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-cp-accent border border-white/20 transition-colors"
             title="Toggle Light/Dark Theme"
           >
-            {isDark ? <Sun className="w-4 h-4 text-brand-300" /> : <Moon className="w-4 h-4 text-white" />}
+            {isDark ? <Sun className="w-4 h-4 text-cp-accent" /> : <Moon className="w-4 h-4 text-white" />}
           </button>
         </div>
 
@@ -212,8 +202,8 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab('orders')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
               activeTab === 'orders'
-                ? 'bg-brand-500 text-white shadow-sm shadow-brand-500/30'
-                : 'text-[#d1dcd3] hover:text-white hover:bg-white/10 dark:hover:bg-dark-card'
+                ? 'bg-cp-primary text-white shadow-sm'
+                : 'text-cp-sidebar-muted hover:text-white hover:bg-white/10'
             }`}
           >
             <ShoppingBag className="w-4 h-4" />
@@ -224,8 +214,8 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab('settings')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
               activeTab === 'settings'
-                ? 'bg-brand-500 text-white shadow-sm shadow-brand-500/30'
-                : 'text-[#d1dcd3] hover:text-white hover:bg-white/10 dark:hover:bg-dark-card'
+                ? 'bg-cp-primary text-white shadow-sm'
+                : 'text-cp-sidebar-muted hover:text-white hover:bg-white/10'
             }`}
           >
             <Settings className="w-4 h-4" />
@@ -234,22 +224,22 @@ export default function AdminDashboardPage() {
         </nav>
 
         {/* Printer Status Badge */}
-        <div className="p-4 border-t border-[#343f35] dark:border-dark-border">
-          <div className="bg-black/20 dark:bg-dark-card rounded-xl p-3 border border-white/10 dark:border-dark-border space-y-1.5">
+        <div className="p-4 border-t border-cp-sidebar-border">
+          <div className="bg-black/20 rounded-xl p-3 border border-white/10 space-y-1.5">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-[#a3b09f] font-semibold">Print Agent:</span>
+              <span className="text-cp-sidebar-muted font-semibold">Print Agent:</span>
               <span className="flex items-center gap-1 font-bold text-white">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 ONLINE
               </span>
             </div>
-            <div className="text-[11px] text-[#a3b09f] font-medium truncate">
+            <div className="text-[11px] text-cp-sidebar-muted font-medium truncate">
               {stats?.printerStatus?.printerName || 'Campus Spooler'}
             </div>
           </div>
         </div>
 
-        <div className="p-4 border-t border-[#343f35] dark:border-dark-border">
+        <div className="p-4 border-t border-cp-sidebar-border">
           <button
             onClick={logout}
             className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-rose-300 hover:text-rose-200 hover:bg-rose-950/30 rounded-xl transition-colors"
@@ -265,11 +255,11 @@ export default function AdminDashboardPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-charcoal dark:text-white tracking-tight">
+            <h1 className="text-2xl font-black text-cp-text tracking-tight">
               {activeTab === 'orders' ? 'Print Orders & Queue' : 'Shop & Pricing Management'}
             </h1>
-            <p className="text-charcoal-muted dark:text-dark-muted text-xs sm:text-sm mt-0.5">
-              Logged in as <strong className="text-charcoal dark:text-white">{adminUser?.name || 'Administrator'}</strong>
+            <p className="text-cp-text-secondary text-xs sm:text-sm mt-0.5">
+              Logged in as <strong className="text-cp-text">{adminUser?.name || 'Administrator'}</strong>
             </p>
           </div>
 
@@ -279,9 +269,9 @@ export default function AdminDashboardPage() {
                 fetchDashboardData();
                 fetchOrders();
               }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-dark-card border border-brand-200 dark:border-dark-border text-charcoal dark:text-white hover:bg-brand-50 dark:hover:bg-dark-surface text-xs font-bold shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cp-surface border border-cp-border text-cp-text hover:bg-cp-surface-alt text-xs font-bold shadow-sm transition-all"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-brand-500" />
+              <RefreshCw className="w-3.5 h-3.5 text-cp-primary" />
               <span>Refresh</span>
             </button>
           </div>
@@ -290,50 +280,50 @@ export default function AdminDashboardPage() {
         {/* Stats Row */}
         {stats && (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-dark-card p-5 rounded-2xl border border-brand-100 dark:border-dark-border shadow-sm">
-              <span className="text-xs font-bold text-charcoal-light dark:text-dark-subtle uppercase tracking-wider block">
+            <div className="bg-cp-surface p-5 rounded-2xl border border-cp-border shadow-soft">
+              <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Total Orders
               </span>
-              <span className="text-2xl font-black text-charcoal dark:text-white mt-1 block">
+              <span className="text-2xl font-black text-cp-text mt-1 block">
                 {stats.totalOrders}
               </span>
-              <span className="text-[11px] text-brand-600 dark:text-brand-300 font-bold mt-1 block">
+              <span className="text-[11px] text-cp-primary dark:text-cp-accent font-bold mt-1 block">
                 {stats.todayOrders} Orders Today
               </span>
             </div>
 
-            <div className="bg-white dark:bg-dark-card p-5 rounded-2xl border border-brand-100 dark:border-dark-border shadow-sm">
-              <span className="text-xs font-bold text-charcoal-light dark:text-dark-subtle uppercase tracking-wider block">
+            <div className="bg-cp-surface p-5 rounded-2xl border border-cp-border shadow-soft">
+              <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Printing / Queued
               </span>
               <span className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1 block">
                 {stats.printingOrders + stats.pendingOrders}
               </span>
-              <span className="text-[11px] text-charcoal-light dark:text-dark-subtle mt-1 block font-medium">
+              <span className="text-[11px] text-cp-text-muted mt-1 block font-medium">
                 Auto spooler active
               </span>
             </div>
 
-            <div className="bg-white dark:bg-dark-card p-5 rounded-2xl border border-brand-100 dark:border-dark-border shadow-sm">
-              <span className="text-xs font-bold text-charcoal-light dark:text-dark-subtle uppercase tracking-wider block">
+            <div className="bg-cp-surface p-5 rounded-2xl border border-cp-border shadow-soft">
+              <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Ready to Collect
               </span>
-              <span className="text-2xl font-black text-brand-600 dark:text-brand-300 mt-1 block">
+              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent mt-1 block">
                 {stats.readyOrders}
               </span>
-              <span className="text-[11px] text-charcoal-light dark:text-dark-subtle mt-1 block font-medium">
+              <span className="text-[11px] text-cp-text-muted mt-1 block font-medium">
                 {stats.completedOrders} Collected Total
               </span>
             </div>
 
-            <div className="bg-white dark:bg-dark-card p-5 rounded-2xl border border-brand-100 dark:border-dark-border shadow-sm">
-              <span className="text-xs font-bold text-charcoal-light dark:text-dark-subtle uppercase tracking-wider block">
+            <div className="bg-cp-surface p-5 rounded-2xl border border-cp-border shadow-soft">
+              <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Total Revenue
               </span>
-              <span className="text-2xl font-black text-brand-600 dark:text-brand-300 mt-1 block">
+              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent mt-1 block">
                 ₹{stats.totalRevenue.toFixed(2)}
               </span>
-              <span className="text-[11px] text-brand-600 dark:text-brand-400 font-bold mt-1 block">
+              <span className="text-[11px] text-cp-primary-light dark:text-cp-accent font-bold mt-1 block">
                 ₹{stats.todayRevenue.toFixed(2)} Today
               </span>
             </div>
@@ -342,19 +332,19 @@ export default function AdminDashboardPage() {
 
         {/* Tab 1: Orders Queue */}
         {activeTab === 'orders' && (
-          <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border shadow-sm overflow-hidden space-y-4">
+          <div className="bg-cp-surface rounded-2xl border border-cp-border shadow-soft overflow-hidden space-y-4">
             {/* Filters Bar */}
-            <div className="p-4 sm:p-5 border-b border-brand-100 dark:border-dark-border flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <div className="p-4 sm:p-5 border-b border-cp-border flex flex-col sm:flex-row gap-4 items-center justify-between">
               {/* Search input */}
               <div className="relative w-full sm:w-72">
-                <Search className="absolute left-3 top-2.5 w-4 h-4 text-brand-500" />
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-cp-primary" />
                 <input
                   type="text"
                   placeholder="Search Order ID / Mobile..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && fetchOrders()}
-                  className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white placeholder-charcoal-light dark:placeholder-dark-subtle focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
+                  className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-medium"
                 />
               </div>
 
@@ -366,8 +356,8 @@ export default function AdminDashboardPage() {
                     onClick={() => setStatusFilter(st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                       statusFilter === st
-                        ? 'bg-brand-500 text-white shadow-sm'
-                        : 'bg-brand-50 dark:bg-dark-surface text-charcoal dark:text-white hover:bg-brand-100 dark:hover:bg-dark-border'
+                        ? 'bg-cp-primary text-white shadow-sm'
+                        : 'bg-cp-surface-alt text-cp-text hover:bg-cp-border'
                     }`}
                   >
                     {st}
@@ -378,8 +368,8 @@ export default function AdminDashboardPage() {
 
             {/* Orders Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-charcoal dark:text-white">
-                <thead className="bg-brand-50 dark:bg-dark-surface text-charcoal dark:text-white font-bold uppercase tracking-wider border-b border-brand-200 dark:border-dark-border">
+              <table className="w-full text-left text-xs text-cp-text">
+                <thead className="bg-cp-surface-alt text-cp-text font-bold uppercase tracking-wider border-b border-cp-border">
                   <tr>
                     <th className="py-3 px-4">Order ID</th>
                     <th className="py-3 px-4">Customer</th>
@@ -390,55 +380,55 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-brand-100 dark:divide-dark-border">
+                <tbody className="divide-y divide-cp-border">
                   {loadingOrders ? (
                     <tr>
-                      <td colSpan="7" className="py-12 text-center text-charcoal-muted dark:text-dark-muted font-bold">
-                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-brand-500" />
+                      <td colSpan="7" className="py-12 text-center text-cp-text-secondary font-bold">
+                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-cp-primary" />
                         Loading print queue...
                       </td>
                     </tr>
                   ) : orders.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="py-12 text-center text-charcoal-muted dark:text-dark-muted font-bold">
+                      <td colSpan="7" className="py-12 text-center text-cp-text-secondary font-bold">
                         No orders matching the current filter.
                       </td>
                     </tr>
                   ) : (
                     orders.map((ord) => (
-                      <tr key={ord._id} className="hover:bg-brand-50/50 dark:hover:bg-dark-surface/60 transition-colors">
-                        <td className="py-3 px-4 font-mono font-black text-brand-600 dark:text-brand-300">
+                      <tr key={ord._id} className="hover:bg-cp-surface-alt/60 transition-colors">
+                        <td className="py-3 px-4 font-mono font-black text-cp-primary dark:text-cp-accent">
                           {ord.orderId}
                         </td>
                         <td className="py-3 px-4">
-                          <div className="font-bold text-charcoal dark:text-white">{ord.customerName}</div>
-                          <div className="text-[11px] text-charcoal-light dark:text-dark-subtle font-mono">{ord.mobileNumber}</div>
+                          <div className="font-bold text-cp-text">{ord.customerName}</div>
+                          <div className="text-[11px] text-cp-text-muted font-mono">{ord.mobileNumber}</div>
                         </td>
                         <td className="py-3 px-4">
-                          <div className="max-w-xs truncate font-medium text-charcoal dark:text-white" title={ord.items?.map((it) => it.originalName).join(', ')}>
+                          <div className="max-w-xs truncate font-medium text-cp-text" title={ord.items?.map((it) => it.originalName).join(', ')}>
                             {ord.items?.length} File(s)
                           </div>
                         </td>
-                        <td className="py-3 px-4 font-black text-charcoal dark:text-white">
+                        <td className="py-3 px-4 font-black text-cp-text">
                           {ord.totalPhysicalSheets}
                         </td>
-                        <td className="py-3 px-4 font-black text-charcoal dark:text-white">
+                        <td className="py-3 px-4 font-black text-cp-text">
                           ₹{ord.grandTotal.toFixed(2)}
                         </td>
                         <td className="py-3 px-4">
                           <span
                             className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                               ord.collectionStatus === 'READY'
-                                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800'
+                                ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
                                 : ord.collectionStatus === 'COLLECTED'
-                                ? 'bg-slate-100 dark:bg-dark-surface text-slate-800 dark:text-dark-muted font-bold'
+                                ? 'bg-cp-surface-alt text-cp-text-muted font-bold'
                                 : ord.printingStatus === 'PRINTING'
-                                ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 animate-pulse font-bold'
+                                ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 animate-pulse font-bold'
                                 : ord.printingStatus === 'QUEUED'
-                                ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200'
+                                ? 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/30'
                                 : ord.printingStatus === 'FAILED'
-                                ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 font-bold'
-                                : 'bg-brand-50 dark:bg-dark-surface text-charcoal dark:text-dark-muted'
+                                ? 'bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold'
+                                : 'bg-cp-surface-alt text-cp-text-muted'
                             }`}
                           >
                             {ord.collectionStatus === 'READY'
@@ -452,7 +442,7 @@ export default function AdminDashboardPage() {
                           {ord.items?.[0]?.document?._id && (
                             <button
                               onClick={() => setPreviewDoc(ord.items[0].document)}
-                              className="p-1.5 text-charcoal-light hover:text-charcoal dark:text-dark-muted dark:hover:text-white rounded-lg hover:bg-brand-50 dark:hover:bg-dark-surface"
+                              className="p-1.5 text-cp-text-secondary hover:text-cp-text rounded-lg hover:bg-cp-surface-alt"
                               title="Preview Document"
                             >
                               <Eye className="w-4 h-4" />
@@ -461,7 +451,7 @@ export default function AdminDashboardPage() {
                           {ord.collectionStatus !== 'READY' && ord.collectionStatus !== 'COLLECTED' && (
                             <button
                               onClick={() => handleMarkPrinted(ord.orderId)}
-                              className="px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/40 font-bold text-[11px] border border-brand-200 dark:border-brand-800/50"
+                              className="px-2.5 py-1 rounded-lg bg-cp-surface-alt text-cp-primary hover:bg-cp-border font-bold text-[11px] border border-cp-border"
                               title="Mark as Printed"
                             >
                               Print Done
@@ -470,7 +460,7 @@ export default function AdminDashboardPage() {
                           {ord.collectionStatus === 'READY' && (
                             <button
                               onClick={() => handleMarkCollected(ord.orderId)}
-                              className="px-2.5 py-1 rounded-lg bg-brand-500 text-white hover:bg-brand-600 font-bold text-[11px] shadow-sm"
+                              className="px-2.5 py-1 rounded-lg bg-cp-primary text-white hover:bg-cp-primary-hover font-bold text-[11px] shadow-sm"
                               title="Handover to Student"
                             >
                               Handover
@@ -479,7 +469,7 @@ export default function AdminDashboardPage() {
                           {ord.printingStatus === 'FAILED' && (
                             <button
                               onClick={() => handleRetryPrint(ord.orderId)}
-                              className="p-1.5 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg"
+                              className="p-1.5 text-rose-600 hover:bg-rose-500/10 rounded-lg"
                               title="Retry Print"
                             >
                               <RotateCcw className="w-4 h-4" />
@@ -499,16 +489,16 @@ export default function AdminDashboardPage() {
         {activeTab === 'settings' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Pricing Editor */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 shadow-sm">
-              <div className="flex items-center gap-2 pb-4 border-b border-brand-100 dark:border-dark-border">
-                <DollarSign className="w-5 h-5 text-brand-500 dark:text-brand-300" />
-                <h3 className="font-bold text-charcoal dark:text-white text-base">Modify Campus Pricing</h3>
+            <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 shadow-soft">
+              <div className="flex items-center gap-2 pb-4 border-b border-cp-border">
+                <DollarSign className="w-5 h-5 text-cp-primary dark:text-cp-accent" />
+                <h3 className="font-bold text-cp-text text-base">Modify Campus Pricing</h3>
               </div>
 
               <form onSubmit={handleSavePricing} className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+                    <label className="block text-xs font-bold text-cp-text mb-1">
                       B&W Single (₹)
                     </label>
                     <input
@@ -517,12 +507,12 @@ export default function AdminDashboardPage() {
                       min="0.5"
                       value={pricingForm.bwSingle}
                       onChange={(e) => setPricingForm({ ...pricingForm, bwSingle: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white focus:ring-2 focus:ring-brand-500 font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+                    <label className="block text-xs font-bold text-cp-text mb-1">
                       B&W Double (₹)
                     </label>
                     <input
@@ -531,14 +521,14 @@ export default function AdminDashboardPage() {
                       min="0.5"
                       value={pricingForm.bwDouble}
                       onChange={(e) => setPricingForm({ ...pricingForm, bwDouble: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white focus:ring-2 focus:ring-brand-500 font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+                    <label className="block text-xs font-bold text-cp-text mb-1">
                       Colour Single (₹)
                     </label>
                     <input
@@ -547,12 +537,12 @@ export default function AdminDashboardPage() {
                       min="1"
                       value={pricingForm.colSingle}
                       onChange={(e) => setPricingForm({ ...pricingForm, colSingle: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white focus:ring-2 focus:ring-brand-500 font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-charcoal dark:text-white mb-1">
+                    <label className="block text-xs font-bold text-cp-text mb-1">
                       Colour Double (₹)
                     </label>
                     <input
@@ -561,20 +551,20 @@ export default function AdminDashboardPage() {
                       min="1"
                       value={pricingForm.colDouble}
                       onChange={(e) => setPricingForm({ ...pricingForm, colDouble: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-brand-200 dark:border-dark-border bg-white dark:bg-dark-surface text-charcoal dark:text-white focus:ring-2 focus:ring-brand-500 font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
                     />
                   </div>
                 </div>
 
                 {saveMessage && (
-                  <div className="p-3 bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800/50 rounded-xl text-xs font-bold">
+                  <div className="p-3 bg-cp-surface-alt text-cp-primary-light dark:text-cp-accent border border-cp-border rounded-xl text-xs font-bold">
                     {saveMessage}
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-xs shadow-md transition-all"
+                  className="w-full py-2.5 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-black text-xs shadow-md transition-all"
                 >
                   Save and Apply Pricing Globally
                 </button>
@@ -582,22 +572,22 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Shop Details Info */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl border border-brand-100 dark:border-dark-border p-6 shadow-sm space-y-4">
-              <h3 className="font-bold text-charcoal dark:text-white text-base pb-3 border-b border-brand-100 dark:border-dark-border">
+            <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 shadow-soft space-y-4">
+              <h3 className="font-bold text-cp-text text-base pb-3 border-b border-cp-border">
                 Shop Operating Info
               </h3>
-              <div className="space-y-3 text-xs text-charcoal-muted dark:text-dark-muted font-medium">
+              <div className="space-y-3 text-xs text-cp-text-secondary font-medium">
                 <div>
-                  <span className="font-bold text-charcoal dark:text-white block">Shop Location:</span>
+                  <span className="font-bold text-cp-text block">Shop Location:</span>
                   <span>{settings?.campusLocation || 'Student Activity Centre (SAC)'}</span>
                 </div>
                 <div>
-                  <span className="font-bold text-charcoal dark:text-white block">Operating Hours:</span>
+                  <span className="font-bold text-cp-text block">Operating Hours:</span>
                   <span>{settings?.operatingHours || 'Mon-Sat: 8:30 AM - 7:00 PM'}</span>
                 </div>
                 <div>
-                  <span className="font-bold text-charcoal dark:text-white block">Print Agent API Key:</span>
-                  <span className="font-mono bg-brand-50 dark:bg-dark-surface px-2 py-0.5 rounded text-charcoal dark:text-white border border-brand-200 dark:border-dark-border">
+                  <span className="font-bold text-cp-text block">Print Agent API Key:</span>
+                  <span className="font-mono bg-cp-surface-alt px-2 py-0.5 rounded text-cp-text border border-cp-border">
                     cp_agent_key_campusprint_secure_2026
                   </span>
                 </div>
@@ -609,20 +599,20 @@ export default function AdminDashboardPage() {
         {/* Document Preview Modal */}
         {previewDoc && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-dark-card rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-brand-100 dark:border-dark-border">
-              <div className="px-5 py-4 border-b border-brand-100 dark:border-dark-border flex items-center justify-between bg-brand-50 dark:bg-dark-surface">
-                <h3 className="font-bold text-charcoal dark:text-white text-sm truncate">{previewDoc.originalName}</h3>
+            <div className="bg-cp-surface rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-cp-border">
+              <div className="px-5 py-4 border-b border-cp-border flex items-center justify-between bg-cp-surface-alt">
+                <h3 className="font-bold text-cp-text text-sm truncate">{previewDoc.originalName}</h3>
                 <button
                   onClick={() => setPreviewDoc(null)}
-                  className="text-charcoal-light hover:text-charcoal dark:text-dark-muted dark:hover:text-white p-1"
+                  className="text-cp-text-secondary hover:text-cp-text p-1"
                 >
                   ✕
                 </button>
               </div>
-              <div className="flex-1 p-4 overflow-auto flex items-center justify-center bg-cream-bg dark:bg-dark-bg">
+              <div className="flex-1 p-4 overflow-auto flex items-center justify-center bg-cp-bg">
                 <iframe
                   src={api.getDocumentPreviewUrl(previewDoc._id)}
-                  className="w-full h-[65vh] border rounded-lg bg-white dark:bg-dark-surface"
+                  className="w-full h-[65vh] border border-cp-border rounded-lg bg-cp-surface"
                   title="PDF Preview"
                 />
               </div>

@@ -20,7 +20,7 @@ function AppLayout() {
   const isAdminDashboard = location.pathname.startsWith('/admin/dashboard');
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-bg dark:bg-dark-bg text-charcoal dark:text-dark-text transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-cp-bg text-cp-text transition-colors duration-200">
       {!isAdminDashboard && <Navbar />}
       <main className="flex-1">
         <Routes>
