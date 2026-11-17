@@ -23,7 +23,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
             isPdf
               ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
-              : 'bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border'
+              : 'bg-cp-surface-alt text-sage dark:text-copper border border-cp-border'
           }`}>
             {isPdf ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
           </div>
@@ -64,7 +64,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
         {/* 1. Print Type */}
         <div>
           <label className="block text-xs font-bold text-cp-text mb-1.5 flex items-center gap-1.5">
-            <Palette className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Palette className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Color Mode
           </label>
           <div className="grid grid-cols-2 gap-1.5 p-1 bg-cp-surface-alt rounded-xl border border-cp-border">
@@ -73,7 +73,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
               onClick={() => onUpdate(item.id, { printType: 'BW' })}
               className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 item.printType === 'BW'
-                  ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
+                  ? 'bg-sage dark:bg-aquamarine text-white shadow-sm'
                   : 'text-cp-text-secondary hover:text-cp-text'
               }`}
             >
@@ -84,7 +84,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
               onClick={() => onUpdate(item.id, { printType: 'COLOUR' })}
               className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 item.printType === 'COLOUR'
-                  ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
+                  ? 'bg-sage dark:bg-aquamarine text-white shadow-sm'
                   : 'text-cp-text-secondary hover:text-cp-text'
               }`}
             >
@@ -96,7 +96,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
         {/* 2. Print Sides */}
         <div>
           <label className="block text-xs font-bold text-cp-text mb-1.5 flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Layers className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Printing Sides
           </label>
           <div className="grid grid-cols-2 gap-1.5 p-1 bg-cp-surface-alt rounded-xl border border-cp-border">
@@ -105,7 +105,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
               onClick={() => onUpdate(item.id, { printSides: 'SINGLE' })}
               className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 item.printSides === 'SINGLE'
-                  ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
+                  ? 'bg-sage dark:bg-aquamarine text-white shadow-sm'
                   : 'text-cp-text-secondary hover:text-cp-text'
               }`}
             >
@@ -116,7 +116,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
               onClick={() => onUpdate(item.id, { printSides: 'DOUBLE' })}
               className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 item.printSides === 'DOUBLE'
-                  ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
+                  ? 'bg-sage dark:bg-aquamarine text-white shadow-sm'
                   : 'text-cp-text-secondary hover:text-cp-text'
               }`}
             >
@@ -128,7 +128,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
         {/* 3. Number of Copies */}
         <div>
           <label className="block text-xs font-bold text-cp-text mb-1.5 flex items-center gap-1.5">
-            <Copy className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Copy className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Copies
           </label>
           <div className="flex items-center border border-cp-border rounded-xl overflow-hidden bg-cp-surface-alt">
@@ -160,13 +160,13 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
         {/* 4. Page Selection */}
         <div>
           <label className="block text-xs font-bold text-cp-text mb-1.5 flex items-center gap-1.5">
-            <Sliders className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Sliders className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Page Range
           </label>
           <select
             value={item.pageSelection}
             onChange={(e) => onUpdate(item.id, { pageSelection: e.target.value })}
-            className="w-full bg-cp-surface-alt border border-cp-border rounded-xl text-xs font-bold text-cp-text py-2 px-2.5 focus:ring-2 focus:ring-aquamarine"
+            className="w-full bg-cp-surface-alt border border-cp-border rounded-xl text-xs font-bold text-cp-text py-2 px-2.5 focus:ring-2 focus:ring-sage dark:focus:ring-aquamarine"
           >
             <option value="ALL">All Pages (1 - {item.pageCount})</option>
             <option value="CUSTOM">Custom Range...</option>
@@ -185,7 +185,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
             placeholder="e.g. 1-5, 8, 10-12"
             value={item.customPages || ''}
             onChange={(e) => onUpdate(item.id, { customPages: e.target.value })}
-            className="flex-1 text-xs bg-cp-surface border border-cp-border rounded-lg px-2.5 py-1.5 text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine font-mono"
+            className="flex-1 text-xs bg-cp-surface border border-cp-border rounded-lg px-2.5 py-1.5 text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-sage dark:focus:ring-aquamarine font-mono"
           />
           <span className="text-[11px] text-cp-text-secondary font-bold">
             Max page: {item.pageCount}
@@ -205,7 +205,7 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
 
         <div className="text-right">
           <span className="text-cp-text-secondary mr-1.5 font-bold">Subtotal:</span>
-          <span className="text-base font-black text-aquamarine dark:text-sage-pale">
+          <span className="text-base font-black text-sage dark:text-copper">
             ₹{calculatedData?.itemTotal ? calculatedData.itemTotal.toFixed(2) : '--'}
           </span>
         </div>

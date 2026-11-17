@@ -3,75 +3,75 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════
-   LIGHT THEME — Copper Aquamarine Dream (DEFAULT)
+   LIGHT THEME — Muted Sage & Forest Green (DEFAULT)
    ═══════════════════════════════════════════════════════════ */
 :root {
+  --color-primary: #7B9669;
+  --color-primary-hover: #698259;
+  --color-primary-light: #8da67a;
+  --color-accent: #BAC8B1;
+  --color-accent-hover: #a8b89e;
+  --color-highlight: #5A7548;
+  --color-supporting: #6C8480;
+  --color-muted: #9BAEA0;
+  --color-terracotta: #7B9669;
+
+  --color-bg: #F5F7F4;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #EBF0E8;
+  --color-text: #243021;
+  --color-text-secondary: #485A44;
+  --color-text-muted: #6C8480;
+  --color-border: #D5DDD2;
+  --color-border-strong: #C2CEC0;
+
+  --color-sidebar-bg: #243021;
+  --color-sidebar-surface: #2F3E2B;
+  --color-sidebar-text: #E6E6E6;
+  --color-sidebar-muted: #BAC8B1;
+  --color-sidebar-border: #3A4C36;
+
+  --shadow-soft: 0 4px 20px -2px rgba(44, 58, 41, 0.08);
+  --shadow-card: 0 10px 30px -5px rgba(44, 58, 41, 0.12);
+
+  --selection-bg: #7B9669;
+  --selection-text: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DARK THEME — Copper Aquamarine Dream
+   ═══════════════════════════════════════════════════════════ */
+.dark {
   --color-primary: #30525C;
-  --color-primary-hover: #264248;
-  --color-primary-light: #3d6872;
+  --color-primary-hover: #3D6872;
+  --color-primary-light: #4C848D;
   --color-accent: #DCAA89;
-  --color-accent-hover: #d49b75;
+  --color-accent-hover: #e6b99a;
   --color-highlight: #C35627;
   --color-supporting: #4C848D;
   --color-muted: #BFB9B5;
   --color-terracotta: #D6794D;
 
-  --color-bg: #FAFAF8;
-  --color-surface: #FFFFFF;
-  --color-surface-alt: #F5F3F0;
-  --color-text: #1a2a2e;
-  --color-text-secondary: #4a5d62;
-  --color-text-muted: #7a8a8e;
-  --color-border: #e0ddd8;
-  --color-border-strong: #ccc8c2;
+  --color-bg: #162429;
+  --color-surface: #1E343B;
+  --color-surface-alt: #27424A;
+  --color-text: #F2EFEB;
+  --color-text-secondary: #DCAA89;
+  --color-text-muted: #BFB9B5;
+  --color-border: #2C4851;
+  --color-border-strong: #3B5E69;
 
-  --color-sidebar-bg: #1e3a40;
-  --color-sidebar-surface: #2a4a52;
-  --color-sidebar-text: #e8ebe6;
-  --color-sidebar-muted: #a0b4b0;
-  --color-sidebar-border: #2f4f56;
+  --color-sidebar-bg: #101B1E;
+  --color-sidebar-surface: #17282D;
+  --color-sidebar-text: #F2EFEB;
+  --color-sidebar-muted: #DCAA89;
+  --color-sidebar-border: #233940;
 
-  --shadow-soft: 0 4px 20px -2px rgba(48, 82, 92, 0.08);
-  --shadow-card: 0 10px 30px -5px rgba(48, 82, 92, 0.12);
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.45);
 
-  --selection-bg: #30525C;
-  --selection-text: #ffffff;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   DARK THEME — Muted Sage & Forest Green
-   ═══════════════════════════════════════════════════════════ */
-.dark {
-  --color-primary: #7B9669;
-  --color-primary-hover: #8da67a;
-  --color-primary-light: #96b385;
-  --color-accent: #BAC8B1;
-  --color-accent-hover: #cdd8c6;
-  --color-highlight: #7B9669;
-  --color-supporting: #6C8480;
-  --color-muted: #6C8480;
-  --color-terracotta: #BAC8B1;
-
-  --color-bg: #404E3B;
-  --color-surface: #4a5b44;
-  --color-surface-alt: #536349;
-  --color-text: #E6E6E6;
-  --color-text-secondary: #BAC8B1;
-  --color-text-muted: #98a690;
-  --color-border: #5a6b53;
-  --color-border-strong: #6a7c63;
-
-  --color-sidebar-bg: #2e3a2a;
-  --color-sidebar-surface: #384434;
-  --color-sidebar-text: #E6E6E6;
-  --color-sidebar-muted: #98a690;
-  --color-sidebar-border: #4a5b44;
-
-  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.35);
-
-  --selection-bg: #7B9669;
-  --selection-text: #ffffff;
+  --selection-bg: #DCAA89;
+  --selection-text: #162429;
 }
 
 html {

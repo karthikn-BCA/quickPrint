@@ -11,7 +11,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div className="w-20 h-20 rounded-3xl bg-cp-surface-alt text-aquamarine dark:text-sage-pale flex items-center justify-center mx-auto mb-6 border border-cp-border">
+        <div className="w-20 h-20 rounded-3xl bg-cp-surface-alt text-sage dark:text-copper flex items-center justify-center mx-auto mb-6 border border-cp-border">
           <ShoppingBag className="w-10 h-10" />
         </div>
         <h2 className="text-2xl font-black text-cp-text">Your Cart is Empty</h2>
@@ -21,7 +21,7 @@ export default function CartPage() {
         <div className="mt-6">
           <Link
             to="/upload"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-sm shadow-md transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white font-black text-sm shadow-md transition-all"
           >
             <Plus className="w-4 h-4 text-white" />
             <span>Upload Documents Now</span>
@@ -35,7 +35,7 @@ export default function CartPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-xs font-black text-aquamarine dark:text-sage-pale tracking-wider uppercase">
+          <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase">
             Review Order
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-cp-text tracking-tight mt-1">
@@ -47,7 +47,7 @@ export default function CartPage() {
             to="/upload"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cp-surface hover:bg-cp-surface-alt text-cp-text text-xs font-bold border border-cp-border transition-colors shadow-soft"
           >
-            <Plus className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Plus className="w-3.5 h-3.5 text-sage dark:text-copper" />
             <span>Add More Documents</span>
           </Link>
           <button

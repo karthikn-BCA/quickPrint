@@ -15,7 +15,7 @@ export default function UploadPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Header */}
       <div className="mb-8">
-        <span className="text-xs font-black text-cp-primary dark:text-cp-accent tracking-wider uppercase">
+        <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase">
           Step 1 of 3: Upload & Configure
         </span>
         <h1 className="text-2xl sm:text-3xl font-black text-cp-text tracking-tight mt-1">
@@ -37,7 +37,7 @@ export default function UploadPage() {
               <div className="flex items-center justify-between">
                 <h2 className="text-base font-bold text-cp-text flex items-center gap-2">
                   <span>Uploaded Documents</span>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-cp-surface-alt text-cp-primary-light dark:text-cp-accent font-bold border border-cp-border">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-cp-surface-alt text-sage dark:text-copper font-bold border border-cp-border">
                     {items.length}
                   </span>
                 </h2>

@@ -16,14 +16,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-xl bg-aquamarine dark:bg-sage flex items-center justify-center text-white shadow-sm transition-colors">
+          <div className="w-10 h-10 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover flex items-center justify-center text-white shadow-sm transition-colors">
             <Printer className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="text-xl font-black tracking-tight text-cp-text uppercase">
-              Campus<span className="text-mutedTeal dark:text-sage-pale">Print</span>
+              Campus<span className="text-sage dark:text-copper">Print</span>
             </span>
-            <span className="hidden sm:inline-block ml-2 text-[10px] font-black px-2 py-0.5 rounded-full bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border tracking-wider">
+            <span className="hidden sm:inline-block ml-2 text-[10px] font-black px-2 py-0.5 rounded-full bg-cp-surface-alt text-sage dark:text-copper border border-cp-border tracking-wider">
               SAC XEROX
             </span>
           </div>
@@ -35,7 +35,7 @@ export default function Navbar() {
             to="/"
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
               isActive('/')
-                ? 'text-white bg-aquamarine dark:bg-sage shadow-sm'
+                ? 'text-white bg-sage dark:bg-aquamarine shadow-sm'
                 : 'text-cp-text-secondary hover:text-cp-text hover:bg-cp-surface-alt'
             }`}
           >
@@ -45,7 +45,7 @@ export default function Navbar() {
             to="/upload"
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
               isActive('/upload')
-                ? 'text-white bg-aquamarine dark:bg-sage shadow-sm'
+                ? 'text-white bg-sage dark:bg-aquamarine shadow-sm'
                 : 'text-cp-text-secondary hover:text-cp-text hover:bg-cp-surface-alt'
             }`}
           >
@@ -55,7 +55,7 @@ export default function Navbar() {
             to="/pricing"
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
               isActive('/pricing')
-                ? 'text-white bg-aquamarine dark:bg-sage shadow-sm'
+                ? 'text-white bg-sage dark:bg-aquamarine shadow-sm'
                 : 'text-cp-text-secondary hover:text-cp-text hover:bg-cp-surface-alt'
             }`}
           >
@@ -65,7 +65,7 @@ export default function Navbar() {
             to="/track"
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
               isActive('/track')
-                ? 'text-white bg-aquamarine dark:bg-sage shadow-sm'
+                ? 'text-white bg-sage dark:bg-aquamarine shadow-sm'
                 : 'text-cp-text-secondary hover:text-cp-text hover:bg-cp-surface-alt'
             }`}
           >
@@ -77,9 +77,9 @@ export default function Navbar() {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             to="/track"
-            className="hidden sm:flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cp-text hover:text-aquamarine dark:hover:text-sage px-3 py-1.5 rounded-lg bg-cp-surface-alt hover:bg-cp-border border border-cp-border transition-colors"
+            className="hidden sm:flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cp-text hover:text-sage dark:hover:text-copper px-3 py-1.5 rounded-lg bg-cp-surface-alt hover:bg-cp-border border border-cp-border transition-colors"
           >
-            <Search className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
+            <Search className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Track ID
           </Link>
 
@@ -92,21 +92,21 @@ export default function Navbar() {
             aria-label="Toggle Theme"
           >
             {isDark ? (
-              <Sun className="w-4 h-4 text-sage-pale rotate-0 transition-transform duration-300" />
+              <Sun className="w-4 h-4 text-copper rotate-0 transition-transform duration-300" />
             ) : (
-              <Moon className="w-4 h-4 text-aquamarine rotate-0 transition-transform duration-300" />
+              <Moon className="w-4 h-4 text-sage rotate-0 transition-transform duration-300" />
             )}
           </button>
 
           {/* Cart Button */}
           <Link
             to="/cart"
-            className="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white text-xs font-black uppercase tracking-wider shadow-sm transition-all"
+            className="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-xs font-black uppercase tracking-wider shadow-sm transition-all"
           >
             <ShoppingBag className="w-4 h-4 text-white" />
             <span className="hidden sm:inline">Cart</span>
             {itemCount > 0 && (
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-copper dark:bg-sage-pale text-aquamarine dark:text-forest-dark text-xs font-black animate-pulse shadow-sm">
+              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-white dark:bg-copper text-forest dark:text-aquamarine-dark text-xs font-black animate-pulse shadow-sm">
                 {itemCount}
               </span>
             )}

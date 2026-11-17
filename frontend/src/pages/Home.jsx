@@ -60,15 +60,15 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 bg-gradient-to-b from-cp-surface-alt/70 via-cp-bg to-cp-bg transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cp-surface-alt text-aquamarine dark:text-sage-pale text-xs font-black tracking-wider uppercase mb-6 shadow-sm border border-cp-border">
-            <Sparkles className="w-3.5 h-3.5 text-aquamarine dark:text-sage-pale" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cp-surface-alt text-sage dark:text-copper text-xs font-black tracking-wider uppercase mb-6 shadow-sm border border-cp-border">
+            <Sparkles className="w-3.5 h-3.5 text-sage dark:text-copper" />
             Official Campus Printing Portal
           </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-cp-text tracking-tight leading-[1.1] max-w-4xl mx-auto">
             Your Documents. <br />
             Our Printer. <br />
-            <span className="text-burntOrange dark:text-sage-pale">
+            <span className="text-sage dark:text-copper">
               Zero Waiting.
             </span>
           </h1>
@@ -80,7 +80,7 @@ export default function Home() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/upload"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-base shadow-lg transition-all transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white font-black text-base shadow-lg transition-all transform hover:-translate-y-0.5"
             >
               <UploadCloud className="w-5 h-5 text-white" />
               <span>Upload Documents Now</span>
@@ -88,29 +88,29 @@ export default function Home() {
 
             <a
               href="#pricing"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 dark:bg-forest-surface dark:hover:bg-forest text-cp-text font-bold text-base border border-cp-border shadow-sm transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 dark:bg-aquamarine-surface dark:hover:bg-aquamarine text-cp-text font-bold text-base border border-cp-border shadow-sm transition-all"
             >
               <span>View Pricing</span>
-              <ArrowRight className="w-4 h-4 text-aquamarine dark:text-sage-pale" />
+              <ArrowRight className="w-4 h-4 text-sage dark:text-copper" />
             </a>
           </div>
 
           {/* Quick Metrics Banner */}
           <div className="mt-14 max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-cp-surface border border-cp-border shadow-soft">
             <div className="text-center p-2">
-              <span className="block text-2xl font-black text-aquamarine dark:text-sage-pale">0 Mins</span>
+              <span className="block text-2xl font-black text-sage dark:text-copper">0 Mins</span>
               <span className="text-xs font-bold text-cp-text-secondary">Queue Time</span>
             </div>
             <div className="text-center p-2">
-              <span className="block text-2xl font-black text-aquamarine dark:text-sage-pale">₹{pricing.bwSingle}</span>
+              <span className="block text-2xl font-black text-sage dark:text-copper">₹{pricing.bwSingle}</span>
               <span className="text-xs font-bold text-cp-text-secondary">B&W Per Sheet</span>
             </div>
             <div className="text-center p-2">
-              <span className="block text-2xl font-black text-aquamarine dark:text-sage-pale">100%</span>
+              <span className="block text-2xl font-black text-sage dark:text-copper">100%</span>
               <span className="text-xs font-bold text-cp-text-secondary">Auto Print Agent</span>
             </div>
             <div className="text-center p-2">
-              <span className="block text-2xl font-black text-aquamarine dark:text-sage-pale">UPI / QR</span>
+              <span className="block text-2xl font-black text-sage dark:text-copper">UPI / QR</span>
               <span className="text-xs font-bold text-cp-text-secondary">Instant Online Pay</span>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function Home() {
       {/* How It Works Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-black text-aquamarine dark:text-sage-pale tracking-wider uppercase">
+          <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase">
             Simple 4-Step Process
           </span>
           <h2 className="text-3xl font-black text-cp-text tracking-tight mt-1">
@@ -132,8 +132,8 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-aquamarine dark:hover:border-sage transition-all">
-            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-aquamarine dark:text-sage font-black text-lg flex items-center justify-center mb-5 group-hover:bg-aquamarine dark:group-hover:bg-sage group-hover:text-white transition-colors border border-cp-border">
+          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-sage dark:hover:border-aquamarine transition-all">
+            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-sage dark:text-copper font-black text-lg flex items-center justify-center mb-5 group-hover:bg-sage dark:group-hover:bg-aquamarine group-hover:text-white transition-colors border border-cp-border">
               1
             </div>
             <h3 className="text-base font-bold text-cp-text mb-2">Upload Files</h3>
@@ -142,8 +142,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-aquamarine dark:hover:border-sage transition-all">
-            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-aquamarine dark:text-sage font-black text-lg flex items-center justify-center mb-5 group-hover:bg-aquamarine dark:group-hover:bg-sage group-hover:text-white transition-colors border border-cp-border">
+          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-sage dark:hover:border-aquamarine transition-all">
+            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-sage dark:text-copper font-black text-lg flex items-center justify-center mb-5 group-hover:bg-sage dark:group-hover:bg-aquamarine group-hover:text-white transition-colors border border-cp-border">
               2
             </div>
             <h3 className="text-base font-bold text-cp-text mb-2">Configure Print</h3>
@@ -152,8 +152,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-aquamarine dark:hover:border-sage transition-all">
-            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-aquamarine dark:text-sage font-black text-lg flex items-center justify-center mb-5 group-hover:bg-aquamarine dark:group-hover:bg-sage group-hover:text-white transition-colors border border-cp-border">
+          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-sage dark:hover:border-aquamarine transition-all">
+            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-sage dark:text-copper font-black text-lg flex items-center justify-center mb-5 group-hover:bg-sage dark:group-hover:bg-aquamarine group-hover:text-white transition-colors border border-cp-border">
               3
             </div>
             <h3 className="text-base font-bold text-cp-text mb-2">Pay Online</h3>
@@ -162,8 +162,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-aquamarine dark:hover:border-sage transition-all">
-            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-aquamarine dark:text-sage font-black text-lg flex items-center justify-center mb-5 group-hover:bg-aquamarine dark:group-hover:bg-sage group-hover:text-white transition-colors border border-cp-border">
+          <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft relative group hover:border-sage dark:hover:border-aquamarine transition-all">
+            <div className="w-12 h-12 rounded-xl bg-cp-surface-alt text-sage dark:text-copper font-black text-lg flex items-center justify-center mb-5 group-hover:bg-sage dark:group-hover:bg-aquamarine group-hover:text-white transition-colors border border-cp-border">
               4
             </div>
             <h3 className="text-base font-bold text-cp-text mb-2">Collect & Go</h3>
@@ -177,7 +177,7 @@ export default function Home() {
       {/* Transparent Pricing Table */}
       <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-black text-aquamarine dark:text-sage-pale tracking-wider uppercase">
+          <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase">
             Official Campus Rates
           </span>
           <h2 className="text-3xl font-black text-cp-text tracking-tight mt-1">
@@ -191,7 +191,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
           {/* Card 1 */}
           <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft hover:shadow-card transition-shadow">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-sage dark:text-copper border border-cp-border">
               Standard B&W
             </span>
             <h3 className="text-base font-bold text-cp-text mt-4">Single-Sided</h3>
@@ -205,16 +205,16 @@ export default function Home() {
           </div>
 
           {/* Card 2 - Most Popular */}
-          <div className="bg-cp-surface p-6 rounded-2xl border-2 border-aquamarine dark:border-sage shadow-card relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-aquamarine dark:bg-sage text-white text-[11px] font-black uppercase tracking-wider shadow-sm">
+          <div className="bg-cp-surface p-6 rounded-2xl border-2 border-sage dark:border-aquamarine shadow-card relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-sage dark:bg-aquamarine text-white text-[11px] font-black uppercase tracking-wider shadow-sm">
               Eco Friendly
             </div>
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-sage dark:text-copper border border-cp-border">
               Economy B&W
             </span>
             <h3 className="text-base font-bold text-cp-text mt-4">Double-Sided</h3>
             <div className="mt-4 flex items-baseline">
-              <span className="text-4xl font-black text-aquamarine dark:text-sage-pale">₹{pricing.bwDouble}</span>
+              <span className="text-4xl font-black text-sage dark:text-copper">₹{pricing.bwDouble}</span>
               <span className="text-xs text-cp-text-muted ml-1.5 font-bold">/ physical sheet</span>
             </div>
             <p className="text-xs text-cp-text-secondary mt-3 leading-relaxed">
@@ -239,7 +239,7 @@ export default function Home() {
 
           {/* Card 4 */}
           <div className="bg-cp-surface p-6 rounded-2xl border border-cp-border shadow-soft hover:shadow-card transition-shadow">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-mutedTeal dark:text-sage-pale border border-cp-border">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-cp-surface-alt text-mutedTeal dark:text-copper border border-cp-border">
               Presentation
             </span>
             <h3 className="text-base font-bold text-cp-text mt-4">Colour Double-Sided</h3>
@@ -257,7 +257,7 @@ export default function Home() {
       {/* Frequently Asked Questions */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <span className="text-xs font-black text-aquamarine dark:text-sage-pale tracking-wider uppercase">
+          <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase">
             Got Questions?
           </span>
           <h2 className="text-3xl font-black text-cp-text tracking-tight mt-1">
@@ -278,8 +278,8 @@ export default function Home() {
               >
                 <span>{faq.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-aquamarine dark:text-sage-pale shrink-0 transition-transform ${
-                    faqOpen === idx ? 'rotate-180 text-aquamarine dark:text-sage-pale' : ''
+                  className={`w-4 h-4 text-sage dark:text-copper shrink-0 transition-transform ${
+                    faqOpen === idx ? 'rotate-180 text-sage dark:text-copper' : ''
                   }`}
                 />
               </button>
@@ -295,7 +295,7 @@ export default function Home() {
 
       {/* Ready To Print Banner (Bottom CTA) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-aquamarine dark:bg-forest-surface rounded-3xl p-8 sm:p-14 text-white text-center shadow-xl relative overflow-hidden">
+        <div className="bg-sage dark:bg-aquamarine-surface rounded-3xl p-8 sm:p-14 text-white text-center shadow-xl relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
               Ready to print without standing in line?
@@ -306,10 +306,10 @@ export default function Home() {
             <div className="pt-4">
               <Link
                 to="/upload"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-aquamarine dark:text-forest-dark font-black text-sm shadow-md transition-all transform hover:scale-105"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-[#243021] dark:text-[#162429] font-black text-sm shadow-md transition-all transform hover:scale-105"
               >
                 <span>Start Printing Now</span>
-                <ArrowRight className="w-4 h-4 text-aquamarine dark:text-forest-dark" />
+                <ArrowRight className="w-4 h-4 text-[#243021] dark:text-[#162429]" />
               </Link>
             </div>
           </div>

@@ -10,11 +10,11 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-cp-primary flex items-center justify-center text-white shadow-md">
-                <Printer className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-sage dark:bg-aquamarine flex items-center justify-center text-white shadow-md">
+                <Printer className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-black tracking-tight text-white uppercase">
-                Campus<span className="text-cp-accent">Print</span>
+                Campus<span className="text-sage-pale dark:text-copper">Print</span>
               </span>
             </div>
             <p className="text-sm text-cp-sidebar-muted leading-relaxed">
@@ -62,18 +62,18 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm text-cp-sidebar-muted">
               <li className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-cp-accent mt-0.5 shrink-0" />
+                <Clock className="w-4 h-4 text-sage-pale dark:text-copper mt-0.5 shrink-0" />
                 <span>
                   <strong className="text-white">Mon - Sat:</strong> 8:30 AM - 7:00 PM<br />
                   <span className="text-xs text-cp-sidebar-muted opacity-80">Sunday Closed</span>
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-cp-accent shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-sage-pale dark:text-copper shrink-0" />
                 <span>Single & Double-Sided A4 Printing</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-cp-accent shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-sage-pale dark:text-copper shrink-0" />
                 <span>Black & White & Vivid Colour</span>
               </li>
             </ul>
@@ -86,15 +86,15 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm text-cp-sidebar-muted">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-cp-accent mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-sage-pale dark:text-copper mt-0.5 shrink-0" />
                 <span>Ground Floor, Student Activity Centre (SAC), Near Central Canteen</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-cp-accent shrink-0" />
+                <Phone className="w-4 h-4 text-sage-pale dark:text-copper shrink-0" />
                 <span>+91 98765 43210</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-cp-accent shrink-0" />
+                <Mail className="w-4 h-4 text-sage-pale dark:text-copper shrink-0" />
                 <span>xerox@campusprint.edu</span>
               </li>
             </ul>
@@ -105,7 +105,7 @@ export default function Footer() {
         <div className="border-t border-cp-sidebar-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-cp-sidebar-muted gap-4">
           <p>© {new Date().getFullYear()} CampusPrint SAC Xerox Center. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
-            Made with <Heart className="w-3.5 h-3.5 text-cp-terracotta fill-cp-terracotta inline" /> for college students & campus printers.
+            Made with <Heart className="w-3.5 h-3.5 text-terracotta fill-terracotta inline" /> for college students & campus printers.
           </p>
         </div>
       </div>

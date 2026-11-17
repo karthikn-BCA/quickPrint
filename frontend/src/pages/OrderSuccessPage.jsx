@@ -14,7 +14,7 @@ export default function OrderSuccessPage() {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#30525C', '#DCAA89', '#C35627', '#4C848D', '#7B9669'],
+      colors: ['#7B9669', '#BAC8B1', '#30525C', '#DCAA89', '#C35627'],
     });
   }, []);
 
@@ -26,11 +26,11 @@ export default function OrderSuccessPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
       {/* Success Badge */}
-      <div className="w-20 h-20 rounded-full bg-cp-surface-alt text-aquamarine dark:text-sage-pale flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce border border-cp-border">
+      <div className="w-20 h-20 rounded-full bg-cp-surface-alt text-sage dark:text-copper flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce border border-cp-border">
         <CheckCircle2 className="w-10 h-10" />
       </div>
 
-      <span className="text-xs font-black text-aquamarine dark:text-sage-pale tracking-wider uppercase bg-cp-surface-alt px-3.5 py-1.5 rounded-full border border-cp-border">
+      <span className="text-xs font-black text-sage dark:text-copper tracking-wider uppercase bg-cp-surface-alt px-3.5 py-1.5 rounded-full border border-cp-border">
         Payment Verified & Order Placed
       </span>
 
@@ -47,7 +47,7 @@ export default function OrderSuccessPage() {
           Unique Order ID
         </span>
         <div className="mt-2 flex items-center justify-center gap-2">
-          <span className="text-2xl font-black text-aquamarine dark:text-sage-pale tracking-wide font-mono">
+          <span className="text-2xl font-black text-sage dark:text-copper tracking-wide font-mono">
             {orderId}
           </span>
           <button
@@ -73,7 +73,7 @@ export default function OrderSuccessPage() {
       <div className="mt-6 max-w-md mx-auto grid grid-cols-2 gap-4 text-left">
         <div className="p-4 rounded-xl bg-cp-surface border border-cp-border">
           <div className="flex items-center gap-2 text-xs font-bold text-cp-text-secondary mb-1">
-            <Clock className="w-4 h-4 text-aquamarine dark:text-sage" />
+            <Clock className="w-4 h-4 text-sage dark:text-copper" />
             <span>Ready In</span>
           </div>
           <span className="text-sm font-black text-cp-text">~10 to 15 Mins</span>
@@ -81,7 +81,7 @@ export default function OrderSuccessPage() {
 
         <div className="p-4 rounded-xl bg-cp-surface border border-cp-border">
           <div className="flex items-center gap-2 text-xs font-bold text-cp-text-secondary mb-1">
-            <MapPin className="w-4 h-4 text-aquamarine dark:text-sage" />
+            <MapPin className="w-4 h-4 text-sage dark:text-copper" />
             <span>Pickup Point</span>
           </div>
           <span className="text-sm font-black text-cp-text">SAC Ground Floor</span>
@@ -92,10 +92,10 @@ export default function OrderSuccessPage() {
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
         <Link
           to={`/track?id=${orderId}`}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-sm shadow-md transition-all transform hover:-translate-y-0.5"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white font-black text-sm shadow-md transition-all transform hover:-translate-y-0.5"
         >
           <span>Track Live Progress</span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 text-white" />
         </Link>
 
         <Link

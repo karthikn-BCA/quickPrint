@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md bg-cp-surface rounded-3xl border border-cp-border p-8 shadow-card transition-colors">
-        <div className="w-14 h-14 rounded-2xl bg-cp-surface-alt text-aquamarine dark:text-sage flex items-center justify-center mx-auto mb-6 shadow-inner border border-cp-border">
+        <div className="w-14 h-14 rounded-2xl bg-cp-surface-alt text-sage dark:text-copper flex items-center justify-center mx-auto mb-6 shadow-inner border border-cp-border">
           <ShieldCheck className="w-7 h-7" />
         </div>
 
@@ -57,13 +57,13 @@ export default function AdminLoginPage() {
               Email or Mobile Number
             </label>
             <div className="relative">
-              <User className="absolute left-3.5 top-3 w-4 h-4 text-aquamarine dark:text-sage" />
+              <User className="absolute left-3.5 top-3 w-4 h-4 text-sage dark:text-copper" />
               <input
                 type="text"
                 required
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-sage dark:focus:ring-aquamarine"
                 placeholder="Enter admin email or mobile"
                 autoComplete="username"
               />
@@ -75,13 +75,13 @@ export default function AdminLoginPage() {
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-3 w-4 h-4 text-aquamarine dark:text-sage" />
+              <Lock className="absolute left-3.5 top-3 w-4 h-4 text-sage dark:text-copper" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-sage dark:focus:ring-aquamarine"
                 placeholder="••••••••••••"
                 autoComplete="current-password"
               />
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : 'Sign In as Administrator'}
           </button>

@@ -86,8 +86,8 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
         onClick={() => !isUploading && fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all cursor-pointer ${
           isDragging
-            ? 'border-cp-primary bg-cp-surface-alt scale-[1.01]'
-            : 'border-cp-border hover:border-cp-primary bg-cp-surface hover:bg-cp-surface-alt shadow-soft'
+            ? 'border-sage dark:border-aquamarine bg-cp-surface-alt scale-[1.01]'
+            : 'border-cp-border hover:border-sage dark:hover:border-aquamarine bg-cp-surface hover:bg-cp-surface-alt shadow-soft'
         }`}
       >
         <input
@@ -101,11 +101,11 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
         />
 
         <div className="flex flex-col items-center justify-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-cp-surface-alt text-cp-primary flex items-center justify-center shadow-inner border border-cp-border">
+          <div className="w-16 h-16 rounded-2xl bg-cp-surface-alt text-sage dark:text-copper flex items-center justify-center shadow-inner border border-cp-border">
             {isUploading ? (
-              <Loader2 className="w-8 h-8 animate-spin text-cp-primary" />
+              <Loader2 className="w-8 h-8 animate-spin text-sage dark:text-copper" />
             ) : (
-              <UploadCloud className="w-8 h-8 text-cp-primary" />
+              <UploadCloud className="w-8 h-8 text-sage dark:text-copper" />
             )}
           </div>
 
@@ -114,7 +114,7 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
               {isUploading ? 'Validating and Uploading Documents...' : 'Drag & Drop Your Files Here'}
             </h3>
             <p className="text-sm text-cp-text-secondary mt-1 font-medium">
-              or <span className="text-cp-primary font-bold underline underline-offset-2">browse files</span> from your phone or laptop
+              or <span className="text-sage dark:text-copper font-bold underline underline-offset-2">browse files</span> from your phone or laptop
             </p>
           </div>
 
