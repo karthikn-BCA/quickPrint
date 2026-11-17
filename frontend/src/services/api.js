@@ -53,6 +53,10 @@ export const api = {
     return `${API_BASE}/documents/preview/${id}`;
   },
 
+  getDocumentDownloadUrl(id) {
+    return `${API_BASE}/documents/download/${id}`;
+  },
+
   // Orders & Checkout
   async createOrder(orderPayload) {
     const res = await fetch(`${API_BASE}/orders/create`, {

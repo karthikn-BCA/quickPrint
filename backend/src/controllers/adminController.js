@@ -103,7 +103,7 @@ async function getAllOrders(req, res) {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(parseInt(limit, 10))
-        .populate('items.document', 'originalName fileExtension sizeBytes'),
+        .populate('items.document', 'originalName fileExtension sizeBytes mimeType pageCount'),
       Order.countDocuments(filter),
     ]);
 

@@ -12,6 +12,8 @@ import {
   Sun,
   Moon,
   Search,
+  Download,
+  FileText,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -41,8 +43,49 @@ export default function AdminDashboardPage() {
   });
   const [saveMessage, setSaveMessage] = useState('');
 
-  // Preview modal
+  // Preview & Files Download Modals
   const [previewDoc, setPreviewDoc] = useState(null);
+  const [selectedOrderFiles, setSelectedOrderFiles] = useState(null);
+
+  // Helper to extract document ID safely from order item
+  const getDocId = (item) => {
+    if (!item) return null;
+    if (typeof item.document === 'object' && item.document?._id) return item.document._id;
+    if (typeof item.document === 'string' && item.document) return item.document;
+    return item._id || null;
+  };
+
+  // Helper to get original document name
+  const getDocName = (item) => {
+    return item?.originalName || item?.document?.originalName || 'document.pdf';
+  };
+
+  // Helper to format file size
+  const formatBytes = (bytes) => {
+    if (!bytes || isNaN(bytes)) return '';
+    if (bytes < 1024) return bytes + ' B';
+    const kb = bytes / 1024;
+    if (kb < 1024) return kb.toFixed(1) + ' KB';
+    return (kb / 1024).toFixed(1) + ' MB';
+  };
+
+  // Trigger sequential download of all files for an order
+  const handleDownloadAll = (order) => {
+    if (!order?.items || order.items.length === 0) return;
+    order.items.forEach((item, idx) => {
+      const docId = getDocId(item);
+      if (docId) {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = api.getDocumentDownloadUrl(docId);
+          link.download = getDocName(item);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, idx * 300);
+      }
+    });
+  };
 
   // Redirect if unauthenticated
   useEffect(() => {
@@ -405,8 +448,18 @@ export default function AdminDashboardPage() {
                           <div className="text-[11px] text-cp-text-muted font-mono">{ord.mobileNumber}</div>
                         </td>
                         <td className="py-3 px-4">
-                          <div className="max-w-xs truncate font-medium text-cp-text" title={ord.items?.map((it) => it.originalName).join(', ')}>
-                            {ord.items?.length} File(s)
+                          <button
+                            type="button"
+                            onClick={() => setSelectedOrderFiles(ord)}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cp-surface-alt hover:bg-cp-border text-cp-text font-bold text-xs border border-cp-border transition-all group"
+                            title="Click to view file details and download"
+                          >
+                            <FileText className="w-3.5 h-3.5 text-sage dark:text-copper group-hover:scale-110 transition-transform" />
+                            <span>{ord.items?.length || 0} File(s)</span>
+                          </button>
+                          <div className="max-w-xs truncate text-[10px] text-cp-text-muted mt-0.5" title={ord.items?.map((it) => it.originalName).join(', ')}>
+                            {ord.items?.[0]?.originalName}
+                            {ord.items?.length > 1 && ` +${ord.items.length - 1} more`}
                           </div>
                         </td>
                         <td className="py-3 px-4 font-black text-cp-text">
@@ -439,9 +492,32 @@ export default function AdminDashboardPage() {
                           </span>
                         </td>
                         <td className="py-3 px-4 text-right space-x-1">
-                          {ord.items?.[0]?.document?._id && (
+                          {/* Direct Download Action */}
+                          {ord.items?.length === 1 && getDocId(ord.items[0]) ? (
+                            <a
+                              href={api.getDocumentDownloadUrl(getDocId(ord.items[0]))}
+                              download={getDocName(ord.items[0])}
+                              className="inline-flex items-center justify-center p-1.5 text-cp-text-secondary hover:text-sage dark:hover:text-copper rounded-lg hover:bg-cp-surface-alt transition-colors"
+                              title={`Download ${getDocName(ord.items[0])}`}
+                            >
+                              <Download className="w-4 h-4" />
+                            </a>
+                          ) : ord.items?.length > 1 ? (
                             <button
-                              onClick={() => setPreviewDoc(ord.items[0].document)}
+                              type="button"
+                              onClick={() => setSelectedOrderFiles(ord)}
+                              className="inline-flex items-center justify-center p-1.5 text-cp-text-secondary hover:text-sage dark:hover:text-copper rounded-lg hover:bg-cp-surface-alt transition-colors"
+                              title={`View & Download all ${ord.items.length} files`}
+                            >
+                              <Download className="w-4 h-4" />
+                            </button>
+                          ) : null}
+
+                          {/* Preview Action */}
+                          {ord.items?.[0] && getDocId(ord.items[0]) && (
+                            <button
+                              type="button"
+                              onClick={() => setPreviewDoc({ _id: getDocId(ord.items[0]), originalName: getDocName(ord.items[0]) })}
                               className="p-1.5 text-cp-text-secondary hover:text-cp-text rounded-lg hover:bg-cp-surface-alt"
                               title="Preview Document"
                             >
@@ -599,22 +675,177 @@ export default function AdminDashboardPage() {
         {/* Document Preview Modal */}
         {previewDoc && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-cp-surface rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-cp-border">
-              <div className="px-5 py-4 border-b border-cp-border flex items-center justify-between bg-cp-surface-alt">
-                <h3 className="font-bold text-cp-text text-sm truncate">{previewDoc.originalName}</h3>
+            <div className="bg-cp-surface rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-cp-border">
+              <div className="px-5 py-3.5 border-b border-cp-border flex items-center justify-between bg-cp-surface-alt">
+                <div className="flex items-center gap-2 max-w-[65%]">
+                  <FileText className="w-4 h-4 text-sage dark:text-copper shrink-0" />
+                  <h3 className="font-bold text-cp-text text-sm truncate">{previewDoc.originalName}</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={api.getDocumentDownloadUrl(previewDoc._id)}
+                    download={previewDoc.originalName}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-xs font-bold shadow-sm transition-all"
+                    title="Download this file"
+                  >
+                    <Download className="w-3.5 h-3.5 text-white" />
+                    <span>Download File</span>
+                  </a>
+                  <button
+                    onClick={() => setPreviewDoc(null)}
+                    className="text-cp-text-secondary hover:text-cp-text p-1.5 rounded-lg hover:bg-cp-surface transition-colors"
+                    title="Close Preview"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+              <div className="flex-1 p-3 overflow-auto flex items-center justify-center bg-cp-bg">
+                <iframe
+                  src={api.getDocumentPreviewUrl(previewDoc._id)}
+                  className="w-full h-[70vh] border border-cp-border rounded-xl bg-cp-surface shadow-inner"
+                  title="PDF Preview"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Order Documents & Download Modal */}
+        {selectedOrderFiles && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-cp-surface rounded-2xl w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-cp-border animate-in fade-in zoom-in-95 duration-150">
+              {/* Header */}
+              <div className="px-6 py-4 border-b border-cp-border flex items-center justify-between bg-cp-surface-alt">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-sage dark:text-copper">
+                    Customer Documents
+                  </span>
+                  <h3 className="font-bold text-cp-text text-base flex items-center gap-2">
+                    <span>Order #{selectedOrderFiles.orderId}</span>
+                    <span className="text-xs text-cp-text-muted font-normal">
+                      ({selectedOrderFiles.customerName} • {selectedOrderFiles.mobileNumber})
+                    </span>
+                  </h3>
+                </div>
                 <button
-                  onClick={() => setPreviewDoc(null)}
-                  className="text-cp-text-secondary hover:text-cp-text p-1"
+                  onClick={() => setSelectedOrderFiles(null)}
+                  className="text-cp-text-secondary hover:text-cp-text p-1.5 rounded-lg hover:bg-cp-surface transition-colors"
+                  title="Close"
                 >
                   ✕
                 </button>
               </div>
-              <div className="flex-1 p-4 overflow-auto flex items-center justify-center bg-cp-bg">
-                <iframe
-                  src={api.getDocumentPreviewUrl(previewDoc._id)}
-                  className="w-full h-[65vh] border border-cp-border rounded-lg bg-cp-surface"
-                  title="PDF Preview"
-                />
+
+              {/* Files List */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-3 bg-cp-bg">
+                {selectedOrderFiles.items && selectedOrderFiles.items.length > 0 ? (
+                  selectedOrderFiles.items.map((item, idx) => {
+                    const docId = getDocId(item);
+                    const docName = getDocName(item);
+                    const size = formatBytes(item.document?.sizeBytes);
+
+                    return (
+                      <div
+                        key={idx}
+                        className="bg-cp-surface rounded-xl border border-cp-border p-4 shadow-sm hover:shadow-soft transition-all space-y-2.5"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-9 h-9 rounded-lg bg-cp-surface-alt text-sage dark:text-copper flex items-center justify-center shrink-0 border border-cp-border">
+                              <FileText className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="font-bold text-cp-text text-sm truncate" title={docName}>
+                                {docName}
+                              </div>
+                              <div className="text-[11px] text-cp-text-muted font-medium flex items-center gap-2">
+                                {size && <span>{size}</span>}
+                                {size && <span>•</span>}
+                                <span>{item.totalPages || item.document?.pageCount || 1} Total Pages</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Actions for this file */}
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {docId && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setPreviewDoc({ _id: docId, originalName: docName });
+                                }}
+                                className="p-2 text-cp-text-secondary hover:text-cp-text bg-cp-surface-alt hover:bg-cp-border rounded-lg border border-cp-border transition-colors"
+                                title="Preview File"
+                              >
+                                <Eye className="w-4 h-4" />
+                              </button>
+                            )}
+                            {docId ? (
+                              <a
+                                href={api.getDocumentDownloadUrl(docId)}
+                                download={docName}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-xs font-bold rounded-lg shadow-sm transition-all"
+                                title="Download this file"
+                              >
+                                <Download className="w-3.5 h-3.5" />
+                                <span>Download</span>
+                              </a>
+                            ) : (
+                              <span className="text-[11px] text-cp-text-muted italic">File unlinked</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Print Preferences Breakdown */}
+                        <div className="pt-2 border-t border-cp-border/60 flex flex-wrap gap-2 text-[11px] text-cp-text-secondary">
+                          <span className="px-2 py-0.5 rounded bg-cp-surface-alt border border-cp-border font-semibold">
+                            {item.printType === 'COLOUR' ? '🌈 Colour' : '⚫ B&W'}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-cp-surface-alt border border-cp-border font-semibold">
+                            {item.printSides === 'DOUBLE' ? '📄 2-Sided (Duplex)' : '📄 1-Sided'}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-cp-surface-alt border border-cp-border font-semibold">
+                            {item.copies} {item.copies === 1 ? 'Copy' : 'Copies'}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-cp-surface-alt border border-cp-border font-semibold">
+                            {item.pageSelection === 'CUSTOM' ? `Pages: ${item.customPages}` : 'All Pages'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-8 text-cp-text-muted text-xs">
+                    No files attached to this order.
+                  </div>
+                )}
+              </div>
+
+              {/* Footer with "Download All" option */}
+              <div className="px-6 py-3.5 border-t border-cp-border bg-cp-surface-alt flex items-center justify-between">
+                <span className="text-xs text-cp-text-secondary font-medium">
+                  Total: {selectedOrderFiles.items?.length || 0} document(s)
+                </span>
+                <div className="flex items-center gap-2">
+                  {selectedOrderFiles.items?.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadAll(selectedOrderFiles)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-xs font-bold rounded-xl shadow-sm transition-all"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download All ({selectedOrderFiles.items.length})</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedOrderFiles(null)}
+                    className="px-4 py-2 bg-cp-surface hover:bg-cp-surface-alt text-cp-text text-xs font-bold rounded-xl border border-cp-border transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>

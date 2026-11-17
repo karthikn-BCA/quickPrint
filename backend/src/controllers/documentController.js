@@ -119,7 +119,8 @@ async function getDocumentPreview(req, res) {
       return res.status(404).json({ success: false, error: 'Document not found.' });
     }
 
-    if (!fs.existsSync(doc.filePath)) {
+    const resolvedPath = path.resolve(doc.filePath);
+    if (!fs.existsSync(resolvedPath)) {
       return res.status(404).json({ success: false, error: 'File data missing on storage server.' });
     }
 
@@ -127,8 +128,32 @@ async function getDocumentPreview(req, res) {
     res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(doc.originalName)}"`);
     res.setHeader('X-Content-Type-Options', 'nosniff');
 
-    const readStream = fs.createReadStream(doc.filePath);
+    const readStream = fs.createReadStream(resolvedPath);
     readStream.pipe(res);
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+/**
+ * Force file download with attachment Content-Disposition header
+ */
+async function downloadDocument(req, res) {
+  try {
+    const { id } = req.params;
+    const doc = await Document.findById(id);
+
+    if (!doc) {
+      return res.status(404).json({ success: false, error: 'Document not found.' });
+    }
+
+    const resolvedPath = path.resolve(doc.filePath);
+    if (!fs.existsSync(resolvedPath)) {
+      return res.status(404).json({ success: false, error: 'File data missing on storage server.' });
+    }
+
+    // res.download sets Content-Disposition: attachment; filename="<originalName>"
+    return res.download(resolvedPath, doc.originalName);
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
   }
@@ -138,4 +163,5 @@ module.exports = {
   uploadDocuments,
   deleteDocument,
   getDocumentPreview,
+  downloadDocument,
 };
