@@ -31,12 +31,27 @@ export default function DocumentConfigCard({ item, calculatedData, onUpdate, onR
             <h4 className="text-sm font-bold text-cp-text truncate" title={item.originalName}>
               {item.originalName}
             </h4>
-            <div className="flex items-center gap-2 text-xs text-cp-text-secondary mt-0.5">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-cp-text-secondary mt-1">
               <span>{formatFileSize(item.sizeBytes)}</span>
               <span>•</span>
-              <span className="font-bold text-cp-text">
-                {item.pageCount} {item.pageCount === 1 ? 'Page' : 'Pages'}
-              </span>
+              <div className="inline-flex items-center gap-1.5 bg-cp-surface-alt px-2 py-0.5 rounded-lg border border-cp-border">
+                <span className="text-[11px] font-semibold text-cp-text-secondary">Pages:</span>
+                <input
+                  type="number"
+                  min="1"
+                  max="500"
+                  value={item.pageCount || 1}
+                  onChange={(e) => {
+                    const val = Math.max(1, parseInt(e.target.value, 10) || 1);
+                    onUpdate(item.id, { pageCount: val });
+                  }}
+                  className="w-12 text-center text-xs font-black py-0.5 px-1 rounded border border-cp-border bg-cp-surface text-cp-text focus:ring-1 focus:ring-sage dark:focus:ring-aquamarine"
+                  title="Total pages in document (auto-detected, editable)"
+                />
+                <span className="text-[11px] font-bold text-cp-text">
+                  {item.pageCount === 1 ? 'Page' : 'Pages'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

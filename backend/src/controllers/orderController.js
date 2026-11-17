@@ -47,8 +47,14 @@ async function createOrder(req, res) {
         });
       }
 
+      const effectivePages = Math.max(1, parseInt(item.totalPages, 10) || doc.pageCount || 1);
+      if (effectivePages > doc.pageCount) {
+        doc.pageCount = effectivePages;
+        await doc.save();
+      }
+
       const itemConfig = {
-        totalPages: doc.pageCount,
+        totalPages: effectivePages,
         printType: item.printType === 'COLOUR' ? 'COLOUR' : 'BW',
         printSides: item.printSides === 'DOUBLE' ? 'DOUBLE' : 'SINGLE',
         copies: parseInt(item.copies, 10) || 1,

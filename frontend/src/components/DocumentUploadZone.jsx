@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { UploadCloud, AlertCircle, CheckCircle2, Loader2, X } from 'lucide-react';
 import { api } from '../services/api';
+import { detectPdfPages } from '../utils/pdfHelper';
 
 export default function DocumentUploadZone({ onUploadSuccess }) {
   const [isDragging, setIsDragging] = useState(false);
@@ -40,15 +41,29 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
     setIsUploading(true);
 
     try {
+      // Pre-analyze exact page count in client browser using pdfjs
+      const detectedPages = {};
+      for (const file of filesArray) {
+        if (file.name.toLowerCase().endsWith('.pdf')) {
+          const count = await detectPdfPages(file);
+          detectedPages[file.name] = count;
+        }
+      }
+
       const formData = new FormData();
       filesArray.forEach((file) => {
         formData.append('documents', file);
       });
+      formData.append('clientPageCounts', JSON.stringify(detectedPages));
 
       const res = await api.uploadDocuments(formData);
       if (res.success && res.documents) {
-        setSuccessMessage(`${res.documents.length} document(s) uploaded and verified!`);
-        onUploadSuccess(res.documents);
+        const enhancedDocs = res.documents.map((doc) => ({
+          ...doc,
+          pageCount: Math.max(doc.pageCount || 1, detectedPages[doc.originalName] || 1),
+        }));
+        setSuccessMessage(`${enhancedDocs.length} document(s) uploaded and page count verified!`);
+        onUploadSuccess(enhancedDocs);
       } else {
         setErrorMessage(res.error || 'Failed to upload documents.');
       }

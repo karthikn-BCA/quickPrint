@@ -16,6 +16,15 @@ async function uploadDocuments(req, res) {
     }
 
     const sessionToken = req.headers['x-session-token'] || req.body.sessionToken || 'guest_session';
+    let clientPageCounts = {};
+    if (req.body.clientPageCounts) {
+      try {
+        clientPageCounts = typeof req.body.clientPageCounts === 'string'
+          ? JSON.parse(req.body.clientPageCounts)
+          : req.body.clientPageCounts;
+      } catch (e) {}
+    }
+
     const uploadedDocs = [];
 
     for (const file of req.files) {
@@ -37,6 +46,14 @@ async function uploadDocuments(req, res) {
           });
         }
         pageCount = inspection.pageCount;
+      }
+
+      // Check if client browser pre-detected higher valid page count
+      if (clientPageCounts && clientPageCounts[file.originalname]) {
+        const clientReported = parseInt(clientPageCounts[file.originalname], 10);
+        if (!isNaN(clientReported) && clientReported > pageCount) {
+          pageCount = clientReported;
+        }
       }
 
       const docRecord = await Document.create({
