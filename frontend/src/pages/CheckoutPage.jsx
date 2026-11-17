@@ -21,7 +21,7 @@ export default function CheckoutPage() {
         <p className="text-cp-text-secondary text-sm mt-2">Please upload at least one document first.</p>
         <Link
           to="/upload"
-          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-bold text-sm shadow-sm"
+          className="mt-4 inline-block px-5 py-2.5 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-bold text-sm shadow-sm"
         >
           Go to Upload
         </Link>
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <Link
         to="/cart"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-cp-text-secondary hover:text-cp-primary mb-6 transition-colors uppercase tracking-wider"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-cp-text-secondary hover:text-aquamarine dark:hover:text-sage mb-6 transition-colors uppercase tracking-wider"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Shopping Cart
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
         {/* Left: Customer Information Form */}
         <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 shadow-soft">
           <div className="flex items-center gap-2 pb-4 border-b border-cp-border">
-            <User className="w-5 h-5 text-cp-primary dark:text-cp-accent" />
+            <User className="w-5 h-5 text-aquamarine dark:text-sage-pale" />
             <h2 className="text-base font-bold text-cp-text">Customer Details</h2>
           </div>
 
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
                 placeholder="e.g. Rahul Sharma"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine"
               />
             </div>
 
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                   placeholder="9876543210"
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-mono"
+                  className="w-full text-sm pl-12 pr-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine font-mono"
                 />
               </div>
               <p className="text-[11px] text-cp-text-muted mt-1 font-medium">
@@ -219,7 +219,7 @@ export default function CheckoutPage() {
                 placeholder="rahul.student@college.edu"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary"
+                className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine"
               />
             </div>
 
@@ -237,7 +237,7 @@ export default function CheckoutPage() {
               className={`w-full mt-2 flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-white font-black text-sm shadow-md transition-all ${
                 isProcessing || loadingEstimate
                   ? 'bg-cp-surface-alt cursor-wait text-cp-text-muted border border-cp-border'
-                  : 'bg-cp-primary hover:bg-cp-primary-hover transform hover:-translate-y-0.5'
+                  : 'bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover transform hover:-translate-y-0.5'
               }`}
             >
               {isProcessing ? (
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                 </>
               ) : (
                 <>
-                  <CreditCard className="w-4 h-4" />
+                  <CreditCard className="w-4 h-4 text-white" />
                   <span>Pay ₹{pricingEstimate.grandTotal.toFixed(2)} & Print</span>
                 </>
               )}
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
             </div>
             <div className="pt-2 border-t border-cp-border flex justify-between items-baseline">
               <span className="text-base font-bold text-cp-text">Total Amount</span>
-              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent">
+              <span className="text-2xl font-black text-aquamarine dark:text-sage-pale">
                 ₹{pricingEstimate.grandTotal.toFixed(2)}
               </span>
             </div>

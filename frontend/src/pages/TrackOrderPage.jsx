@@ -114,31 +114,31 @@ export default function TrackOrderPage() {
           className="mt-6 flex flex-col sm:flex-row gap-3"
         >
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-3 w-4 h-4 text-cp-primary" />
+            <Search className="absolute left-3.5 top-3 w-4 h-4 text-aquamarine dark:text-sage" />
             <input
               type="text"
               placeholder="Enter Order ID (e.g. XR20261116001)"
               value={orderIdInput}
               onChange={(e) => setOrderIdInput(e.target.value.toUpperCase())}
-              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-mono uppercase"
+              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine font-mono uppercase"
             />
           </div>
 
           <div className="relative sm:w-48">
-            <Phone className="absolute left-3.5 top-3 w-4 h-4 text-cp-primary" />
+            <Phone className="absolute left-3.5 top-3 w-4 h-4 text-aquamarine dark:text-sage" />
             <input
               type="tel"
               placeholder="Mobile (Optional)"
               value={mobileInput}
               onChange={(e) => setMobileInput(e.target.value)}
-              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-mono"
+              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine font-mono"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
           >
             {loading ? (
               <RefreshCw className="w-4 h-4 animate-spin text-white" />
@@ -165,7 +165,7 @@ export default function TrackOrderPage() {
               <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Order Reference
               </span>
-              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent font-mono tracking-wide">
+              <span className="text-2xl font-black text-aquamarine dark:text-sage-pale font-mono tracking-wide">
                 {order.orderId}
               </span>
               <div className="flex items-center gap-2 text-xs text-cp-text-secondary mt-1">
@@ -200,7 +200,7 @@ export default function TrackOrderPage() {
                     key={idx}
                     className={`p-4 rounded-xl border text-center transition-all ${
                       isCurrent
-                        ? 'border-cp-primary bg-cp-surface-alt shadow-sm ring-2 ring-cp-primary/20'
+                        ? 'border-aquamarine dark:border-sage bg-cp-surface-alt shadow-sm ring-2 ring-aquamarine/20 dark:ring-sage/20'
                         : isPassed
                         ? 'border-cp-border bg-cp-surface-alt text-cp-text'
                         : 'border-cp-border bg-cp-surface-alt/50 text-cp-text-muted opacity-60'
@@ -209,9 +209,9 @@ export default function TrackOrderPage() {
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-2.5 font-bold text-xs ${
                         isPassed
-                          ? 'bg-cp-primary text-white'
+                          ? 'bg-aquamarine dark:bg-sage text-white'
                           : isCurrent
-                          ? 'bg-cp-primary text-white animate-pulse shadow-md'
+                          ? 'bg-aquamarine dark:bg-sage text-white animate-pulse shadow-md'
                           : 'bg-cp-surface-alt text-cp-text-muted border border-cp-border'
                       }`}
                     >
@@ -227,14 +227,14 @@ export default function TrackOrderPage() {
 
           {/* Collection Alert Box */}
           {order.collectionStatus === 'READY' && (
-            <div className="p-5 rounded-2xl bg-cp-surface-alt border-2 border-cp-primary text-cp-text flex items-start gap-4">
-              <PackageCheck className="w-8 h-8 text-cp-primary shrink-0 mt-0.5" />
+            <div className="p-5 rounded-2xl bg-cp-surface-alt border-2 border-aquamarine dark:border-sage text-cp-text flex items-start gap-4">
+              <PackageCheck className="w-8 h-8 text-aquamarine dark:text-sage shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-base font-bold text-cp-text">
                   Your documents are ready! Please collect them from the CampusPrint shop.
                 </h4>
                 <p className="text-xs text-cp-text-secondary mt-1">
-                  Location: SAC Ground Floor Xerox Center. Mention Order ID <strong className="font-mono text-cp-primary dark:text-cp-accent">{order.orderId}</strong> at the counter.
+                  Location: SAC Ground Floor Xerox Center. Mention Order ID <strong className="font-mono text-aquamarine dark:text-sage-pale">{order.orderId}</strong> at the counter.
                 </p>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function TrackOrderPage() {
               {order.items?.map((item, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-cp-surface-alt border border-cp-border text-xs">
                   <div className="flex items-center gap-2.5">
-                    <FileText className="w-4 h-4 text-cp-primary" />
+                    <FileText className="w-4 h-4 text-aquamarine dark:text-sage" />
                     <span className="font-bold text-cp-text">{item.originalName}</span>
                   </div>
                   <div className="text-cp-text-secondary font-medium">
@@ -286,15 +286,15 @@ export default function TrackOrderPage() {
                   setOrderIdInput(h.orderId);
                   handleTrack(h.orderId, h.mobileNumber);
                 }}
-                className="p-3 bg-cp-surface rounded-xl border border-cp-border hover:border-cp-primary cursor-pointer flex items-center justify-between text-xs transition-colors"
+                className="p-3 bg-cp-surface rounded-xl border border-cp-border hover:border-aquamarine dark:hover:border-sage cursor-pointer flex items-center justify-between text-xs transition-colors"
               >
                 <div>
-                  <span className="font-mono font-bold text-cp-primary dark:text-cp-accent">{h.orderId}</span>
+                  <span className="font-mono font-bold text-aquamarine dark:text-sage-pale">{h.orderId}</span>
                   <span className="ml-2 text-cp-text-muted font-medium">{new Date(h.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-cp-text">₹{h.grandTotal}</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cp-surface-alt text-cp-primary-light dark:text-cp-accent border border-cp-border">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border">
                     {h.collectionStatus === 'READY' ? 'READY' : h.printingStatus}
                   </span>
                 </div>

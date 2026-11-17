@@ -2,102 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  /* ═══════════════════════════════════════════════════════════
-     LIGHT THEME — Copper Aquamarine Dream (DEFAULT)
-     ═══════════════════════════════════════════════════════════ */
-  :root {
-    --color-primary: #30525C;
-    --color-primary-hover: #264248;
-    --color-primary-light: #3d6872;
-    --color-accent: #DCAA89;
-    --color-accent-hover: #d49b75;
-    --color-highlight: #C35627;
-    --color-supporting: #4C848D;
-    --color-muted: #BFB9B5;
-    --color-terracotta: #D6794D;
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME — Copper Aquamarine Dream (DEFAULT)
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --color-primary: #30525C;
+  --color-primary-hover: #264248;
+  --color-primary-light: #3d6872;
+  --color-accent: #DCAA89;
+  --color-accent-hover: #d49b75;
+  --color-highlight: #C35627;
+  --color-supporting: #4C848D;
+  --color-muted: #BFB9B5;
+  --color-terracotta: #D6794D;
 
-    --color-bg: #FAFAF8;
-    --color-surface: #FFFFFF;
-    --color-surface-alt: #F5F3F0;
-    --color-text: #1a2a2e;
-    --color-text-secondary: #4a5d62;
-    --color-text-muted: #7a8a8e;
-    --color-border: #e0ddd8;
-    --color-border-strong: #ccc8c2;
+  --color-bg: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F5F3F0;
+  --color-text: #1a2a2e;
+  --color-text-secondary: #4a5d62;
+  --color-text-muted: #7a8a8e;
+  --color-border: #e0ddd8;
+  --color-border-strong: #ccc8c2;
 
-    --color-sidebar-bg: #1e3a40;
-    --color-sidebar-surface: #2a4a52;
-    --color-sidebar-text: #e8ebe6;
-    --color-sidebar-muted: #a0b4b0;
-    --color-sidebar-border: #2f4f56;
+  --color-sidebar-bg: #1e3a40;
+  --color-sidebar-surface: #2a4a52;
+  --color-sidebar-text: #e8ebe6;
+  --color-sidebar-muted: #a0b4b0;
+  --color-sidebar-border: #2f4f56;
 
-    --shadow-soft: 0 4px 20px -2px rgba(48, 82, 92, 0.06);
-    --shadow-card: 0 10px 30px -5px rgba(48, 82, 92, 0.08);
+  --shadow-soft: 0 4px 20px -2px rgba(48, 82, 92, 0.08);
+  --shadow-card: 0 10px 30px -5px rgba(48, 82, 92, 0.12);
 
-    --selection-bg: #30525C;
-    --selection-text: #ffffff;
-  }
+  --selection-bg: #30525C;
+  --selection-text: #ffffff;
+}
 
-  /* ═══════════════════════════════════════════════════════════
-     DARK THEME — Muted Sage & Forest Green
-     ═══════════════════════════════════════════════════════════ */
-  .dark {
-    --color-primary: #7B9669;
-    --color-primary-hover: #8da67a;
-    --color-primary-light: #96b385;
-    --color-accent: #BAC8B1;
-    --color-accent-hover: #cdd8c6;
-    --color-highlight: #7B9669;
-    --color-supporting: #6C8480;
-    --color-muted: #6C8480;
-    --color-terracotta: #BAC8B1;
+/* ═══════════════════════════════════════════════════════════
+   DARK THEME — Muted Sage & Forest Green
+   ═══════════════════════════════════════════════════════════ */
+.dark {
+  --color-primary: #7B9669;
+  --color-primary-hover: #8da67a;
+  --color-primary-light: #96b385;
+  --color-accent: #BAC8B1;
+  --color-accent-hover: #cdd8c6;
+  --color-highlight: #7B9669;
+  --color-supporting: #6C8480;
+  --color-muted: #6C8480;
+  --color-terracotta: #BAC8B1;
 
-    --color-bg: #404E3B;
-    --color-surface: #4a5b44;
-    --color-surface-alt: #536349;
-    --color-text: #E6E6E6;
-    --color-text-secondary: #BAC8B1;
-    --color-text-muted: #98a690;
-    --color-border: #5a6b53;
-    --color-border-strong: #6a7c63;
+  --color-bg: #404E3B;
+  --color-surface: #4a5b44;
+  --color-surface-alt: #536349;
+  --color-text: #E6E6E6;
+  --color-text-secondary: #BAC8B1;
+  --color-text-muted: #98a690;
+  --color-border: #5a6b53;
+  --color-border-strong: #6a7c63;
 
-    --color-sidebar-bg: #2e3a2a;
-    --color-sidebar-surface: #384434;
-    --color-sidebar-text: #E6E6E6;
-    --color-sidebar-muted: #98a690;
-    --color-sidebar-border: #4a5b44;
+  --color-sidebar-bg: #2e3a2a;
+  --color-sidebar-surface: #384434;
+  --color-sidebar-text: #E6E6E6;
+  --color-sidebar-muted: #98a690;
+  --color-sidebar-border: #4a5b44;
 
-    --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
-    --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.35);
 
-    --selection-bg: #7B9669;
-    --selection-text: #ffffff;
-  }
+  --selection-bg: #7B9669;
+  --selection-text: #ffffff;
+}
 
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  body {
-    @apply antialiased font-sans;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
+body {
+  @apply antialiased font-sans;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color-text);
-  }
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+}
 
-  input, select, textarea {
-    color: var(--color-text);
-  }
+input, select, textarea {
+  color: var(--color-text);
+}
 
-  ::selection {
-    background-color: var(--selection-bg);
-    color: var(--selection-text);
-  }
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 /* Custom scrollbars */

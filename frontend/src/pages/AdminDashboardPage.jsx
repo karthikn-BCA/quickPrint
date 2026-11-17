@@ -178,22 +178,22 @@ export default function AdminDashboardPage() {
       <aside className="w-full md:w-64 bg-cp-sidebar-bg text-cp-sidebar-text flex flex-col shrink-0 border-r border-cp-sidebar-border">
         <div className="p-5 border-b border-cp-sidebar-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-cp-primary flex items-center justify-center text-white font-bold shadow-md">
-              <Printer className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-aquamarine dark:bg-sage flex items-center justify-center text-white font-bold shadow-md">
+              <Printer className="w-5 h-5 text-white" />
             </div>
             <div>
               <h2 className="font-bold text-white text-sm uppercase">CampusPrint</h2>
-              <p className="text-[11px] text-cp-accent font-semibold">Shopkeeper Admin</p>
+              <p className="text-[11px] text-copper dark:text-sage-pale font-semibold">Shopkeeper Admin</p>
             </div>
           </div>
 
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-cp-accent border border-white/20 transition-colors"
+            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-copper dark:text-sage-pale border border-white/20 transition-colors"
             title="Toggle Light/Dark Theme"
           >
-            {isDark ? <Sun className="w-4 h-4 text-cp-accent" /> : <Moon className="w-4 h-4 text-white" />}
+            {isDark ? <Sun className="w-4 h-4 text-sage-pale" /> : <Moon className="w-4 h-4 text-white" />}
           </button>
         </div>
 
@@ -202,7 +202,7 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab('orders')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
               activeTab === 'orders'
-                ? 'bg-cp-primary text-white shadow-sm'
+                ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
                 : 'text-cp-sidebar-muted hover:text-white hover:bg-white/10'
             }`}
           >
@@ -214,7 +214,7 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab('settings')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
               activeTab === 'settings'
-                ? 'bg-cp-primary text-white shadow-sm'
+                ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
                 : 'text-cp-sidebar-muted hover:text-white hover:bg-white/10'
             }`}
           >
@@ -271,7 +271,7 @@ export default function AdminDashboardPage() {
               }}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cp-surface border border-cp-border text-cp-text hover:bg-cp-surface-alt text-xs font-bold shadow-sm transition-all"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-cp-primary" />
+              <RefreshCw className="w-3.5 h-3.5 text-aquamarine dark:text-sage" />
               <span>Refresh</span>
             </button>
           </div>
@@ -287,7 +287,7 @@ export default function AdminDashboardPage() {
               <span className="text-2xl font-black text-cp-text mt-1 block">
                 {stats.totalOrders}
               </span>
-              <span className="text-[11px] text-cp-primary dark:text-cp-accent font-bold mt-1 block">
+              <span className="text-[11px] text-aquamarine dark:text-sage-pale font-bold mt-1 block">
                 {stats.todayOrders} Orders Today
               </span>
             </div>
@@ -308,7 +308,7 @@ export default function AdminDashboardPage() {
               <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Ready to Collect
               </span>
-              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent mt-1 block">
+              <span className="text-2xl font-black text-aquamarine dark:text-sage-pale mt-1 block">
                 {stats.readyOrders}
               </span>
               <span className="text-[11px] text-cp-text-muted mt-1 block font-medium">
@@ -320,10 +320,10 @@ export default function AdminDashboardPage() {
               <span className="text-xs font-bold text-cp-text-muted uppercase tracking-wider block">
                 Total Revenue
               </span>
-              <span className="text-2xl font-black text-cp-primary dark:text-cp-accent mt-1 block">
+              <span className="text-2xl font-black text-aquamarine dark:text-sage-pale mt-1 block">
                 ₹{stats.totalRevenue.toFixed(2)}
               </span>
-              <span className="text-[11px] text-cp-primary-light dark:text-cp-accent font-bold mt-1 block">
+              <span className="text-[11px] text-aquamarine dark:text-sage-pale font-bold mt-1 block">
                 ₹{stats.todayRevenue.toFixed(2)} Today
               </span>
             </div>
@@ -337,14 +337,14 @@ export default function AdminDashboardPage() {
             <div className="p-4 sm:p-5 border-b border-cp-border flex flex-col sm:flex-row gap-4 items-center justify-between">
               {/* Search input */}
               <div className="relative w-full sm:w-72">
-                <Search className="absolute left-3 top-2.5 w-4 h-4 text-cp-primary" />
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-aquamarine dark:text-sage" />
                 <input
                   type="text"
                   placeholder="Search Order ID / Mobile..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && fetchOrders()}
-                  className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-cp-primary font-medium"
+                  className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text placeholder-cp-text-muted focus:outline-none focus:ring-2 focus:ring-aquamarine font-medium"
                 />
               </div>
 
@@ -356,7 +356,7 @@ export default function AdminDashboardPage() {
                     onClick={() => setStatusFilter(st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                       statusFilter === st
-                        ? 'bg-cp-primary text-white shadow-sm'
+                        ? 'bg-aquamarine dark:bg-sage text-white shadow-sm'
                         : 'bg-cp-surface-alt text-cp-text hover:bg-cp-border'
                     }`}
                   >
@@ -384,7 +384,7 @@ export default function AdminDashboardPage() {
                   {loadingOrders ? (
                     <tr>
                       <td colSpan="7" className="py-12 text-center text-cp-text-secondary font-bold">
-                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-cp-primary" />
+                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-aquamarine dark:text-sage" />
                         Loading print queue...
                       </td>
                     </tr>
@@ -397,7 +397,7 @@ export default function AdminDashboardPage() {
                   ) : (
                     orders.map((ord) => (
                       <tr key={ord._id} className="hover:bg-cp-surface-alt/60 transition-colors">
-                        <td className="py-3 px-4 font-mono font-black text-cp-primary dark:text-cp-accent">
+                        <td className="py-3 px-4 font-mono font-black text-aquamarine dark:text-sage-pale">
                           {ord.orderId}
                         </td>
                         <td className="py-3 px-4">
@@ -451,7 +451,7 @@ export default function AdminDashboardPage() {
                           {ord.collectionStatus !== 'READY' && ord.collectionStatus !== 'COLLECTED' && (
                             <button
                               onClick={() => handleMarkPrinted(ord.orderId)}
-                              className="px-2.5 py-1 rounded-lg bg-cp-surface-alt text-cp-primary hover:bg-cp-border font-bold text-[11px] border border-cp-border"
+                              className="px-2.5 py-1 rounded-lg bg-cp-surface-alt text-aquamarine dark:text-sage-pale hover:bg-cp-border font-bold text-[11px] border border-cp-border"
                               title="Mark as Printed"
                             >
                               Print Done
@@ -460,7 +460,7 @@ export default function AdminDashboardPage() {
                           {ord.collectionStatus === 'READY' && (
                             <button
                               onClick={() => handleMarkCollected(ord.orderId)}
-                              className="px-2.5 py-1 rounded-lg bg-cp-primary text-white hover:bg-cp-primary-hover font-bold text-[11px] shadow-sm"
+                              className="px-2.5 py-1 rounded-lg bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-bold text-[11px] shadow-sm"
                               title="Handover to Student"
                             >
                               Handover
@@ -491,7 +491,7 @@ export default function AdminDashboardPage() {
             {/* Pricing Editor */}
             <div className="bg-cp-surface rounded-2xl border border-cp-border p-6 shadow-soft">
               <div className="flex items-center gap-2 pb-4 border-b border-cp-border">
-                <DollarSign className="w-5 h-5 text-cp-primary dark:text-cp-accent" />
+                <DollarSign className="w-5 h-5 text-aquamarine dark:text-sage-pale" />
                 <h3 className="font-bold text-cp-text text-base">Modify Campus Pricing</h3>
               </div>
 
@@ -507,7 +507,7 @@ export default function AdminDashboardPage() {
                       min="0.5"
                       value={pricingForm.bwSingle}
                       onChange={(e) => setPricingForm({ ...pricingForm, bwSingle: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-aquamarine font-bold"
                     />
                   </div>
 
@@ -521,7 +521,7 @@ export default function AdminDashboardPage() {
                       min="0.5"
                       value={pricingForm.bwDouble}
                       onChange={(e) => setPricingForm({ ...pricingForm, bwDouble: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-aquamarine font-bold"
                     />
                   </div>
                 </div>
@@ -537,7 +537,7 @@ export default function AdminDashboardPage() {
                       min="1"
                       value={pricingForm.colSingle}
                       onChange={(e) => setPricingForm({ ...pricingForm, colSingle: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-aquamarine font-bold"
                     />
                   </div>
 
@@ -551,20 +551,20 @@ export default function AdminDashboardPage() {
                       min="1"
                       value={pricingForm.colDouble}
                       onChange={(e) => setPricingForm({ ...pricingForm, colDouble: e.target.value })}
-                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-cp-primary font-bold"
+                      className="w-full text-sm px-3 py-2 rounded-xl border border-cp-border bg-cp-surface text-cp-text focus:ring-2 focus:ring-aquamarine font-bold"
                     />
                   </div>
                 </div>
 
                 {saveMessage && (
-                  <div className="p-3 bg-cp-surface-alt text-cp-primary-light dark:text-cp-accent border border-cp-border rounded-xl text-xs font-bold">
+                  <div className="p-3 bg-cp-surface-alt text-aquamarine dark:text-sage-pale border border-cp-border rounded-xl text-xs font-bold">
                     {saveMessage}
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-xl bg-cp-primary hover:bg-cp-primary-hover text-white font-black text-xs shadow-md transition-all"
+                  className="w-full py-2.5 rounded-xl bg-aquamarine hover:bg-aquamarine-hover dark:bg-sage dark:hover:bg-sage-hover text-white font-black text-xs shadow-md transition-all"
                 >
                   Save and Apply Pricing Globally
                 </button>
