@@ -17,13 +17,13 @@ export default function UploadPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Header */}
       <div className="mb-8">
-        <span className="text-xs font-bold text-indigo-600 tracking-wider uppercase">
+        <span className="text-xs font-black text-brand-600 dark:text-brand-400 tracking-wider uppercase">
           Step 1 of 3: Upload & Configure
         </span>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
           Upload Documents for Printing
         </h1>
-        <p className="text-slate-500 text-sm mt-1">
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           Upload PDF assignments or image files, configure color and duplex preferences, then proceed to checkout.
         </p>
       </div>
@@ -37,13 +37,13 @@ export default function UploadPage() {
           {items.length > 0 && (
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                   <span>Uploaded Documents</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-semibold">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 font-bold border border-brand-200 dark:border-brand-800/50">
                     {items.length}
                   </span>
                 </h2>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-slate-400 dark:text-slate-500">
                   Configure preferences for each file below
                 </span>
               </div>

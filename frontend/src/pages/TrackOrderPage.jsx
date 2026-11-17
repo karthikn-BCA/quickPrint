@@ -132,11 +132,11 @@ export default function TrackOrderPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8">
       {/* Search Header Box */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm">
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+      <div className="bg-white dark:bg-dark-card rounded-2xl border border-slate-200/90 dark:border-dark-border p-6 shadow-sm">
+        <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
           Track Your Print Order
         </h1>
-        <p className="text-slate-500 text-xs sm:text-sm mt-1">
+        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1">
           Enter your Order ID (e.g. XR20261116001) or mobile number to see real-time printing progress.
         </p>
 
@@ -154,7 +154,7 @@ export default function TrackOrderPage() {
               placeholder="Enter Order ID (e.g. XR20261116001)"
               value={orderIdInput}
               onChange={(e) => setOrderIdInput(e.target.value.toUpperCase())}
-              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono uppercase"
+              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono uppercase"
             />
           </div>
 
@@ -165,14 +165,14 @@ export default function TrackOrderPage() {
               placeholder="Mobile (Optional)"
               value={mobileInput}
               onChange={(e) => setMobileInput(e.target.value)}
-              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+              className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 transition-colors flex items-center justify-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white font-black text-sm shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2"
           >
             {loading ? (
               <RefreshCw className="w-4 h-4 animate-spin" />
@@ -183,8 +183,8 @@ export default function TrackOrderPage() {
         </form>
 
         {error && (
-          <div className="mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+          <div className="mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
             <span>{error}</span>
           </div>
         )}
@@ -192,31 +192,31 @@ export default function TrackOrderPage() {
 
       {/* Live Order Display */}
       {order && (
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-sm space-y-8 animate-fade-in">
+        <div className="bg-white dark:bg-dark-card rounded-2xl border border-slate-200/90 dark:border-dark-border p-6 sm:p-8 shadow-sm space-y-8 animate-fade-in">
           {/* Top Info Banner */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-dark-border">
             <div>
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block">
                 Order Reference
               </span>
-              <span className="text-2xl font-black text-indigo-700 font-mono tracking-wide">
+              <span className="text-2xl font-black text-brand-600 dark:text-brand-400 font-mono tracking-wide">
                 {order.orderId}
               </span>
-              <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
-                <span>Customer: <strong>{order.customerName}</strong></span>
+              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                <span>Customer: <strong className="text-slate-700 dark:text-slate-200">{order.customerName}</strong></span>
                 <span>•</span>
-                <span>Mobile: <strong>{order.mobileNumber}</strong></span>
+                <span>Mobile: <strong className="text-slate-700 dark:text-slate-200">{order.mobileNumber}</strong></span>
               </div>
             </div>
 
             <div className="text-left sm:text-right">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block">
                 Total Amount Paid
               </span>
-              <span className="text-2xl font-black text-slate-900">
+              <span className="text-2xl font-black text-slate-900 dark:text-white">
                 ₹{order.grandTotal.toFixed(2)}
               </span>
-              <span className="block text-xs text-slate-500">
+              <span className="block text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {order.totalPhysicalSheets} Physical Sheets
               </span>
             </div>
@@ -224,7 +224,7 @@ export default function TrackOrderPage() {
 
           {/* Visual Progress Stepper */}
           <div>
-            <h3 className="text-sm font-bold text-slate-900 mb-6">Live Print Progress</h3>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-6">Live Print Progress</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative">
               {steps.map((st, idx) => {
                 const isPassed = currentStep > idx;
@@ -234,10 +234,10 @@ export default function TrackOrderPage() {
                     key={idx}
                     className={`p-4 rounded-xl border text-center transition-all ${
                       isCurrent
-                        ? 'border-indigo-600 bg-indigo-50/70 shadow-sm ring-2 ring-indigo-500/20'
+                        ? 'border-brand-500 bg-brand-50/70 dark:bg-brand-950/40 shadow-sm ring-2 ring-brand-500/20'
                         : isPassed
-                        ? 'border-emerald-200 bg-emerald-50/40 text-emerald-900'
-                        : 'border-slate-200 bg-slate-50/50 text-slate-400 opacity-60'
+                        ? 'border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-300'
+                        : 'border-slate-200 dark:border-dark-border bg-slate-50/50 dark:bg-dark-surface/50 text-slate-400 opacity-60'
                     }`}
                   >
                     <div
@@ -245,14 +245,14 @@ export default function TrackOrderPage() {
                         isPassed
                           ? 'bg-emerald-600 text-white'
                           : isCurrent
-                          ? 'bg-indigo-600 text-white animate-pulse'
-                          : 'bg-slate-200 text-slate-500'
+                          ? 'bg-brand-600 text-white animate-pulse shadow-md shadow-brand-500/40'
+                          : 'bg-slate-200 dark:bg-dark-border text-slate-500 dark:text-slate-400'
                       }`}
                     >
                       {isPassed ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
                     </div>
-                    <h4 className="text-xs font-bold text-slate-900">{st.title}</h4>
-                    <p className="text-[11px] text-slate-500 mt-0.5">{st.desc}</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">{st.title}</h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{st.desc}</p>
                   </div>
                 );
               })}
@@ -261,34 +261,34 @@ export default function TrackOrderPage() {
 
           {/* Collection Alert Box */}
           {order.collectionStatus === 'READY' && (
-            <div className="p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-emerald-900 flex items-start gap-4 animate-bounce-subtle">
-              <PackageCheck className="w-8 h-8 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 flex items-start gap-4">
+              <PackageCheck className="w-8 h-8 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-base font-bold">
                   Your documents are ready! Please collect them from the CampusPrint shop.
                 </h4>
-                <p className="text-xs text-emerald-700 mt-1">
-                  Location: SAC Ground Floor Xerox Center. Mention Order ID <strong>{order.orderId}</strong> at the counter.
+                <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-1">
+                  Location: SAC Ground Floor Xerox Center. Mention Order ID <strong className="font-mono">{order.orderId}</strong> at the counter.
                 </p>
               </div>
             </div>
           )}
 
           {/* Printed Items Breakdown */}
-          <div className="pt-4 border-t border-slate-100">
-            <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
+          <div className="pt-4 border-t border-slate-100 dark:border-dark-border">
+            <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-3">
               Documents in this Order
             </h4>
             <div className="space-y-2">
               {order.items?.map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-dark-surface border border-slate-200 dark:border-dark-border text-xs">
                   <div className="flex items-center gap-2.5">
-                    <FileText className="w-4 h-4 text-indigo-600" />
-                    <span className="font-bold text-slate-800">{item.originalName}</span>
+                    <FileText className="w-4 h-4 text-brand-500" />
+                    <span className="font-bold text-slate-800 dark:text-slate-100">{item.originalName}</span>
                   </div>
-                  <div className="text-slate-500">
+                  <div className="text-slate-500 dark:text-slate-400">
                     <span>{item.printType === 'COLOUR' ? 'Colour' : 'B&W'} • {item.printSides === 'DOUBLE' ? 'Double' : 'Single'}</span>
-                    <span className="ml-2 font-semibold text-slate-800">{item.physicalSheets} Sheets (₹{item.itemTotal.toFixed(2)})</span>
+                    <span className="ml-2 font-bold text-slate-800 dark:text-slate-200">{item.physicalSheets} Sheets (₹{item.itemTotal.toFixed(2)})</span>
                   </div>
                 </div>
               ))}
@@ -298,15 +298,15 @@ export default function TrackOrderPage() {
       )}
 
       {/* History Lookup Box */}
-      <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6">
-        <h3 className="text-sm font-bold text-slate-800">Need to find previous print orders?</h3>
-        <p className="text-xs text-slate-500 mt-1">
+      <div className="bg-slate-50 dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border p-6">
+        <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">Need to find previous print orders?</h3>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           Search all print orders associated with your 10-digit mobile number.
         </p>
         <button
           onClick={handleHistorySearch}
           disabled={historyLoading}
-          className="mt-3 px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-xs font-bold text-slate-700 transition-colors"
+          className="mt-3 px-4 py-2 rounded-xl bg-white dark:bg-dark-surface border border-slate-300 dark:border-dark-border hover:bg-slate-100 dark:hover:bg-dark-border text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors"
         >
           {historyLoading ? 'Loading History...' : 'View My Order History'}
         </button>
@@ -320,15 +320,15 @@ export default function TrackOrderPage() {
                   setOrderIdInput(h.orderId);
                   handleTrack(h.orderId, h.mobileNumber);
                 }}
-                className="p-3 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer flex items-center justify-between text-xs transition-colors"
+                className="p-3 bg-white dark:bg-dark-surface rounded-xl border border-slate-200 dark:border-dark-border hover:border-brand-500 cursor-pointer flex items-center justify-between text-xs transition-colors"
               >
                 <div>
-                  <span className="font-mono font-bold text-indigo-600">{h.orderId}</span>
+                  <span className="font-mono font-bold text-brand-600 dark:text-brand-400">{h.orderId}</span>
                   <span className="ml-2 text-slate-400">{new Date(h.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-bold text-slate-700">₹{h.grandTotal}</span>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold uppercase text-[10px]">
+                  <span className="font-bold text-slate-700 dark:text-slate-200">₹{h.grandTotal}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-dark-card text-slate-600 dark:text-slate-300 font-bold uppercase text-[10px]">
                     {h.printingStatus}
                   </span>
                 </div>

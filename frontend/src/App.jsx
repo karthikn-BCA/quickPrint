@@ -13,13 +13,14 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function AppLayout() {
   const location = useLocation();
   const isAdminDashboard = location.pathname.startsWith('/admin/dashboard');
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-100 transition-colors duration-200">
       {!isAdminDashboard && <Navbar />}
       <main className="flex-1">
         <Routes>
@@ -43,13 +44,15 @@ function AppLayout() {
 export default function App() {
   return (
     <BrowserRouter>
-      <SocketProvider>
-        <AuthProvider>
-          <CartProvider>
-            <AppLayout />
-          </CartProvider>
-        </AuthProvider>
-      </SocketProvider>
+      <ThemeProvider>
+        <SocketProvider>
+          <AuthProvider>
+            <CartProvider>
+              <AppLayout />
+            </CartProvider>
+          </AuthProvider>
+        </SocketProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

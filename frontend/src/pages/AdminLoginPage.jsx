@@ -39,21 +39,21 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-slate-200/90 p-8 shadow-card">
-        <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-6 shadow-inner">
+      <div className="w-full max-w-md bg-white dark:bg-dark-card rounded-3xl border border-slate-200/90 dark:border-dark-border p-8 shadow-card transition-colors">
+        <div className="w-14 h-14 rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center mx-auto mb-6 shadow-inner border border-brand-200 dark:border-brand-800/40">
           <ShieldCheck className="w-7 h-7" />
         </div>
 
-        <h1 className="text-2xl font-black text-center text-slate-900 tracking-tight">
+        <h1 className="text-2xl font-black text-center text-slate-900 dark:text-white tracking-tight">
           Shopkeeper Portal
         </h1>
-        <p className="text-xs text-center text-slate-500 mt-1">
+        <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-1">
           CampusPrint Xerox Administration & Print Spooler Control
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
               Email or Mobile Number
             </label>
             <div className="relative">
@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
                 required
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 placeholder="Enter admin email or mobile"
                 autoComplete="username"
               />
@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
               Password
             </label>
             <div className="relative">
@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-dark-border bg-white dark:bg-dark-surface text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 placeholder="••••••••••••"
                 autoComplete="current-password"
               />
@@ -89,8 +89,8 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-300 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 transition-colors flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white font-black text-sm shadow-md shadow-brand-500/25 transition-all flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In to Dashboard</span>}
           </button>

@@ -86,8 +86,8 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
         onClick={() => !isUploading && fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all cursor-pointer ${
           isDragging
-            ? 'border-indigo-600 bg-indigo-50/70 scale-[1.01]'
-            : 'border-slate-300 hover:border-indigo-400 bg-white hover:bg-slate-50/50 shadow-sm'
+            ? 'border-brand-500 bg-brand-50/70 dark:bg-brand-950/40 scale-[1.01]'
+            : 'border-slate-300 dark:border-dark-border hover:border-brand-500 dark:hover:border-brand-400 bg-white dark:bg-dark-card hover:bg-orange-50/30 dark:hover:bg-dark-surface shadow-sm'
         }`}
       >
         <input
@@ -101,7 +101,7 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
         />
 
         <div className="flex flex-col items-center justify-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center shadow-inner border border-brand-200 dark:border-brand-800/40">
             {isUploading ? (
               <Loader2 className="w-8 h-8 animate-spin" />
             ) : (
@@ -110,28 +110,28 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-slate-800">
+            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
               {isUploading ? 'Validating and Uploading Documents...' : 'Drag & Drop Your Files Here'}
             </h3>
-            <p className="text-sm text-slate-500 mt-1">
-              or <span className="text-indigo-600 font-semibold underline underline-offset-2">browse files</span> from your phone or laptop
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              or <span className="text-brand-600 dark:text-brand-400 font-bold underline underline-offset-2">browse files</span> from your phone or laptop
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-500">
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 font-medium text-slate-700">PDF</span>
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 font-medium text-slate-700">JPG</span>
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 font-medium text-slate-700">JPEG</span>
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 font-medium text-slate-700">PNG</span>
-            <span className="text-slate-400">• Up to 25 MB per file</span>
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-500 dark:text-slate-400">
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-dark-surface font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-dark-border">PDF</span>
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-dark-surface font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-dark-border">JPG</span>
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-dark-surface font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-dark-border">JPEG</span>
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-dark-surface font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-dark-border">PNG</span>
+            <span className="text-slate-400 dark:text-slate-500">• Up to 25 MB per file</span>
           </div>
         </div>
       </div>
 
       {/* Error Feedback */}
       {errorMessage && (
-        <div className="mt-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-start gap-3 animate-fade-in">
-          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+        <div className="mt-4 p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-300 text-sm flex items-start gap-3 animate-fade-in">
+          <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
           <div className="flex-1 font-medium">{errorMessage}</div>
           <button onClick={() => setErrorMessage('')} className="text-rose-500 hover:text-rose-700">
             <X className="w-4 h-4" />
@@ -141,8 +141,8 @@ export default function DocumentUploadZone({ onUploadSuccess }) {
 
       {/* Success Feedback */}
       {successMessage && (
-        <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+        <div className="mt-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-emerald-800 dark:text-emerald-300 text-sm flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <div className="flex-1 font-medium">{successMessage}</div>
           <button onClick={() => setSuccessMessage('')} className="text-emerald-500 hover:text-emerald-700">
             <X className="w-4 h-4" />

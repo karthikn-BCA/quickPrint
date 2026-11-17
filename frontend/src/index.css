@@ -4,7 +4,10 @@
 
 @layer base {
   body {
-    @apply antialiased bg-slate-50 text-slate-800 font-sans;
+    @apply antialiased bg-slate-50 text-slate-800 font-sans transition-colors duration-200 dark:bg-dark-bg dark:text-slate-100;
+  }
+  ::selection {
+    @apply bg-brand-500 text-white;
   }
 }
 
@@ -16,10 +19,16 @@
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #fed7aa;
   border-radius: 9999px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: #ea580c;
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #f97316;
 }
