@@ -20,10 +20,10 @@ export default function UploadPage() {
         <span className="text-xs font-black text-brand-500 dark:text-brand-300 tracking-wider uppercase">
           Step 1 of 3: Upload & Configure
         </span>
-        <h1 className="text-2xl sm:text-3xl font-black text-brand-800 dark:text-white tracking-tight mt-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-charcoal dark:text-white tracking-tight mt-1">
           Upload Documents for Printing
         </h1>
-        <p className="text-brand-600/70 dark:text-slate-400 text-sm mt-1">
+        <p className="text-charcoal-muted dark:text-dark-muted text-sm mt-1">
           Upload PDF assignments or image files, configure color and duplex preferences, then proceed to checkout.
         </p>
       </div>
@@ -37,13 +37,13 @@ export default function UploadPage() {
           {items.length > 0 && (
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-brand-800 dark:text-slate-100 flex items-center gap-2">
+                <h2 className="text-base font-bold text-charcoal dark:text-white flex items-center gap-2">
                   <span>Uploaded Documents</span>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 font-bold border border-brand-100 dark:border-brand-800/50">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 font-bold border border-brand-200 dark:border-brand-800/50">
                     {items.length}
                   </span>
                 </h2>
-                <span className="text-xs text-brand-500/70 dark:text-slate-500">
+                <span className="text-xs text-charcoal-light dark:text-dark-subtle font-medium">
                   Configure preferences for each file below
                 </span>
               </div>

@@ -8,11 +8,27 @@
     background-color: #f7f8f4;
     color: #303830;
   }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #303830;
+  }
+
+  input, select, textarea {
+    color: #303830;
+  }
 }
 
 .dark body {
   background-color: #121713;
-  color: #f0f3ef;
+  color: #f7f8f4;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: #f7f8f4;
+}
+
+.dark input, .dark select, .dark textarea {
+  color: #f7f8f4;
 }
 
 ::selection {
@@ -29,7 +45,7 @@
   background: #f7f8f4;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #181f19;
+  background: #18201a;
 }
 ::-webkit-scrollbar-thumb {
   background: #a3b09f;
