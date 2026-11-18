@@ -89,7 +89,8 @@ export default function TrackOrderPage() {
 
   const getStepIndex = () => {
     if (!order) return 0;
-    if (order.collectionStatus === 'READY' || order.collectionStatus === 'COLLECTED') return 3;
+    if (order.collectionStatus === 'COLLECTED') return 4;
+    if (order.collectionStatus === 'READY' || order.printingStatus === 'PRINTED') return 3;
     if (order.printingStatus === 'PRINTING') return 2;
     if (order.printingStatus === 'QUEUED' || order.printingStatus === 'PAID') return 1;
     return 0;
@@ -182,10 +183,10 @@ export default function TrackOrderPage() {
                 Total Amount Paid
               </span>
               <span className="text-2xl font-black text-cp-text">
-                ₹{order.grandTotal.toFixed(2)}
+                ₹{(Number(order.grandTotal) || 0).toFixed(2)}
               </span>
               <span className="block text-xs text-cp-text-secondary font-bold">
-                {order.totalPhysicalSheets} Physical Sheets
+                {order.totalPhysicalSheets || 0} Physical Sheets
               </span>
             </div>
           </div>
@@ -228,7 +229,7 @@ export default function TrackOrderPage() {
           </div>
 
           {/* Collection Alert Box */}
-          {order.collectionStatus === 'READY' && (
+          {(order.collectionStatus === 'READY' || order.printingStatus === 'PRINTED') && (
             <div className="p-5 rounded-2xl bg-cp-surface-alt border-2 border-sage dark:border-aquamarine text-cp-text flex items-start gap-4">
               <PackageCheck className="w-8 h-8 text-sage dark:text-copper shrink-0 mt-0.5" />
               <div>
@@ -256,7 +257,9 @@ export default function TrackOrderPage() {
                   </div>
                   <div className="text-cp-text-secondary font-medium">
                     <span>{item.printType === 'COLOUR' ? 'Colour' : 'B&W'} • {item.printSides === 'DOUBLE' ? 'Double' : 'Single'}</span>
-                    <span className="ml-2 font-bold text-cp-text">{item.physicalSheets} Sheets (₹{item.itemTotal.toFixed(2)})</span>
+                    <span className="ml-2 font-bold text-cp-text">
+                      {item.physicalSheets || 1} Sheets (₹{(Number(item.itemTotal) || 0).toFixed(2)})
+                    </span>
                   </div>
                 </div>
               ))}

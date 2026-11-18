@@ -151,8 +151,9 @@ async function trackOrder(req, res) {
   try {
     const { orderId, mobileNumber } = req.query;
 
-    const cleanOrderId = (orderId || '').toString().trim().toUpperCase();
-    const cleanMobile = (mobileNumber || '').toString().trim();
+    const rawOrderId = (orderId || '').toString().trim().toUpperCase();
+    const cleanOrderId = rawOrderId.replace(/[^A-Z0-9]/g, '');
+    const cleanMobile = (mobileNumber || '').toString().replace(/\D/g, '').slice(-10);
 
     if (!cleanOrderId && !cleanMobile) {
       return res.status(400).json({ success: false, error: 'Please enter either an Order ID or your Mobile Number.' });
@@ -160,9 +161,20 @@ async function trackOrder(req, res) {
 
     let order = null;
 
+    // 1. Try finding by Order ID (exact or regex partial match)
     if (cleanOrderId) {
-      order = await Order.findOne({ orderId: cleanOrderId }).populate('items.document', 'originalName fileExtension sizeBytes');
-    } else if (cleanMobile) {
+      order = await Order.findOne({ orderId: cleanOrderId })
+        .populate('items.document', 'originalName fileExtension sizeBytes');
+
+      if (!order) {
+        order = await Order.findOne({
+          orderId: { $regex: cleanOrderId, $options: 'i' },
+        }).populate('items.document', 'originalName fileExtension sizeBytes');
+      }
+    }
+
+    // 2. If not found by Order ID, or if only mobile provided, find latest order by mobile
+    if (!order && cleanMobile && cleanMobile.length === 10) {
       order = await Order.findOne({ mobileNumber: cleanMobile })
         .sort({ createdAt: -1 })
         .populate('items.document', 'originalName fileExtension sizeBytes');
@@ -172,8 +184,8 @@ async function trackOrder(req, res) {
       return res.status(404).json({
         success: false,
         error: cleanOrderId
-          ? `Order #${cleanOrderId} not found. Please verify your Order ID.`
-          : `No recent orders found for mobile number ${cleanMobile}.`,
+          ? `Order "${rawOrderId}" not found. Please verify your Order ID.`
+          : `No print orders found for mobile number "${mobileNumber}".`,
       });
     }
 
@@ -183,17 +195,17 @@ async function trackOrder(req, res) {
         orderId: order.orderId,
         customerName: order.customerName,
         mobileNumber: order.mobileNumber,
-        items: order.items,
-        totalPhysicalSheets: order.totalPhysicalSheets,
-        grandTotal: order.grandTotal,
-        paymentStatus: order.paymentStatus,
-        printingStatus: order.printingStatus,
-        collectionStatus: order.collectionStatus,
+        items: order.items || [],
+        totalPhysicalSheets: order.totalPhysicalSheets || 0,
+        grandTotal: order.grandTotal || 0,
+        paymentStatus: order.paymentStatus || 'PAID',
+        printingStatus: order.printingStatus || 'QUEUED',
+        collectionStatus: order.collectionStatus || 'PENDING',
         createdAt: order.createdAt,
         paidAt: order.paidAt,
         printedAt: order.printedAt,
         collectedAt: order.collectedAt,
-        failureReason: order.failureReason,
+        failureReason: order.failureReason || null,
       },
     });
   } catch (err) {
@@ -207,14 +219,16 @@ async function trackOrder(req, res) {
 async function getCustomerOrders(req, res) {
   try {
     const { mobileNumber } = req.query;
-    if (!mobileNumber || !/^[6-9]\d{9}$/.test(mobileNumber.trim())) {
+    const cleanMobile = (mobileNumber || '').toString().replace(/\D/g, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
       return res.status(400).json({
         success: false,
         error: 'Please provide a valid 10-digit mobile number.',
       });
     }
 
-    const orders = await Order.find({ mobileNumber: mobileNumber.trim() })
+    const orders = await Order.find({ mobileNumber: cleanMobile })
       .sort({ createdAt: -1 })
       .limit(20)
       .select('orderId customerName totalPhysicalSheets grandTotal paymentStatus printingStatus collectionStatus createdAt paidAt');
