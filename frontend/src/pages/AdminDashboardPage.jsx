@@ -143,6 +143,8 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     if (!socket) return;
 
+    socket.emit('join_admin_room');
+
     socket.on('admin_new_order', () => {
       fetchOrders();
       fetchDashboardData();

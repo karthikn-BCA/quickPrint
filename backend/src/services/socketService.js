@@ -15,13 +15,16 @@ function initSocket(serverInstance) {
 
   io.on('connection', (socket) => {
     // Client joins their specific order room for tracking updates
-    socket.on('join_order_room', (orderId) => {
+    const handleJoinOrder = (orderId) => {
       if (orderId && typeof orderId === 'string') {
         const roomName = `order:${orderId.toUpperCase()}`;
         socket.join(roomName);
-        socket.emit('room_joined', { room: roomName });
+        socket.emit('room_joined', { room: roomName, orderId: orderId.toUpperCase() });
       }
-    });
+    };
+
+    socket.on('join_order_room', handleJoinOrder);
+    socket.on('join:order', handleJoinOrder);
 
     // Admin joins admin dashboard room for real-time notifications
     socket.on('join_admin_room', (authKey) => {
@@ -60,15 +63,19 @@ function getIO() {
  */
 function notifyOrderUpdated(orderId, updatedOrder) {
   if (!io) return;
-  const roomName = `order:${orderId.toUpperCase()}`;
-  io.to(roomName).emit('order_status_updated', {
-    orderId,
+  const cleanId = orderId ? orderId.toString().toUpperCase() : '';
+  const roomName = `order:${cleanId}`;
+  const payload = {
+    orderId: cleanId,
     printingStatus: updatedOrder.printingStatus,
     paymentStatus: updatedOrder.paymentStatus,
     collectionStatus: updatedOrder.collectionStatus,
     updatedAt: new Date(),
     order: updatedOrder,
-  });
+  };
+  io.to(roomName).emit('order_status_updated', payload);
+  io.to(roomName).emit('order:updated', payload);
+  io.to(roomName).emit(`order:${cleanId}:update`, payload);
 }
 
 /**

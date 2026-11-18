@@ -174,10 +174,16 @@ async function trackOrder(req, res) {
     }
 
     // 2. If not found by Order ID, or if only mobile provided, find latest order by mobile
-    if (!order && cleanMobile && cleanMobile.length === 10) {
-      order = await Order.findOne({ mobileNumber: cleanMobile })
-        .sort({ createdAt: -1 })
-        .populate('items.document', 'originalName fileExtension sizeBytes');
+    if (!order) {
+      const candidateMobile = (cleanMobile && cleanMobile.length === 10)
+        ? cleanMobile
+        : ((cleanOrderId.length === 10 && /^\d{10}$/.test(cleanOrderId)) ? cleanOrderId : null);
+
+      if (candidateMobile) {
+        order = await Order.findOne({ mobileNumber: candidateMobile })
+          .sort({ createdAt: -1 })
+          .populate('items.document', 'originalName fileExtension sizeBytes');
+      }
     }
 
     if (!order) {

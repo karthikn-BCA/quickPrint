@@ -20,9 +20,30 @@ export default function TrackOrderPage() {
 
   const { joinOrderRoom } = useSocket();
 
+  // Reactive subscription to real-time status changes when an order is active
+  useEffect(() => {
+    if (!order?.orderId || typeof joinOrderRoom !== 'function') return;
+
+    const cleanup = joinOrderRoom(order.orderId, (update) => {
+      setOrder((prev) => (prev ? { ...prev, ...update } : prev));
+    });
+
+    return () => {
+      if (typeof cleanup === 'function') cleanup();
+    };
+  }, [order?.orderId, joinOrderRoom]);
+
   const handleTrack = async (targetId = orderIdInput, targetMobile = mobileInput) => {
-    const cleanId = (typeof targetId === 'string' ? targetId : orderIdInput || '').trim().toUpperCase();
-    const cleanMobile = (typeof targetMobile === 'string' ? targetMobile : mobileInput || '').trim();
+    let cleanId = (typeof targetId === 'string' ? targetId : orderIdInput || '').trim();
+    let cleanMobile = (typeof targetMobile === 'string' ? targetMobile : mobileInput || '').trim();
+
+    // If user entered a 10-digit number in the Order ID box and left mobile empty
+    const digitsOnly = cleanId.replace(/\D/g, '');
+    if (digitsOnly.length === 10 && !cleanMobile) {
+      cleanMobile = digitsOnly;
+    }
+
+    cleanId = cleanId.replace(/^#/, '').toUpperCase();
 
     if (!cleanId && !cleanMobile) {
       setError('Please enter either an Order ID or your Mobile Number.');
@@ -37,10 +58,14 @@ export default function TrackOrderPage() {
 
       if (res.success && res.order) {
         setOrder(res.order);
-        if (res.order.orderId) {
-          joinOrderRoom(res.order.orderId, (update) => {
-            setOrder((prev) => (prev ? { ...prev, ...update } : prev));
-          });
+        if (res.order.orderId && typeof joinOrderRoom === 'function') {
+          try {
+            joinOrderRoom(res.order.orderId, (update) => {
+              setOrder((prev) => (prev ? { ...prev, ...update } : prev));
+            });
+          } catch (e) {
+            console.warn('Socket join notice:', e);
+          }
         }
       } else {
         setError(res.error || 'No matching order found. Please check your Order ID or Mobile Number.');
