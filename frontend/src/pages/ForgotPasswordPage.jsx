@@ -12,6 +12,7 @@ import {
   Loader2,
   ArrowLeft,
   RefreshCw,
+  ExternalLink,
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -36,7 +37,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [devOtp, setDevOtp] = useState('');
+  const [emailPreviewUrl, setEmailPreviewUrl] = useState('');
   const [expiresIn, setExpiresIn] = useState(0);
   const [resendCooldown, setResendCooldown] = useState(0);
 
@@ -61,21 +62,16 @@ export default function ForgotPasswordPage() {
 
     setLoading(true);
     setError('');
-    setDevOtp('');
 
     try {
       const res = await api.forgotPasswordRequest(identifier.trim());
       if (res.success) {
         setMaskedEmail(res.email || '');
         setExpiresIn(res.expiresInMinutes || 10);
-        setResendCooldown(60);
+        setResendCooldown(45);
         setStep(STEPS.VERIFY);
         setSuccessMsg(res.message);
-
-        // Show dev OTP if available (development mode)
-        if (res.devOtp) {
-          setDevOtp(res.devOtp);
-        }
+        setEmailPreviewUrl(res.emailPreviewUrl || '');
       } else {
         setError(res.error || 'Failed to send OTP.');
       }
@@ -91,7 +87,7 @@ export default function ForgotPasswordPage() {
     if (e) e.preventDefault();
     const otpString = otp.join('');
     if (otpString.length !== 6) {
-      setError('Please enter the complete 6-digit OTP.');
+      setError('Please enter the complete 6-digit OTP code.');
       return;
     }
 
@@ -103,10 +99,9 @@ export default function ForgotPasswordPage() {
       if (res.success) {
         setResetToken(res.resetToken);
         setStep(STEPS.RESET);
-        setSuccessMsg('OTP verified! Set your new password below.');
-        setDevOtp('');
+        setSuccessMsg('OTP verified successfully! You can now set your new password.');
       } else {
-        setError(res.error || 'Invalid OTP.');
+        setError(res.error || 'Incorrect OTP.');
       }
     } catch (err) {
       setError(err.message || 'Network error.');
@@ -284,17 +279,25 @@ export default function ForgotPasswordPage() {
           </div>
         )}
 
-        {/* Dev OTP Banner (development only) */}
-        {devOtp && step === STEPS.VERIFY && (
-          <div className="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 text-xs">
-            <span className="font-bold">🔧 Dev Mode — </span>
-            Your OTP is:{' '}
-            <span className="font-mono font-bold text-base tracking-widest text-amber-800 dark:text-amber-300">
-              {devOtp}
-            </span>
-            <p className="mt-1 text-[10px] text-amber-600 dark:text-amber-500">
-              In production, this will be sent via email only.
+        {/* Live Ethereal Mailbox Access Link (when testing without personal Gmail credentials) */}
+        {emailPreviewUrl && step === STEPS.VERIFY && (
+          <div className="mt-4 p-3.5 rounded-2xl bg-sage/10 dark:bg-aquamarine/10 border border-sage/30 dark:border-aquamarine/30 text-xs animate-fade-in">
+            <div className="flex items-center gap-1.5 font-bold text-cp-text">
+              <Mail className="w-4 h-4 text-sage dark:text-copper shrink-0" />
+              <span>Real Email Sent via Test Mailbox</span>
+            </div>
+            <p className="text-[11px] text-cp-text-secondary mt-1">
+              A real email containing your 6-digit OTP code was delivered. Open the message to view it:
             </p>
+            <a
+              href={emailPreviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-[11px] font-bold shadow-sm transition-all"
+            >
+              <span>Open Delivered Email in Web Mailbox</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
         )}
 
@@ -424,7 +427,7 @@ export default function ForgotPasswordPage() {
                     setOtp(['', '', '', '', '', '']);
                     setError('');
                     setSuccessMsg('');
-                    setDevOtp('');
+                    setEmailPreviewUrl('');
                   }}
                   className="text-xs font-bold text-cp-text-muted hover:text-cp-text hover:underline inline-flex items-center gap-1"
                 >

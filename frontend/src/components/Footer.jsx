@@ -87,7 +87,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-cp-sidebar-muted">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-sage-pale dark:text-copper mt-0.5 shrink-0" />
-                <span>Ground Floor, Student Activity Centre (SAC), Near Central Canteen</span>
+                <span>St Claret College Annex Block</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-sage-pale dark:text-copper shrink-0" />

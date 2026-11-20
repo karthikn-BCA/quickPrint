@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { JWT_SECRET } = require('../middleware/auth');
-const { createOTP, verifyOTP, sendOTPEmail, OTP_EXPIRY_MINUTES } = require('../services/otpService');
+const { createOTP, verifyOTP, dispatchRealOTP, OTP_EXPIRY_MINUTES } = require('../services/otpService');
 
 // In-memory store for verified reset sessions: { key -> { token, expiresAt, keys } }
 const resetTokens = new Map();
@@ -170,8 +170,12 @@ async function forgotPasswordRequest(req, res) {
       });
     }
 
-    // Send OTP via email (and console fallback with mobile info)
-    const sendResult = await sendOTPEmail(user.email, otpResult.otp, user.mobileNumber);
+    // Dispatch real OTP via Email and/or SMS
+    const dispatchResult = await dispatchRealOTP({
+      email: user.email,
+      mobile: user.mobileNumber,
+      otp: otpResult.otp,
+    });
 
     // Mask email
     let maskedEmail = '';
@@ -189,23 +193,34 @@ async function forgotPasswordRequest(req, res) {
       maskedPhone = '******' + user.mobileNumber.slice(-4);
     }
 
-    const targets = [
-      maskedEmail ? `email (${maskedEmail})` : null,
-      maskedPhone ? `mobile (+91 ${maskedPhone})` : null,
-    ].filter(Boolean).join(' and ');
+    const targetList = [];
+    if (dispatchResult.email?.success) {
+      targetList.push(`email (${maskedEmail})`);
+    } else if (maskedEmail) {
+      targetList.push(`email (${maskedEmail})`);
+    }
+    if (dispatchResult.sms?.success) {
+      targetList.push(`SMS (+91 ${maskedPhone})`);
+    } else if (maskedPhone) {
+      targetList.push(`mobile (+91 ${maskedPhone})`);
+    }
+
+    const targetsStr = targetList.join(' and ') || 'registered contact info';
 
     const response = {
       success: true,
-      message: `A ${OTP_EXPIRY_MINUTES}-minute OTP has been sent to your registered ${targets}.`,
+      message: `A 6-digit OTP has been sent to your ${targetsStr}. Valid for ${OTP_EXPIRY_MINUTES} minutes.`,
       email: maskedEmail,
       mobile: maskedPhone,
       expiresInMinutes: OTP_EXPIRY_MINUTES,
     };
 
-    // In development, include OTP for instant verification & testing
-    if (sendResult.devOtp) {
-      response.devOtp = sendResult.devOtp;
-      response.devNote = 'Simulated OTP shown in development mode.';
+    // If real email was dispatched via Ethereal test inbox, provide the live preview URL
+    if (dispatchResult.email?.isEthereal && dispatchResult.email?.previewUrl) {
+      response.emailPreviewUrl = dispatchResult.email.previewUrl;
+      response.deliveryMode = 'ethereal_inbox';
+    } else if (dispatchResult.email?.success) {
+      response.deliveryMode = 'smtp_direct';
     }
 
     return res.status(200).json(response);

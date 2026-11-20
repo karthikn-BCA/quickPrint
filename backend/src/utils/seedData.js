@@ -32,17 +32,34 @@ async function seedInitialData() {
       console.log('[Seed] Default Shop Settings created.');
     }
 
-    // 2. Ensure Admin User exists
-    const adminExists = await User.findOne({ role: 'admin' });
-    if (!adminExists) {
-      await User.create({
+    // 2. Ensure Admin User exists (and sync real contact info from .env if provided)
+    const targetEmail = (process.env.ADMIN_EMAIL || 'admin@campusprint.edu').toLowerCase().trim();
+    const targetMobile = (process.env.ADMIN_MOBILE || '9876543210').trim();
+
+    let admin = await User.findOne({ role: 'admin' });
+    if (!admin) {
+      admin = await User.create({
         name: 'CampusPrint Admin',
-        mobileNumber: '9876543210',
-        email: 'admin@campusprint.edu',
+        mobileNumber: targetMobile,
+        email: targetEmail,
         password: 'Admin@CampusPrint2026',
         role: 'admin',
       });
-      console.log('[Seed] Default Admin User created: admin@campusprint.edu / Admin@CampusPrint2026');
+      console.log(`[Seed] Default Admin User created: ${admin.email} / Admin@CampusPrint2026`);
+    } else {
+      let updated = false;
+      if (process.env.ADMIN_EMAIL && admin.email !== targetEmail) {
+        admin.email = targetEmail;
+        updated = true;
+      }
+      if (process.env.ADMIN_MOBILE && admin.mobileNumber !== targetMobile) {
+        admin.mobileNumber = targetMobile;
+        updated = true;
+      }
+      if (updated) {
+        await admin.save();
+        console.log(`[Seed] Admin User synced with contact info: ${admin.email} / ${admin.mobileNumber}`);
+      }
     }
   } catch (err) {
     console.warn(`[Seed Warning] Could not complete auto-seeding: ${err.message}`);

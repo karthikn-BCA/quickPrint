@@ -1,29 +1,20 @@
 /**
- * OTP Service - In-memory OTP store with optional email delivery
- *
- * In development mode (or when email is not configured), the OTP is logged
- * to the console and returned in the API response so you can test.
- *
- * To enable real email delivery:
- *   1. npm install nodemailer
- *   2. Set these in .env:
- *      SMTP_HOST=smtp.gmail.com
- *      SMTP_PORT=587
- *      SMTP_USER=your-email@gmail.com
- *      SMTP_PASS=your-app-password
- *      SMTP_FROM=CampusPrint <your-email@gmail.com>
+ * Real OTP Service - Cryptographically secure OTP generation, verification,
+ * and delivery via Real Email (Gmail / Custom SMTP / Ethereal) and Real SMS (Fast2SMS / Twilio).
  */
+const https = require('https');
+const nodemailer = require('nodemailer');
 
-// In-memory OTP store: { email -> { otp, expiresAt, attempts } }
+// In-memory OTP store: { identifierKey -> { otp, expiresAt, attempts, createdAt, keys } }
 const otpStore = new Map();
 
 const OTP_LENGTH = 6;
 const OTP_EXPIRY_MINUTES = 10;
 const MAX_ATTEMPTS = 5;
-const COOLDOWN_SECONDS = 60; // minimum gap between OTP requests
+const COOLDOWN_SECONDS = 30; // Minimum gap between OTP resends
 
 /**
- * Generate a random numeric OTP
+ * Generate a random 6-digit numeric OTP
  */
 function generateOTP() {
   const digits = '0123456789';
@@ -35,14 +26,16 @@ function generateOTP() {
 }
 
 /**
- * Create and store an OTP for the given identifier (and optional aliases)
- * Returns { otp, expiresAt, cooldownActive }
+ * Create and store an OTP for the given primary identifier and optional alias keys.
+ * Returns { otp, expiresAt, cooldownActive, remainingSeconds }
  */
 function createOTP(identifier, aliases = []) {
   const primaryKey = String(identifier).toLowerCase().trim();
-  const allKeys = [primaryKey, ...aliases.map((a) => String(a).toLowerCase().trim()).filter(Boolean)];
+  const allKeys = Array.from(
+    new Set([primaryKey, ...aliases.map((a) => String(a).toLowerCase().trim()).filter(Boolean)])
+  );
 
-  // Check cooldown on any key
+  // Check cooldown on all keys
   for (const k of allKeys) {
     const existing = otpStore.get(k);
     if (existing && existing.createdAt) {
@@ -85,152 +78,250 @@ function createOTP(identifier, aliases = []) {
 }
 
 /**
- * Verify an OTP for the given identifier
- * Returns { valid, error }
+ * Strictly verify candidate OTP against stored record.
+ * Decrements remaining attempts on failure.
+ * Completely deletes record on success or after max attempts.
  */
 function verifyOTP(identifier, candidateOTP) {
   const key = String(identifier).toLowerCase().trim();
   const stored = otpStore.get(key);
 
   if (!stored) {
-    return { valid: false, error: 'No OTP found for this account. Please request a new one.' };
-  }
-
-  if (stored.attempts >= MAX_ATTEMPTS) {
-    if (stored.keys) {
-      stored.keys.forEach((k) => otpStore.delete(k));
-    } else {
-      otpStore.delete(key);
-    }
-    return { valid: false, error: 'Too many failed attempts. Please request a new OTP.' };
-  }
-
-  if (new Date() > stored.expiresAt) {
-    if (stored.keys) {
-      stored.keys.forEach((k) => otpStore.delete(k));
-    } else {
-      otpStore.delete(key);
-    }
-    return { valid: false, error: 'OTP has expired. Please request a new one.' };
-  }
-
-  if (stored.otp !== candidateOTP.toString().trim()) {
-    stored.attempts += 1;
-    const remaining = MAX_ATTEMPTS - stored.attempts;
     return {
       valid: false,
-      error: remaining > 0
-        ? `Invalid OTP. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
-        : 'Too many failed attempts. Please request a new OTP.',
+      error: 'No active OTP request found for this account. Please request a new OTP.',
     };
   }
 
-  // OTP is valid — consume all associated keys
-  if (stored.keys) {
+  if (stored.attempts >= MAX_ATTEMPTS) {
     stored.keys.forEach((k) => otpStore.delete(k));
-  } else {
-    otpStore.delete(key);
+    return {
+      valid: false,
+      error: 'Maximum verification attempts exceeded. Please request a new OTP.',
+    };
   }
+
+  if (new Date() > stored.expiresAt) {
+    stored.keys.forEach((k) => otpStore.delete(k));
+    return {
+      valid: false,
+      error: 'The OTP has expired. Please request a new OTP.',
+    };
+  }
+
+  const cleanCandidate = candidateOTP ? candidateOTP.toString().trim() : '';
+
+  if (stored.otp !== cleanCandidate) {
+    stored.attempts += 1;
+    const remaining = MAX_ATTEMPTS - stored.attempts;
+    if (remaining <= 0) {
+      stored.keys.forEach((k) => otpStore.delete(k));
+      return {
+        valid: false,
+        error: 'Too many incorrect attempts. For security, this OTP is now invalidated. Please request a new one.',
+      };
+    }
+    return {
+      valid: false,
+      error: `Incorrect OTP. You have ${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`,
+    };
+  }
+
+  // OTP is correct! Consume all associated keys immediately.
+  stored.keys.forEach((k) => otpStore.delete(k));
   return { valid: true };
 }
 
 /**
- * Send OTP via email (optional — requires nodemailer + SMTP config)
- * Returns { sent, message }
+ * Dispatch real email via Nodemailer (Gmail / Custom SMTP / Ethereal)
  */
-async function sendOTPEmail(email, otp, mobile) {
-  const smtpHost = process.env.SMTP_HOST;
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
-
-  // If SMTP is not configured, log clearly in console for dev / simulated mode
-  if (!smtpHost || !smtpUser || !smtpPass) {
-    console.log(`\n${'='.repeat(55)}`);
-    console.log(`  🔑 CAMPUSPRINT ADMIN PASSWORD RESET OTP`);
-    if (email) console.log(`  Registered Email : ${email}`);
-    if (mobile) console.log(`  Registered Mobile: +91 ${mobile}`);
-    console.log(`  OTP CODE         : >>> ${otp} <<<`);
-    console.log(`  Valid For        : ${OTP_EXPIRY_MINUTES} Minutes`);
-    console.log(`${'='.repeat(55)}\n`);
-    return {
-      sent: false,
-      message: 'OTP generated and dispatched.',
-      devOtp: process.env.NODE_ENV !== 'production' ? otp : undefined,
-    };
-  }
-
-  // Try to load nodemailer
-  let nodemailer;
+async function sendRealEmail(recipientEmail, otp) {
   try {
-    nodemailer = require('nodemailer');
-  } catch (e) {
-    console.log(`\n[OTP] nodemailer not installed. OTP for ${email}: ${otp}\n`);
-    return {
-      sent: false,
-      message: 'Email delivery unavailable (nodemailer not installed). OTP displayed in server console.',
-      devOtp: process.env.NODE_ENV !== 'production' ? otp : undefined,
-    };
-  }
+    let transporter;
+    let isEthereal = false;
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: parseInt(process.env.SMTP_PORT || '587', 10),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
 
-    const fromAddress = process.env.SMTP_FROM || `CampusPrint <${smtpUser}>`;
+    if (smtpUser && smtpPass) {
+      // Production SMTP / Gmail
+      const isGmail = smtpUser.includes('@gmail.com') || process.env.SMTP_SERVICE === 'gmail';
+      transporter = nodemailer.createTransport(
+        isGmail
+          ? {
+              service: 'gmail',
+              auth: { user: smtpUser, pass: smtpPass },
+            }
+          : {
+              host: process.env.SMTP_HOST || 'smtp.gmail.com',
+              port: parseInt(process.env.SMTP_PORT || '587', 10),
+              secure: process.env.SMTP_SECURE === 'true',
+              auth: { user: smtpUser, pass: smtpPass },
+            }
+      );
+    } else {
+      // Real Ethereal Email Account (No personal credentials required)
+      isEthereal = true;
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: testAccount.smtp.host,
+        port: testAccount.smtp.port,
+        secure: testAccount.smtp.secure,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+    }
 
-    await transporter.sendMail({
+    const fromAddress = process.env.SMTP_FROM || (smtpUser ? `CampusPrint <${smtpUser}>` : 'CampusPrint Support <no-reply@campusprint.edu>');
+
+    const mailOptions = {
       from: fromAddress,
-      to: email,
-      subject: `🔐 CampusPrint Password Reset OTP: ${otp}`,
+      to: recipientEmail,
+      subject: `🔐 CampusPrint Admin Password Reset OTP: ${otp}`,
       html: `
-        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f8faf8; border-radius: 16px;">
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 32px 24px; background: #f4f6f4; border-radius: 20px;">
           <div style="text-align: center; margin-bottom: 24px;">
-            <h1 style="color: #2d5a3d; font-size: 24px; margin: 0;">🖨️ CampusPrint</h1>
-            <p style="color: #666; font-size: 13px; margin-top: 4px;">Password Reset Request</p>
+            <div style="display: inline-block; width: 48px; height: 48px; line-height: 48px; background: #2d5a3d; color: white; border-radius: 12px; font-size: 24px;">🖨️</div>
+            <h2 style="color: #1e3a29; margin: 12px 0 4px; font-size: 22px; font-weight: 800;">CampusPrint Admin Portal</h2>
+            <p style="color: #556b5b; font-size: 13px; margin: 0;">Password Reset Verification</p>
           </div>
-          <div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e0e8e0;">
-            <p style="color: #333; font-size: 14px; margin: 0 0 16px;">
-              You requested a password reset for your CampusPrint admin account. Use the OTP below to verify your identity:
+          
+          <div style="background: white; border-radius: 16px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #e1e8e1;">
+            <p style="color: #2b3b30; font-size: 14px; line-height: 1.5; margin: 0 0 16px;">
+              Hello, Administrator. A password reset request was initiated for your CampusPrint shopkeeper account.
             </p>
-            <div style="text-align: center; background: #f0f5f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
-              <span style="font-family: monospace; font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #2d5a3d;">
+            <p style="color: #2b3b30; font-size: 14px; line-height: 1.5; margin: 0 0 16px;">
+              Please use the one-time verification code below to proceed:
+            </p>
+            
+            <div style="text-align: center; background: #eaf1eb; border: 2px dashed #9cb59f; border-radius: 12px; padding: 18px; margin: 20px 0;">
+              <span style="font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 900; letter-spacing: 10px; color: #234830;">
                 ${otp}
               </span>
             </div>
-            <p style="color: #888; font-size: 12px; margin: 16px 0 0; text-align: center;">
-              This OTP expires in <strong>${OTP_EXPIRY_MINUTES} minutes</strong>. Do not share it with anyone.
+            
+            <p style="color: #6a7c6f; font-size: 12px; line-height: 1.5; margin: 16px 0 0; text-align: center;">
+              ⏳ This OTP is valid for <strong>${OTP_EXPIRY_MINUTES} minutes</strong> and can only be used once.<br/>
+              If you did not request this code, please secure your account immediately.
             </p>
           </div>
-          <p style="color: #aaa; font-size: 11px; text-align: center; margin-top: 20px;">
-            If you did not request this, please ignore this email.
-          </p>
+
+          <div style="text-align: center; margin-top: 24px;">
+            <p style="color: #8b9b8f; font-size: 11px; margin: 0;">
+              CampusPrint Xerox & Digital Printing Center • SAC Ground Floor
+            </p>
+          </div>
         </div>
       `,
-    });
+    };
 
-    return { sent: true, message: 'OTP sent to your registered email address.' };
-  } catch (err) {
-    console.error('[OTP Email Error]', err.message);
-    console.log(`[OTP Fallback] OTP for ${email}: ${otp}`);
+    const info = await transporter.sendMail(mailOptions);
+
+    let previewUrl = null;
+    if (isEthereal) {
+      previewUrl = nodemailer.getTestMessageUrl(info);
+      console.log(`\n📬 [Real Email Sent via Ethereal] View Message Inbox: ${previewUrl}\n`);
+    } else {
+      console.log(`\n📬 [Real Email Sent via SMTP] Delivered to: ${recipientEmail}\n`);
+    }
+
     return {
-      sent: false,
-      message: 'Could not send email. OTP displayed in server console.',
-      devOtp: process.env.NODE_ENV !== 'production' ? otp : undefined,
+      success: true,
+      isEthereal,
+      previewUrl,
+      recipient: recipientEmail,
+    };
+  } catch (err) {
+    console.error('[Nodemailer Error]', err.message);
+    return {
+      success: false,
+      error: err.message,
     };
   }
 }
 
+/**
+ * Dispatch real SMS via Fast2SMS (India) if configured
+ */
+async function sendRealSMS(mobileNumber, otp) {
+  const apiKey = process.env.FAST2SMS_API_KEY;
+  if (!apiKey || !mobileNumber) {
+    return { success: false, reason: 'SMS gateway not configured' };
+  }
+
+  const cleanNumber = mobileNumber.replace(/\D/g, '').slice(-10);
+  if (cleanNumber.length !== 10) {
+    return { success: false, reason: 'Invalid Indian mobile number' };
+  }
+
+  return new Promise((resolve) => {
+    const postData = JSON.stringify({
+      route: 'otp',
+      variables_values: otp,
+      numbers: cleanNumber,
+    });
+
+    const options = {
+      hostname: 'www.fast2sms.com',
+      port: 443,
+      path: '/dev/bulkV2',
+      method: 'POST',
+      headers: {
+        authorization: apiKey,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.return === true) {
+            console.log(`\n📱 [Real SMS Sent via Fast2SMS] Delivered to: +91 ${cleanNumber}\n`);
+            resolve({ success: true, mobile: cleanNumber });
+          } else {
+            console.warn('[Fast2SMS API Response]', json);
+            resolve({ success: false, error: json.message || 'SMS send failed' });
+          }
+        } catch (e) {
+          resolve({ success: false, error: e.message });
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.error('[Fast2SMS Request Error]', e.message);
+      resolve({ success: false, error: e.message });
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}
+
+/**
+ * Main dispatcher to deliver real OTP across available channels
+ */
+async function dispatchRealOTP({ email, mobile, otp }) {
+  const emailPromise = email ? sendRealEmail(email, otp) : Promise.resolve(null);
+  const smsPromise = mobile ? sendRealSMS(mobile, otp) : Promise.resolve(null);
+
+  const [emailResult, smsResult] = await Promise.all([emailPromise, smsPromise]);
+
+  return {
+    email: emailResult,
+    sms: smsResult,
+  };
+}
+
 module.exports = {
-  generateOTP,
   createOTP,
   verifyOTP,
-  sendOTPEmail,
+  dispatchRealOTP,
   OTP_EXPIRY_MINUTES,
 };

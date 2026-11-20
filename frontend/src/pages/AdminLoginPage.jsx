@@ -14,7 +14,7 @@ import {
   Eye,
   EyeOff,
   Phone,
-  Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
@@ -55,7 +55,7 @@ export default function AdminLoginPage({ defaultMode }) {
   const [fpLoading, setFpLoading] = useState(false);
   const [fpError, setFpError] = useState('');
   const [fpSuccessMsg, setFpSuccessMsg] = useState('');
-  const [fpDevOtp, setFpDevOtp] = useState('');
+  const [fpEmailPreviewUrl, setFpEmailPreviewUrl] = useState('');
   const [fpResendCooldown, setFpResendCooldown] = useState(0);
 
   const otpRefs = useRef([]);
@@ -124,19 +124,16 @@ export default function AdminLoginPage({ defaultMode }) {
 
     setFpLoading(true);
     setFpError('');
-    setFpDevOtp('');
 
     try {
       const res = await api.forgotPasswordRequest(cleanId);
       if (res.success) {
         setFpMaskedEmail(res.email || '');
         setFpMaskedMobile(res.mobile || '');
-        setFpResendCooldown(60);
+        setFpResendCooldown(45);
         setFpStep(FP_STEPS.VERIFY);
         setFpSuccessMsg(res.message);
-        if (res.devOtp) {
-          setFpDevOtp(res.devOtp);
-        }
+        setFpEmailPreviewUrl(res.emailPreviewUrl || '');
       } else {
         setFpError(res.error || 'Failed to send OTP.');
       }
@@ -152,7 +149,7 @@ export default function AdminLoginPage({ defaultMode }) {
     if (e) e.preventDefault();
     const otpString = fpOtp.join('');
     if (otpString.length !== 6) {
-      setFpError('Please enter the complete 6-digit OTP.');
+      setFpError('Please enter the complete 6-digit OTP code.');
       return;
     }
 
@@ -164,10 +161,9 @@ export default function AdminLoginPage({ defaultMode }) {
       if (res.success) {
         setFpResetToken(res.resetToken);
         setFpStep(FP_STEPS.RESET);
-        setFpSuccessMsg('OTP verified! Enter your new password below.');
-        setFpDevOtp('');
+        setFpSuccessMsg('OTP verified successfully! You can now set your new password.');
       } else {
-        setFpError(res.error || 'Invalid OTP code.');
+        setFpError(res.error || 'Incorrect OTP code.');
       }
     } catch (err) {
       setFpError(err.message || 'Network error.');
@@ -242,15 +238,6 @@ export default function AdminLoginPage({ defaultMode }) {
       const focusIndex = Math.min(pasted.length, 5);
       otpRefs.current[focusIndex]?.focus();
     }
-  };
-
-  const handleAutoFillDevOtp = () => {
-    if (!fpDevOtp || fpDevOtp.length !== 6) return;
-    const digits = fpDevOtp.split('');
-    setFpOtp(digits);
-    setTimeout(() => {
-      otpRefs.current[5]?.focus();
-    }, 100);
   };
 
   // ─── PASSWORD STRENGTH METER ────────────────────────────────
@@ -481,28 +468,25 @@ export default function AdminLoginPage({ defaultMode }) {
               </div>
             )}
 
-            {/* Development OTP Banner with 1-Click Auto Fill */}
-            {fpDevOtp && fpStep === FP_STEPS.VERIFY && (
-              <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs flex items-center justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-1 font-bold">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                    <span>Dev OTP Code:</span>
-                    <span className="font-mono text-sm tracking-wider font-black ml-1 text-amber-900 dark:text-amber-200">
-                      {fpDevOtp}
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
-                    (Console simulated OTP mode)
-                  </p>
+            {/* Live Ethereal Mailbox Access Link (when testing without personal Gmail credentials) */}
+            {fpEmailPreviewUrl && fpStep === FP_STEPS.VERIFY && (
+              <div className="p-3.5 rounded-2xl bg-sage/10 dark:bg-aquamarine/10 border border-sage/30 dark:border-aquamarine/30 text-xs animate-fade-in">
+                <div className="flex items-center gap-1.5 font-bold text-cp-text">
+                  <Mail className="w-4 h-4 text-sage dark:text-copper shrink-0" />
+                  <span>Real Email Sent via Test Mailbox</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleAutoFillDevOtp}
-                  className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-900 dark:text-amber-200 font-bold text-[11px] transition-colors border border-amber-500/40"
+                <p className="text-[11px] text-cp-text-secondary mt-1">
+                  A real email containing your 6-digit OTP code was delivered. Open the message to view it:
+                </p>
+                <a
+                  href={fpEmailPreviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sage hover:bg-sage-hover dark:bg-aquamarine dark:hover:bg-aquamarine-hover text-white text-[11px] font-bold shadow-sm transition-all"
                 >
-                  Auto-fill
-                </button>
+                  <span>Open Delivered Email in Web Mailbox</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
             )}
 
