@@ -10,6 +10,7 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import TrackOrderPage from './pages/TrackOrderPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
@@ -33,6 +34,7 @@ function AppLayout() {
           <Route path="/track" element={<TrackOrderPage />} />
           <Route path="/admin" element={<AdminLoginPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin/forgot-password" element={<AdminLoginPage defaultMode="forgot" />} />
           <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         </Routes>
       </main>

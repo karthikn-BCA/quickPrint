@@ -146,6 +146,34 @@ export const api = {
     return handleJsonResponse(res);
   },
 
+  // Forgot Password APIs
+  async forgotPasswordRequest(identifier) {
+    const res = await fetch(`${API_BASE}/auth/forgot-password/request`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier }),
+    });
+    return handleJsonResponse(res);
+  },
+
+  async forgotPasswordVerify(identifier, otp) {
+    const res = await fetch(`${API_BASE}/auth/forgot-password/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier, otp }),
+    });
+    return handleJsonResponse(res);
+  },
+
+  async forgotPasswordReset(identifier, resetToken, newPassword) {
+    const res = await fetch(`${API_BASE}/auth/forgot-password/reset`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier, resetToken, newPassword }),
+    });
+    return handleJsonResponse(res);
+  },
+
   async getAdminMe() {
     const res = await fetch(`${API_BASE}/auth/me`, {
       headers: getAuthHeaders(),
