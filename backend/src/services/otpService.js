@@ -133,48 +133,38 @@ function verifyOTP(identifier, candidateOTP) {
 }
 
 /**
- * Dispatch real email via Nodemailer (Gmail / Custom SMTP / Ethereal)
+ * Dispatch real email via Nodemailer (Gmail / Custom SMTP)
  */
 async function sendRealEmail(recipientEmail, otp) {
   try {
-    let transporter;
-    let isEthereal = false;
-
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
 
-    if (smtpUser && smtpPass) {
-      // Production SMTP / Gmail
-      const isGmail = smtpUser.includes('@gmail.com') || process.env.SMTP_SERVICE === 'gmail';
-      transporter = nodemailer.createTransport(
-        isGmail
-          ? {
-              service: 'gmail',
-              auth: { user: smtpUser, pass: smtpPass },
-            }
-          : {
-              host: process.env.SMTP_HOST || 'smtp.gmail.com',
-              port: parseInt(process.env.SMTP_PORT || '587', 10),
-              secure: process.env.SMTP_SECURE === 'true',
-              auth: { user: smtpUser, pass: smtpPass },
-            }
-      );
-    } else {
-      // Real Ethereal Email Account (No personal credentials required)
-      isEthereal = true;
-      const testAccount = await nodemailer.createTestAccount();
-      transporter = nodemailer.createTransport({
-        host: testAccount.smtp.host,
-        port: testAccount.smtp.port,
-        secure: testAccount.smtp.secure,
-        auth: {
-          user: testAccount.user,
-          pass: testAccount.pass,
-        },
-      });
+    if (!smtpUser || !smtpPass) {
+      console.error('[SMTP Config Required] SMTP_USER and SMTP_PASS are missing in backend/.env');
+      return {
+        success: false,
+        error: 'Email sender is not configured. Please add your SMTP_USER and SMTP_PASS in backend/.env to send real emails to your inbox.',
+      };
     }
 
-    const fromAddress = process.env.SMTP_FROM || (smtpUser ? `CampusPrint <${smtpUser}>` : 'CampusPrint Support <no-reply@campusprint.edu>');
+    // Production SMTP / Gmail
+    const isGmail = smtpUser.includes('@gmail.com') || process.env.SMTP_SERVICE === 'gmail';
+    const transporter = nodemailer.createTransport(
+      isGmail
+        ? {
+            service: 'gmail',
+            auth: { user: smtpUser, pass: smtpPass },
+          }
+        : {
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '587', 10),
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: { user: smtpUser, pass: smtpPass },
+          }
+    );
+
+    const fromAddress = process.env.SMTP_FROM || `CampusPrint Center <${smtpUser}>`;
 
     const mailOptions = {
       from: fromAddress,
@@ -218,26 +208,18 @@ async function sendRealEmail(recipientEmail, otp) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-
-    let previewUrl = null;
-    if (isEthereal) {
-      previewUrl = nodemailer.getTestMessageUrl(info);
-      console.log(`\n📬 [Real Email Sent via Ethereal] View Message Inbox: ${previewUrl}\n`);
-    } else {
-      console.log(`\n📬 [Real Email Sent via SMTP] Delivered to: ${recipientEmail}\n`);
-    }
+    console.log(`\n📬 [Real Email Sent via SMTP] Delivered directly to: ${recipientEmail} (ID: ${info.messageId})\n`);
 
     return {
       success: true,
-      isEthereal,
-      previewUrl,
       recipient: recipientEmail,
+      messageId: info.messageId,
     };
   } catch (err) {
     console.error('[Nodemailer Error]', err.message);
     return {
       success: false,
-      error: err.message,
+      error: `Email delivery failed: ${err.message}`,
     };
   }
 }

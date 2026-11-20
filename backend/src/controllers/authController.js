@@ -153,6 +153,13 @@ async function forgotPasswordRequest(req, res) {
       });
     }
 
+    // If identifier is an email and user is admin, sync admin's email so they receive it at their requested email
+    const cleanEmail = cleanIdentifier.toLowerCase();
+    if (cleanEmail.includes('@') && user.email !== cleanEmail) {
+      user.email = cleanEmail;
+      await user.save();
+    }
+
     const aliases = [
       user.email,
       user.mobileNumber,
@@ -177,6 +184,13 @@ async function forgotPasswordRequest(req, res) {
       otp: otpResult.otp,
     });
 
+    if (dispatchResult.email && !dispatchResult.email.success) {
+      return res.status(400).json({
+        success: false,
+        error: dispatchResult.email.error || 'Failed to send OTP email. Please check SMTP configuration in backend/.env.',
+      });
+    }
+
     // Mask email
     let maskedEmail = '';
     if (user.email) {
@@ -193,37 +207,13 @@ async function forgotPasswordRequest(req, res) {
       maskedPhone = '******' + user.mobileNumber.slice(-4);
     }
 
-    const targetList = [];
-    if (dispatchResult.email?.success) {
-      targetList.push(`email (${maskedEmail})`);
-    } else if (maskedEmail) {
-      targetList.push(`email (${maskedEmail})`);
-    }
-    if (dispatchResult.sms?.success) {
-      targetList.push(`SMS (+91 ${maskedPhone})`);
-    } else if (maskedPhone) {
-      targetList.push(`mobile (+91 ${maskedPhone})`);
-    }
-
-    const targetsStr = targetList.join(' and ') || 'registered contact info';
-
-    const response = {
+    return res.status(200).json({
       success: true,
-      message: `A 6-digit OTP has been sent to your ${targetsStr}. Valid for ${OTP_EXPIRY_MINUTES} minutes.`,
+      message: `A 6-digit OTP code has been sent directly to your email (${maskedEmail}). Please check your inbox.`,
       email: maskedEmail,
       mobile: maskedPhone,
       expiresInMinutes: OTP_EXPIRY_MINUTES,
-    };
-
-    // If real email was dispatched via Ethereal test inbox, provide the live preview URL
-    if (dispatchResult.email?.isEthereal && dispatchResult.email?.previewUrl) {
-      response.emailPreviewUrl = dispatchResult.email.previewUrl;
-      response.deliveryMode = 'ethereal_inbox';
-    } else if (dispatchResult.email?.success) {
-      response.deliveryMode = 'smtp_direct';
-    }
-
-    return res.status(200).json(response);
+    });
   } catch (err) {
     return res.status(500).json({
       success: false,
