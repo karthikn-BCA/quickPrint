@@ -136,8 +136,10 @@ async function forgotPasswordRequest(req, res) {
       });
     }
 
+    const cleanIdentifier = identifier.trim();
+
     // Find admin user
-    const user = await findAdminUser(identifier);
+    const user = await findAdminUser(cleanIdentifier);
 
     if (!user) {
       return res.status(404).json({
