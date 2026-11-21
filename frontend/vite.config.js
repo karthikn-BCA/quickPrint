@@ -14,6 +14,11 @@ export default defineConfig({
       '/socket.io': {
         target: 'http://localhost:5000',
         ws: true,
+        configure: (proxy) => {
+          proxy.on('error', (err) => {
+            // Silently handle expected client disconnects or backend restarts
+          });
+        },
       },
     },
   },

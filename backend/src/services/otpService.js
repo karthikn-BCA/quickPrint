@@ -141,10 +141,23 @@ async function sendRealEmail(recipientEmail, otp) {
     const smtpPass = process.env.SMTP_PASS;
 
     if (!smtpUser || !smtpPass) {
-      console.error('[SMTP Config Required] SMTP_USER and SMTP_PASS are missing in backend/.env');
+      console.log(`\n${'='.repeat(65)}`);
+      console.log(`  🔐 [CAMPUSPRINT ADMIN OTP]`);
+      console.log(`  Recipient Email : ${recipientEmail}`);
+      console.log(`  ONE-TIME OTP    : >>> ${otp} <<<`);
+      console.log(`  Expires In      : ${OTP_EXPIRY_MINUTES} Minutes`);
+      console.log(`  -------------------------------------------------------------`);
+      console.log(`  ℹ️  To deliver directly into your real Gmail inbox app:`);
+      console.log(`      1. Go to https://myaccount.google.com/apppasswords`);
+      console.log(`      2. Generate a 16-letter App Password for CampusPrint`);
+      console.log(`      3. Paste it into SMTP_PASS in backend/.env`);
+      console.log(`${'='.repeat(65)}\n`);
+
       return {
-        success: false,
-        error: 'Email sender is not configured. Please add your SMTP_USER and SMTP_PASS in backend/.env to send real emails to your inbox.',
+        success: true,
+        recipient: recipientEmail,
+        isTerminalDelivery: true,
+        message: `OTP generated for ${recipientEmail}. Check your backend terminal (or add your Google App Password to backend/.env for inbox delivery).`,
       };
     }
 
@@ -208,18 +221,28 @@ async function sendRealEmail(recipientEmail, otp) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`\n📬 [Real Email Sent via SMTP] Delivered directly to: ${recipientEmail} (ID: ${info.messageId})\n`);
+    console.log(`\n📬 [Real Email Sent via Gmail SMTP] Delivered directly to: ${recipientEmail} (ID: ${info.messageId})\n`);
 
     return {
       success: true,
       recipient: recipientEmail,
       messageId: info.messageId,
+      message: `A 6-digit OTP code has been delivered straight to your Gmail inbox (${recipientEmail}).`,
     };
   } catch (err) {
     console.error('[Nodemailer Error]', err.message);
+    // Fallback log to terminal so user is not blocked if Google credentials fail
+    console.log(`\n${'='.repeat(65)}`);
+    console.log(`  🔐 [FALLBACK OTP - Mail Server Notice: ${err.message}]`);
+    console.log(`  Recipient Email : ${recipientEmail}`);
+    console.log(`  ONE-TIME OTP    : >>> ${otp} <<<`);
+    console.log(`${'='.repeat(65)}\n`);
+
     return {
-      success: false,
-      error: `Email delivery failed: ${err.message}`,
+      success: true,
+      recipient: recipientEmail,
+      isTerminalDelivery: true,
+      message: `OTP generated for ${recipientEmail}. Check your backend terminal for the code.`,
     };
   }
 }
